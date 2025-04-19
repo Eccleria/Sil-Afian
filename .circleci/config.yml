@@ -1,0 +1,27 @@
+version: 2.1
+orbs:
+  node: circleci/node@7.1.0
+jobs:
+  lint:
+    executor: 
+      name: node/default
+      tag: '20.18.3'
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: yarn
+      - run: yarn run lint
+  prettier:
+    executor:
+      name: node/default
+      tag: '20.18.3'
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: yarn
+      - run: yarn run prettier
+workflows:
+  commit_workflow:
+    jobs:
+      - lint
+      - prettier
