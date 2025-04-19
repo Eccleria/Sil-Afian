@@ -1,0 +1,23 @@
+{
+    "name": "sil-afian",
+    "version": "0.0.1",
+    "author": "Eccleria",
+    "type": "module",
+    "devDependencies": {
+        "eslint": "^9.25.0",
+        "prettier": "^3.5.3"
+    },
+    "dependencies": {
+        "discord.js": "^14.18.0",
+        "dotenv": "^16.5.0",
+        "jest": "^29.7.0",
+        "lowdb": "^7.0.1",
+        "nodemon": "^3.1.9"
+    },
+    "scripts": {
+        "start": "node --experimental-json-modules src/bot.js",
+        "dev": "nodemon --ignore ./db/ --exec node --experimental-json-modules src/bot.js",
+        "lint": "eslint src",
+        "prettier": "prettier --write src"
+    }
+}
