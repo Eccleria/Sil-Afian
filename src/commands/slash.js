@@ -1,6 +1,5 @@
 import dotenv from "dotenv";
 dotenv.config();
-import dayjs from "dayjs";
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { REST } from "@discordjs/rest";
 import { ChannelType, Routes } from "discord-api-types/v9";
@@ -32,7 +31,8 @@ const rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
 const ping = {
   command: new SlashCommandBuilder()
     .setName(PERSONALITY.getPersonality().helloWorld.name)
-    .setDescription(PERSONALITY.getPersonality().helloWorld.description),
+    .setDescription(PERSONALITY.getPersonality().helloWorld.description)
+    .setDefaultMemberPermissions(0x0000010000000000), //set default permission to 0x0000010000000000 (manage messages)
   action: (interaction) => {
     const personality = PERSONALITY.getPersonality();
     interaction.reply(personality.helloWorld.pong);
@@ -42,26 +42,37 @@ const ping = {
     interactionReply(interaction, personality.helloWorld.help);
   },
   admin: false,
-  releaseDate: dayjs("12-21-2022", "MM-DD-YYYY"),
-  sentinelle: false,
+  releaseDate: null,
+  sentinelle: true,
 };
 
 const ignoreUser = {
   command: new SlashCommandBuilder()
     .setName(PERSONALITY.getPersonality().ignoreUser.name)
-    .setDescription(PERSONALITY.getPersonality().ignoreUser.description),
+    .setDescription(PERSONALITY.getPersonality().ignoreUser.description)
+    .setDefaultMemberPermissions(0x0000010000000000) //set default permission to 0x0000010000000000 (manage messages)
+    .addUserOption((option) =>
+      option
+        .setName(PERSONALITY.getPersonality().ignoreUser.userOption.name)
+        .setDescription(
+          PERSONALITY.getPersonality().ignoreUser.userOption.description,
+        )
+        .setRequired(true)
+      ),
   action: (interaction) => {
     const db = interaction.client.db;
-    const authorId = interaction.member.id;
     const iPerso = PERSONALITY.getPersonality().ignoreUser;
 
+    const userOption = interaction.options.getUser(iPerso.userOption.name); //get user option
+    const userId = userOption.id
+
     //check for command argument
-    if (isIgnoredUser(db, authorId)) {
-      removeIgnoredUser(db, authorId);
-      interactionReply(interaction, iPerso.notIgnored);
+    if (isIgnoredUser(db, userId)) {
+      removeIgnoredUser(db, userId);
+      interactionReply(interaction, iPerso.notIgnored + `<@${userId}>.`);
     } else {
-      addIgnoredUser(db, authorId);
-      interactionReply(interaction, iPerso.ignored);
+      addIgnoredUser(db, userId);
+      interactionReply(interaction, iPerso.ignored + `<@${userId}>.`);
     }
   },
   help: (interaction) => {
@@ -70,14 +81,14 @@ const ignoreUser = {
   },
   admin: false,
   releaseDate: null,
-  sentinelle: false,
+  sentinelle: true,
 };
 
 const ignoreChannel = {
   command: new SlashCommandBuilder()
     .setName(PERSONALITY.getPersonality().ignoreChannel.name)
     .setDescription(PERSONALITY.getPersonality().ignoreChannel.description)
-    .setDefaultMemberPermissions(0x0000010000000000)
+    .setDefaultMemberPermissions(0x0000010000000000) 
     .addChannelOption((option) =>
       option
         .setName(PERSONALITY.getPersonality().ignoreChannel.channelOption.name)

@@ -1,16 +1,16 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import {
   ActionRowBuilder,
-  EmbedBuilder,
+//  EmbedBuilder,
   ButtonStyle,
-  Colors,
+//  Colors,
   MessageFlags,
 } from "discord.js";
 import { createButton } from "./utils.js";
 import { interactionReply, isAdmin } from "../helpers/index.js";
-import { COMMONS } from "../commons.js";
+//import { COMMONS } from "../commons.js";
 import { PERSONALITY } from "../personality.js";
-
+/*
 // GIFT Announce
 const giftAction = async (interaction) => {
   //action to fire once correct button is clicked
@@ -50,7 +50,7 @@ const giftAnnounce = {
     value: "announce_gift",
   },
 };
-
+*/
 // ANNOUNCE
 
 //announce action
@@ -83,7 +83,7 @@ const action = (interaction) => {
 };
 
 //list of announces
-const announces = [giftAnnounce]; //list of all announces
+const announces = []; //list of all announces
 
 //button action dispatcher
 export const announceButtonHandler = (interaction) => {

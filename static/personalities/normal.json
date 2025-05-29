@@ -94,7 +94,7 @@
     },
     "help": {
       "description": "Cette commande permet d'afficher l'aide d'une commande.",
-      "help": "Pour obtenir l'aide d'une commande `roll`, tape `/help roll`.",
+      "help": "Pour obtenir l'aide d'une commande `timeout`, tape `/help timeout`.",
       "init": "Cette commande permet d'afficher l'aide d'une commande. Pour obtenir l'aide d'une commande `roll`, tape `$help roll`.\nPour le moment, les commandes suivantes ont été implémentées :\n",
       "name": "help",
       "notFound": "La commande dont vous cherchez l'aide n'existe pas.",
@@ -118,8 +118,12 @@
       "description": "Permet de choisir si je réagirai à vos messages ou non.",
       "help": "Cette commande m'empêche ou non de réagir à vos messages.",
       "name": "ignore_user",
-      "ignored": "Dorénavant je ne réagirai plus à vos messages.",
-      "notIgnored": "Je vais de nouveau réagir à vos messages."
+      "ignored": "Dorénavant j'ignorerai ",
+      "notIgnored": "Dorénavant je n'ignore plus ",
+      "userOption": {
+        "description": "Utilisateurice à ignorer",
+        "name": "utilisateurice"
+      }
     },
     "saveLog": {
       "author": "Logué par :",
