@@ -520,8 +520,13 @@ export const onMessageDelete = async (message) => {
 
   //sneak the snapshot as if it is the original message.
   //create the snapshot embed
-  const sMessage = message.messageSnapshots.size != 0 ? message.messageSnapshots.first() : message;
-  const sEmbed = new EmbedBuilder().setTitle(messageDel.snapshot).setColor(color);
+  const sMessage =
+    message.messageSnapshots.size != 0
+      ? message.messageSnapshots.first()
+      : message;
+  const sEmbed = new EmbedBuilder()
+    .setTitle(messageDel.snapshot)
+    .setColor(color);
 
   //get message data
   const attachments = sMessage.attachments.reduce((acc, cur) => {
@@ -577,7 +582,8 @@ export const onMessageDelete = async (message) => {
 
   //check if log report the correct user && log is recent
   //otherwise bot or author deleted the message
-  const realExecutor = target.id === message.author.id && diff <= 5 ? executor : auditLog.noExec;
+  const realExecutor =
+    target.id === message.author.id && diff <= 5 ? executor : auditLog.noExec;
 
   //send log and all the stuff around (gif, attachment, snapshot)
   const messageList = await finishEmbed(
