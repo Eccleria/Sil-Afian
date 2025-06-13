@@ -334,7 +334,7 @@ export const onThreadDelete = async (thread) => {
   processGeneralEmbed(perso, thread, color, logType, 1);
 };
 
-export const onThreadUpdate = async (oldThread, newThread) => {
+export const onThreadUpdate = async (_oldThread, newThread) => {
   //handle thread update
 
   //console.log("oldThread", oldThread, "newThread", newThread)
