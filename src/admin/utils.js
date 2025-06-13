@@ -210,6 +210,7 @@ export const processGeneralEmbed = async (
   const channel = await fetchLogChannel(obj); //get logChannel
   const objToSend = objType === "user" ? obj.user : obj; //handle user objects case
   const embed = setupEmbed(color, perso, objToSend, embedType); //setup embed
+  embed.addFields({name: perso.id, value: objToSend.id, inline: true});
   const log = await fetchAuditLog(obj.guild, logType, nb); //get auditLog
   const text = needReason ? log.reason : null; //if needed, get reason
 
