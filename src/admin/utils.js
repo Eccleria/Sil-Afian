@@ -224,7 +224,6 @@ export const bufferizeEventUpdate = (
   personality,
   logPerso,
   logChannel,
-  embed,
   type,
 ) => {
   //create timeout, store channels & timeout
@@ -234,7 +233,7 @@ export const bufferizeEventUpdate = (
     //get client data
     const channelUpdate = client.channelUpdate;
     obj = channelUpdate ? channelUpdate.channels : null;
-
+    
     //create timeout
     timeout = setTimeout(
       channelUpdateLog,
@@ -243,7 +242,6 @@ export const bufferizeEventUpdate = (
       personality,
       logPerso,
       logChannel,
-      embed,
     );
 
     //setup new data
@@ -264,7 +262,6 @@ export const bufferizeEventUpdate = (
       personality,
       logPerso,
       logChannel,
-      embed,
     );
 
     newData = { id: newObj.id, name: oldObj.name };
@@ -315,12 +312,16 @@ export const bufferizeEventUpdate = (
   }
 };
 
-const channelUpdateLog = (client, chnUp, logPerso, logChannel, embed) => {
+const channelUpdateLog = (client, chnUp, logPerso, logChannel) => {
   //Function called after channelUpdate timeout end
   //client == {channels: [data], timeout: timeout}
   //data == {id, name, parentId, oldPos, newPos}
 
   const { channels } = client.channelUpdate;
+
+  //create embed
+  const color = Colors.DarkAqua;
+  const embed = setupEmbed(color, chnUp, null, "skip");
 
   //sort by parentId
   const parentIdOrder = channels
@@ -402,7 +403,7 @@ const channelUpdateLog = (client, chnUp, logPerso, logChannel, embed) => {
 
   //check for empty modifs
   if (oText.length === 0) {
-    finishEmbed(chnUp, logPerso.noLog, embed, true, logChannel, chnUp.noModifs); //send embed
+    finishEmbed(chnUp, logPerso.noLog, embed, false, logChannel, chnUp.noModifs); //send embed
     return;
   }
 
@@ -419,20 +420,21 @@ const channelUpdateLog = (client, chnUp, logPerso, logChannel, embed) => {
     "```md\n" + space2Strings("avant", "apres", space, " |") + "\n",
   );
 
-  finishEmbed(chnUp, logPerso.noLog, embed, true, logChannel, orderText); //send embed
+  finishEmbed(chnUp, logPerso.noLog, embed, false, logChannel, orderText); //send embed
 
   client.channelUpdate = {}; //remove from client
 };
 
-const roleUpdateLog = (client, roleUp, logPerso, logChannel, embed) => {
+const roleUpdateLog = (client, roleUp, logPerso, logChannel) => {
   //Function called after roleUpdate timeout end
   //client == {roles: [data], timeout: timeout}
   //data == {id, name, oldPos, newPos}
   const { roles } = client.roleUpdate;
 
   //change embed
+  const color = Colors.DarkGold;
+  const embed = setupEmbed(color, roleUp, null, "skip");
   embed.setTitle(roleUp.titleRoles); //change title
-  embed.setFields(embed.data.fields.slice(1)); //remove author field
 
   //create old/new channel order
   const oldSortedOrder = roles.sort((a, b) => b.oldPos - a.oldPos).slice(); //sort channels with oldPosition
