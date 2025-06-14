@@ -14,7 +14,9 @@ const command = new SlashCommandBuilder()
   .addUserOption((option) =>
     option //user
       .setName(PERSONALITY.getPersonality().timeout.userOption.name)
-      .setDescription(PERSONALITY.getPersonality().timeout.userOption.description)
+      .setDescription(
+        PERSONALITY.getPersonality().timeout.userOption.description,
+      )
       .setRequired(true),
   )
   .addStringOption((option) =>
@@ -29,7 +31,9 @@ const command = new SlashCommandBuilder()
   .addNumberOption((option) =>
     option //weeks
       .setName(PERSONALITY.getPersonality().timeout.weeksOption.name)
-      .setDescription(PERSONALITY.getPersonality().timeout.weeksOption.description)
+      .setDescription(
+        PERSONALITY.getPersonality().timeout.weeksOption.description,
+      )
       .setMinValue(1)
       .setMaxValue(20)
       .setRequired(false),
@@ -37,7 +41,9 @@ const command = new SlashCommandBuilder()
   .addNumberOption((option) =>
     option //days
       .setName(PERSONALITY.getPersonality().timeout.daysOption.name)
-      .setDescription(PERSONALITY.getPersonality().timeout.daysOption.description)
+      .setDescription(
+        PERSONALITY.getPersonality().timeout.daysOption.description,
+      )
       .setMinValue(1)
       .setMaxValue(31)
       .setRequired(false),
@@ -45,7 +51,9 @@ const command = new SlashCommandBuilder()
   .addNumberOption((option) =>
     option //hours
       .setName(PERSONALITY.getPersonality().timeout.hoursOption.name)
-      .setDescription(PERSONALITY.getPersonality().timeout.hoursOption.description)
+      .setDescription(
+        PERSONALITY.getPersonality().timeout.hoursOption.description,
+      )
       .setMinValue(1)
       .setMaxValue(24)
       .setRequired(false),
@@ -53,7 +61,9 @@ const command = new SlashCommandBuilder()
   .addNumberOption((option) =>
     option //minutes
       .setName(PERSONALITY.getPersonality().timeout.minsOption.name)
-      .setDescription(PERSONALITY.getPersonality().timeout.minsOption.description)
+      .setDescription(
+        PERSONALITY.getPersonality().timeout.minsOption.description,
+      )
       .setMinValue(1)
       .setMaxValue(60)
       .setRequired(false),

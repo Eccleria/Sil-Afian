@@ -57,14 +57,14 @@ const ignoreUser = {
         .setDescription(
           PERSONALITY.getPersonality().ignoreUser.userOption.description,
         )
-        .setRequired(true)
-      ),
+        .setRequired(true),
+    ),
   action: (interaction) => {
     const db = interaction.client.db;
     const iPerso = PERSONALITY.getPersonality().ignoreUser;
 
     const userOption = interaction.options.getUser(iPerso.userOption.name); //get user option
-    const userId = userOption.id
+    const userId = userOption.id;
 
     //check for command argument
     if (isIgnoredUser(db, userId)) {
@@ -88,7 +88,7 @@ const ignoreChannel = {
   command: new SlashCommandBuilder()
     .setName(PERSONALITY.getPersonality().ignoreChannel.name)
     .setDescription(PERSONALITY.getPersonality().ignoreChannel.description)
-    .setDefaultMemberPermissions(0x0000010000000000) 
+    .setDefaultMemberPermissions(0x0000010000000000)
     .addChannelOption((option) =>
       option
         .setName(PERSONALITY.getPersonality().ignoreChannel.channelOption.name)
@@ -208,7 +208,9 @@ const help = {
     .addStringOption((option) =>
       option
         .setName(PERSONALITY.getPersonality().help.stringOption.name)
-        .setDescription(PERSONALITY.getPersonality().help.stringOption.description)
+        .setDescription(
+          PERSONALITY.getPersonality().help.stringOption.description,
+        )
         .setRequired(true)
         .setAutocomplete(true),
     ),

@@ -91,5 +91,4 @@ export const readContentAndReact = async (message, currentServer) => {
     await message.react(currentServer.rudolphslichId);
 };
 
-
 //#endregion

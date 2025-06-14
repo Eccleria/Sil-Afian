@@ -17,7 +17,7 @@ import {
   octagonalLog,
   removeUserFromDB,
   onlyInLeft,
-  isSameEmojiInGuildUpdate
+  isSameEmojiInGuildUpdate,
 } from "./utils.js";
 import {
   addAlavirien,
@@ -811,7 +811,11 @@ export const onGuildMemberUpdate = async (_oldMember, newMember) => {
   const logChannel = await fetchLogChannel(newMember); //get logChannel
   const color = Colors.Orange;
   const embed = setupEmbed(color, timeout, user, "tag"); //setup embed
-  const timeoutLog = await fetchAuditLog(newMember.guild, AuditLogEvent.MemberUpdate, 1); //get auditLog
+  const timeoutLog = await fetchAuditLog(
+    newMember.guild,
+    AuditLogEvent.MemberUpdate,
+    1,
+  ); //get auditLog
   const reason = timeoutLog.reason; //get ban reason
 
   //add timeout duration + timeout end fields

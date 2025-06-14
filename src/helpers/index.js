@@ -11,7 +11,6 @@ import {
   removeIgnoredUser,
 } from "./db/dbIgnore.js";
 
-
 import {
   checkEmbedContent,
   fetchLogChannel,
