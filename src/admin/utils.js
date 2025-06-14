@@ -210,7 +210,7 @@ export const processGeneralEmbed = async (
   const channel = await fetchLogChannel(obj); //get logChannel
   const objToSend = objType === "user" ? obj.user : obj; //handle user objects case
   const embed = setupEmbed(color, perso, objToSend, embedType); //setup embed
-  embed.addFields({name: perso.id, value: objToSend.id, inline: true});
+  embed.addFields({ name: perso.id, value: objToSend.id, inline: true });
   const log = await fetchAuditLog(obj.guild, logType, nb); //get auditLog
   const text = needReason ? log.reason : null; //if needed, get reason
 
@@ -233,7 +233,7 @@ export const bufferizeEventUpdate = (
     //get client data
     const channelUpdate = client.channelUpdate;
     obj = channelUpdate ? channelUpdate.channels : null;
-    
+
     //create timeout
     timeout = setTimeout(
       channelUpdateLog,
@@ -403,7 +403,14 @@ const channelUpdateLog = (client, chnUp, logPerso, logChannel) => {
 
   //check for empty modifs
   if (oText.length === 0) {
-    finishEmbed(chnUp, logPerso.noLog, embed, false, logChannel, chnUp.noModifs); //send embed
+    finishEmbed(
+      chnUp,
+      logPerso.noLog,
+      embed,
+      false,
+      logChannel,
+      chnUp.noModifs,
+    ); //send embed
     return;
   }
 

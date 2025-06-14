@@ -97,7 +97,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
   //setup embed
   const color = Colors.DarkAqua;
   const embed = setupEmbed(color, chnUp, newChannel, "tag"); //setup embed
-  embed.addFields({name: chnUp.id, value: newChannel.id, inline: true});
+  embed.addFields({ name: chnUp.id, value: newChannel.id, inline: true });
   const chnLog = await fetchAuditLog(
     oldChannel.guild,
     AuditLogEvent.ChannelUpdate,
@@ -397,7 +397,7 @@ export const onRoleUpdate = async (oldRole, newRole) => {
 
   const color = Colors.DarkGold;
   const embed = setupEmbed(color, roleUp, newRole); //setup embed
-  embed.addFields({name: roleUp.id, value: newRole.id, inline: true});
+  embed.addFields({ name: roleUp.id, value: newRole.id, inline: true });
   const roleLog = await fetchAuditLog(
     newRole.guild,
     AuditLogEvent.RoleUpdate,
