@@ -1,4 +1,4 @@
-import { Colors, Sticker } from "discord.js";
+import { Colors } from "discord.js";
 import {
   checkEmbedContent,
   fetchLogChannel,
