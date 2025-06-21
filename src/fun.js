@@ -1,5 +1,5 @@
 import { ActivityType } from "discord.js";
-import { octagonalLog } from "./admin/utils.js";
+import { octagonalLog } from "./admin/octagonal.js";
 import {
   //db
   isIgnoredChannel,
