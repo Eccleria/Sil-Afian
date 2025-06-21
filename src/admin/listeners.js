@@ -6,6 +6,7 @@ import {
   MessageType,
   OverwriteType,
 } from "discord.js";
+import { octagonalLog } from "./octagonal.js";
 import {
   isTestServer,
   bufferizeEventUpdate,
@@ -14,7 +15,6 @@ import {
   fetchMessage,
   finishEmbed,
   processGeneralEmbed,
-  octagonalLog,
   removeUserFromDB,
   onlyInLeft,
   isSameEmojiInGuildUpdate,
