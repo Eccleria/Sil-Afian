@@ -131,6 +131,10 @@
   },
   "octagonalSign": {
     "author": "Message de :",
+    "button": {
+      "customId": "octagonal_",
+      "label": "Mode Ralenti"
+    },
     "channel": "Salon :",
     "date": "Envoyé le :",
     "executor": "Emote envoyée par :",
