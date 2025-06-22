@@ -3,7 +3,6 @@ import { octagonalLog } from "./admin/utils.js";
 import {
   //db
   isIgnoredChannel,
-  isIgnoredUser,
   //utils
   hasOctagonalSign,
 } from "./helpers/index.js";
@@ -77,13 +76,12 @@ export const setActivity = (client) => {
  */
 export const readContentAndReact = async (message, currentServer) => {
   const db = message.client.db;
-  const authorId = message.author.id;
   const cmnShared = COMMONS.getShared();
   const loweredContent = message.content.toLowerCase(); //get text in Lower Case
 
   if (hasOctagonalSign(loweredContent, cmnShared)) octagonalLog(message); //if contains octagonal_sign, log it
 
-  if (isIgnoredUser(db, authorId) || isIgnoredChannel(db, message.channel.id))
+  if (isIgnoredChannel(db, message.channel.id))
     return; //check for ignore users or channels
 
   //if Sil'Afian is mentionned, react

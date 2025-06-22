@@ -14,9 +14,6 @@ import {
   addIgnoredChannel,
   isIgnoredChannel,
   removeIgnoredChannel,
-  addIgnoredUser,
-  isIgnoredUser,
-  removeIgnoredUser,
   //utils
   interactionReply,
   isAdmin,
@@ -40,44 +37,6 @@ const ping = {
   help: (interaction) => {
     const personality = PERSONALITY.getPersonality();
     interactionReply(interaction, personality.helloWorld.help);
-  },
-  admin: false,
-  releaseDate: null,
-  sentinelle: true,
-};
-
-const ignoreUser = {
-  command: new SlashCommandBuilder()
-    .setName(PERSONALITY.getPersonality().ignoreUser.name)
-    .setDescription(PERSONALITY.getPersonality().ignoreUser.description)
-    .setDefaultMemberPermissions(0x0000010000000000) //set default permission to 0x0000010000000000 (manage messages)
-    .addUserOption((option) =>
-      option
-        .setName(PERSONALITY.getPersonality().ignoreUser.userOption.name)
-        .setDescription(
-          PERSONALITY.getPersonality().ignoreUser.userOption.description,
-        )
-        .setRequired(true),
-    ),
-  action: (interaction) => {
-    const db = interaction.client.db;
-    const iPerso = PERSONALITY.getPersonality().ignoreUser;
-
-    const userOption = interaction.options.getUser(iPerso.userOption.name); //get user option
-    const userId = userOption.id;
-
-    //check for command argument
-    if (isIgnoredUser(db, userId)) {
-      removeIgnoredUser(db, userId);
-      interactionReply(interaction, iPerso.notIgnored + `<@${userId}>.`);
-    } else {
-      addIgnoredUser(db, userId);
-      interactionReply(interaction, iPerso.ignored + `<@${userId}>.`);
-    }
-  },
-  help: (interaction) => {
-    const personality = PERSONALITY.getPersonality();
-    interactionReply(interaction, personality.ignoreUser.help);
   },
   admin: false,
   releaseDate: null,
@@ -134,7 +93,6 @@ const slashCommands = [
   botEmote,
   botMessage,
   ignoreChannel,
-  ignoreUser,
   ping,
   timeout,
 ]; //command + action

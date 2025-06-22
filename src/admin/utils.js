@@ -6,7 +6,6 @@ import {
   parseUnixTimestamp,
   removeAdminLogs,
   removeEmote,
-  removeIgnoredUser,
   removeAlavirien,
   setupEmbed,
 } from "../helpers/index.js";
@@ -668,7 +667,6 @@ export const isTestServer = (eventObject) => {
 export const removeUserFromDB = (userId, client) => {
   //check if user is in db for removal
   const db = client.db;
-  removeIgnoredUser(db, userId);
   removeAlavirien(db, userId);
 };
 

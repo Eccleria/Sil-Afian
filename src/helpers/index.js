@@ -6,9 +6,6 @@ import {
   addIgnoredChannel,
   isIgnoredChannel,
   removeIgnoredChannel,
-  addIgnoredUser,
-  isIgnoredUser,
-  removeIgnoredUser,
 } from "./db/dbIgnore.js";
 
 import {
@@ -52,7 +49,4 @@ export {
   addIgnoredChannel,
   isIgnoredChannel,
   removeIgnoredChannel,
-  addIgnoredUser,
-  isIgnoredUser,
-  removeIgnoredUser,
 };
