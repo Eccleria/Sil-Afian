@@ -1,10 +1,39 @@
-import { ActionRowBuilder, ButtonStyle, Colors } from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Colors, StringSelectMenuBuilder } from "discord.js";
 
 import { finishEmbed } from "./utils.js";
 import { createButton } from "../commands/utils.js";
 import { checkEmbedContent, fetchLogChannel, parseUnixTimestamp, setupEmbed } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
 import { PERSONALITY } from "../personality.js";
+
+export const octagonalSelectMenu = (interaction) => {
+
+}
+
+export const octagonalButtonHandler = (interaction) => {
+  const perso = PERSONALITY.getAdmin().octagonalSign.selectMenu;
+  console.log("interaction", interaction);
+
+  //disable the button
+  const button = ButtonBuilder.from(interaction.component);
+  const disabledComponents = button.setDisabled(true);
+  const dActionRow = new ActionRowBuilder().addComponents(disabledComponents);
+  //console.log(message.embeds);
+  //const embeds = [EmbedBuilder.from(message.embeds[0])];
+  const disabledPayload = {components: [dActionRow]};
+  interaction.update(disabledPayload);
+
+  //build the rateLimit select menu
+  const options = perso.options;
+  const selectMenu = new StringSelectMenuBuilder()
+    .setMaxValues(1)
+    .setPlaceholder(perso.placeholder)
+    .addOptions(...options);
+
+  const smActionRow = new ActionRowBuilder().addComponents(selectMenu);
+
+  
+}
 
 export const octagonalLog = async (object, user) => {
   //get personality
@@ -46,7 +75,7 @@ export const octagonalLog = async (object, user) => {
 
   //create rateLimit button
   const bPerso = octaPerso.button;
-  const customId = bPerso.customId + message.channel.id;
+  const customId = bPerso.customId;
   const cmnShared = COMMONS.getShared();
   const button = createButton(customId, bPerso.label, ButtonStyle.Danger, cmnShared.octagonalSignEmoji);
   const actionRow = new ActionRowBuilder().addComponents(button);

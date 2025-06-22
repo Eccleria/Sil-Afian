@@ -1,6 +1,7 @@
 import { ButtonBuilder } from "discord.js";
 import { interactionReply } from "ewilib";
 
+import { octagonalButtonHandler } from "../admin/octagonal.js";
 import { announceButtonHandler } from "./announce.js";
 import {
   ghostReportButtonHandler,
@@ -34,6 +35,7 @@ export const buttonHandler = (interaction) => {
     customId.startsWith("ghostMessageReport")
   )
     ghostReportButtonHandler(interaction);
+  else if (customId.startsWith("octagonal")) octagonalButtonHandler(interaction);
   else interactionReply(interaction, "ERROR 404");
 };
 

@@ -140,6 +140,19 @@
     "executor": "Emote envoyée par :",
     "linkMessage": "Lien du message.",
     "linkName": "Lien",
+    "selectMenu": {
+      "options": [
+        {"label": "10 secondes", "value": "10"},
+        {"label": "30 secondes", "value": "30"},
+        {"label": "1 minute", "value": "60"},
+        {"label": "2 minutes", "value": "120"},
+        {"label": "5 minutes", "value": "300"},
+        {"label": "10 minutes", "value": "600"},
+        {"label": "30 minutes", "value": "1800"},
+        {"label": "1 heure", "value": "3600"}
+      ],
+      "placeholder": "Choisissez la durée du mode ralenti"
+    },
     "text": "Contenu du message :",
     "textAgain": "Contenu du message - suite :",
     "title": "Utilisation de 🛑"
