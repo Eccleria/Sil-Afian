@@ -6,6 +6,7 @@ import { interactionReply, isReleasedCommand } from "./helpers/index.js";
 import { COMMONS } from "./commons.js";
 import { readContentAndReact } from "./fun.js";
 import { PERSONALITY } from "./personality.js";
+import { presentationHandler } from "./admin/alavirien.js";
 
 //#region Listeners
 export const onInteractionCreate = (interaction) => {
@@ -87,6 +88,18 @@ export const onReactionAdd = async (messageReaction, user) => {
   if (cmnShared.octagonalSignEmoji === messageReaction.emoji.name) {
     octagonalLog(messageReaction, user);
     return;
+  }
+
+  const currentServer = COMMONS.fetchFromGuildId(
+    messageReaction.message.channel.guild.id,
+  );
+  if (
+    messageReaction.message.channel.id ===
+      currentServer.presentationChannelId &&
+    currentServer.presentationReactId === messageReaction.emoji.name
+  ) {
+    presentationHandler(currentServer, messageReaction, user);
+    return; //no command in presentation channel
   }
 };
 

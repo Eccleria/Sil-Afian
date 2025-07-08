@@ -81,8 +81,7 @@ export const readContentAndReact = async (message, currentServer) => {
 
   if (hasOctagonalSign(loweredContent, cmnShared)) octagonalLog(message); //if contains octagonal_sign, log it
 
-  if (isIgnoredChannel(db, message.channel.id))
-    return; //check for ignore users or channels
+  if (isIgnoredChannel(db, message.channel.id)) return; //check for ignore users or channels
 
   //if Sil'Afian is mentionned, react
   if (message.mentions.has(process.env.CLIENTID))
