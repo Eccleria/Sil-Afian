@@ -31,7 +31,7 @@ import {
   onGuildMemberRemove,
   onGuildMemberUpdate,
 } from "./admin/listeners.js";
-import { onInteractionCreate, onMessageCreate } from "./listeners.js";
+import { onInteractionCreate, onMessageCreate, onReactionAdd } from "./listeners.js";
 
 // admin inits
 import { setupAlavirien } from "./admin/alavirien.js";
@@ -113,6 +113,7 @@ client.once("ready", async () => {
 
 // Create an event listener for messages
 client.on("messageCreate", onMessageCreate);
+client.on("messageReactionAdd", onReactionAdd);
 
 // listener for buttons/modals
 client.on("interactionCreate", onInteractionCreate);
