@@ -30,6 +30,7 @@
   "shared": {
     "name": "shared",
     "admins": ["290505766631112714"],
+    "cancelEmoji": "❌",
     "octagonalSignEmoji": "🛑"
   }
 }

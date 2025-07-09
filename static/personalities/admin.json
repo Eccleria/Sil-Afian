@@ -131,8 +131,12 @@
   },
   "octagonalSign": {
     "author": "Message de :",
-    "button": {
-      "customId": "octagonal_",
+    "buttonCancel": {
+      "customId": "octagonal_cancel",
+      "label": "Annuler"
+    },
+    "buttonRateLimit": {
+      "customId": "octagonal_rateLimit",
       "label": "Mode Ralenti"
     },
     "channel": "Salon :",

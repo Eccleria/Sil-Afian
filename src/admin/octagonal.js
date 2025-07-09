@@ -35,10 +35,19 @@ export const octagonalButtonHandler = (interaction) => {
   
 }
 
+const octagonalRatelimitButton = (interaction) => {
+  
+}
+
+const octagonalCancelButton = (interaction) => {
+
+}
+
 export const octagonalLog = async (object, user) => {
   //get personality
   const personality = PERSONALITY.getAdmin();
   const octaPerso = personality.octagonalSign;
+  const cmnShared = COMMONS.getShared();
 
   let message = user ? object.message : object;
   if (message.partial) await message.fetch();
@@ -74,11 +83,15 @@ export const octagonalLog = async (object, user) => {
   );
 
   //create rateLimit button
-  const bPerso = octaPerso.button;
-  const customId = bPerso.customId;
-  const cmnShared = COMMONS.getShared();
-  const button = createButton(customId, bPerso.label, ButtonStyle.Danger, cmnShared.octagonalSignEmoji);
-  const actionRow = new ActionRowBuilder().addComponents(button);
+  const bRlPerso = octaPerso.buttonRateLimit;
+  const ratelimitButton = createButton(bRlPerso.customId, bRlPerso.label, ButtonStyle.Danger, cmnShared.octagonalSignEmoji);
+  
+  //create cancel button
+  const bCPerso = octaPerso.buttonCancel;
+  const cancelButton = createButton(customId, bCPerso.label, ButtonStyle.Primary, cmnShared.cancelButton);
+
+  //assemble buttons in the ActionRow
+  const actionRow = new ActionRowBuilder().addComponents(ratelimitButton, cancelButton);
   const payload = {components: [actionRow]};
   console.log("payload", payload);
 
