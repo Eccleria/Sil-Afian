@@ -19,7 +19,6 @@ import {
   isSentinelle,
   parseUnixTimestamp,
   removeEmote,
-  removePunctuation,
   setupEmbed,
 } from "./utils.js";
 
@@ -35,7 +34,6 @@ export {
   isSentinelle,
   parseUnixTimestamp,
   removeEmote,
-  removePunctuation,
   setupEmbed,
   // dbHelper
   //admin

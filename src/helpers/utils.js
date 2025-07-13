@@ -47,7 +47,8 @@ export const checkEmbedContent = (content, embed, personality) => {
 /**
  * Fetch Log Channel using commons value
  * @param {object} eventObject Object given by listener event.
- * @param {string} [type] String to ditinguish which channel/thread to return. Can be "thread" or "inAndOut" channel. Null is for log channel.
+ * @param {string} [type] String to ditinguish which channel/thread to return. 
+ *  Can be "thread" or "inAndOut" channel. Null is for log channel.
  * @returns {TextChannel}
  */
 export const fetchLogChannel = async (eventObject, type) => {
@@ -100,7 +101,7 @@ export const hasOctagonalSign = (content, cmnShared) => {
 };
 
 /**
- * Reply to interaction function
+ * Wrapper to reply to an interaction
  * @param {any} interaction Interaction the function is replying to.
  * @param {string} content Content of the replying message.
  * @param {boolean} [isEphemeral] Send *ephemeral or not* message, true by default.
@@ -125,7 +126,7 @@ export const isAdmin = (authorId) => {
 };
 
 /**
- * Return if command has been released or not
+ * Return if command has been released or not. No releaseDate is True.
  * @param {object} command
  * @returns {boolean}
  */
@@ -136,7 +137,7 @@ export const isReleasedCommand = (command) => {
 };
 
 /**
- * Return if guildMember has Sentinelle role or not
+ * Return if guildMember has Sentinelle role or not.
  * @param {any} member guildMember to verify role
  * @param {any} currentServer current server data from commons.json
  * @returns {boolean}
@@ -156,12 +157,6 @@ export const removeEmote = (str) => {
   const ascii = str[0].charCodeAt(0);
   if (ascii > 255) return str.slice(str[0].length); //if not a standard char => emote
   return str;
-};
-
-const punctuation = new RegExp(/[!"#$%&'()*+,\-.:;<=>?@[\]^_`{|}~…]/gm);
-export const removePunctuation = (messageContent) => {
-  const lineBreakRemoved = messageContent.replaceAll("\n", " ");
-  return lineBreakRemoved.replaceAll(punctuation, "");
 };
 
 /**
