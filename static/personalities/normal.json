@@ -86,6 +86,25 @@
       "wrongUrl": "Le lien du message auquel répondre n'est pas accessible.",
       "wrongUser": "Vous n'avez pas accès à cette commande."
     },
+    "ghostReport": {
+      "button": {
+        "id": "ghostReport_goTo",
+        "label": "Aller au salon",
+        "link": "https://discord.com/channels/"
+      },
+      "components": {
+        "text": {
+          "channel": "**Salon : **",
+          "executor": "**Signalé par : **"
+        },
+        "title": "## Signalement de Salon"
+      },
+      "description": "Signaler discrètement un salon à la modération",
+      "errorNotSent": "Le signalement n'a pas pu être envoyé. Veuillez contacter un.e modo en MP",
+      "help": "La commande mentionne aux Modérateurices d'intervenir dans le salon dans lequel la commande est exécutée.",
+      "name": "ghost_report",
+      "sent": "Le signalement silencieux a bien été envoyé."
+    },
     "helloWorld": {
       "description": "Ping !",
       "help": "Cette commande n'a pas besoin de description.",
