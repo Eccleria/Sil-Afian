@@ -1,6 +1,19 @@
-import { SlashCommandBuilder, ContainerBuilder, Colors, SectionBuilder, ButtonStyle, ButtonBuilder, TextDisplayBuilder, MessageFlags } from "discord.js";
+import { SlashCommandBuilder, ContainerBuilder, Colors, SectionBuilder, ButtonStyle, ButtonBuilder, TextDisplayBuilder, MessageFlags, ActionRowBuilder } from "discord.js";
 import { PERSONALITY } from "../personality.js";
 import { fetchLogChannel, interactionReply, parseUnixTimestamp } from "../helpers/index.js";
+import { createButton } from "./utils.js";
+
+export const ghostReportButtonHandler = (interaction) => {
+
+}
+
+const ghostReportConfirmContextButton = (interaction) => {
+
+}
+
+const ghostReportCancelContextButton = (interaction) => {
+  
+}
 
 const command = new SlashCommandBuilder()
   .setDefaultMemberPermissions(0)
@@ -20,8 +33,7 @@ const action = async (interaction) => {
     .setURL(channelLink);
 
   //text
-  const cPerso = perso.components;
-  const tPerso = cPerso.text;
+  const tPerso = perso.components.text;
   const tChannel = tPerso.channel + interaction.channel.toString();
   const timestamp = Math.floor(interaction.createdTimestamp / 1000);
   const tTimestamp = parseUnixTimestamp(timestamp, "F");
@@ -30,7 +42,7 @@ const action = async (interaction) => {
   const textComponent = new TextDisplayBuilder().setContent(text);
 
   //components
-  const titleComponent = new TextDisplayBuilder().setContent(cPerso.title);
+  const titleComponent = new TextDisplayBuilder().setContent(perso.components.title);
   const section = new SectionBuilder()
     .addTextDisplayComponents(textComponent)
     .setButtonAccessory(button);
@@ -43,10 +55,25 @@ const action = async (interaction) => {
   //get log channel
   const logChannel = await fetchLogChannel(interaction);
   
+  //create "add more context" buttons
+  const cPerso = perso.confirmButton;
+  const confirmButton = createButton(
+    cPerso.confirmButton.customId, 
+    cPerso.confirmButton.label, 
+    ButtonStyle.Success
+  );
+  const cancelButton = createButton(
+    cPerso.cancelButton.customId, 
+    cPerso.cancelButton.label, 
+    ButtonStyle.Secondary
+  );
+  const confirmActionRow = new ActionRowBuilder()
+    .addComponents(confirmButton, cancelButton);
+
   //send log
   const payload = {
     allowedMentions: { parse: [] }, 
-    components: [container], 
+    components: [container, confirmActionRow], 
     flags: MessageFlags.IsComponentsV2 
   };
   try {

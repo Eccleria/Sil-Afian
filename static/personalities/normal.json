@@ -99,6 +99,16 @@
         },
         "title": "## Signalement de Salon"
       },
+      "confirmButton": {
+        "cancelButton": {
+          "customId": "ghostReport_cancelButton",
+          "label": "Ne pas ajouter du contexte"
+        },
+        "confirmButton": {
+          "customId": "ghostReport_confirmButton",
+          "label": "Ajouter du contexte"
+        }
+      },
       "description": "Signaler discrètement un salon à la modération",
       "errorNotSent": "Le signalement n'a pas pu être envoyé. Veuillez contacter un.e modo en MP",
       "help": "La commande mentionne aux Modérateurices d'intervenir dans le salon dans lequel la commande est exécutée.",
