@@ -1,0 +1,170 @@
+{
+  "name": "normal",
+  "normal": {
+    "announce": {
+      "buttonLabel": "Confirmer",
+      "description": "Permet d'envoyer des annonces enregistrées.",
+      "help": "Commande permettant d'envoyer quasi immédiatement des annonces écrites dans le code d'Sil'Afian. Necessite de confirmer l'action. En cas d'envoi, il ne sera plus possible d'envoyer l'annonce.",
+      "name": "announce",
+      "notAdmin": "Cette commande est réservée à mes développeurs.",
+      "stringOption": {
+        "description": "Quelle annonce à envoyer",
+        "name": "which"
+      }
+    },
+    "botEmote": {
+      "description": "Cette commande permet de faire réagir Sil'Afian à un message",
+      "emoteOption": {
+        "description": "L'émote à utiliser",
+        "name": "emote"
+      },
+      "errorMessageNotFound": "Le message n'a pas été trouvé.",
+      "errorNotAdmin": "Vous n'avez pas le droit d'utiliser cette commande.",
+      "errorNotReact": "Je n'ai pas pu réagir.",
+      "messageOption": {
+        "description": "L'ID du message auquel réagir",
+        "name": "message-id"
+      },
+      "name": "reaction",
+      "react": "J'ai bien réagit."
+    },
+    "botMessage": {
+      "attachmentOption":{
+        "description":"Pièce-jointe a transmettre avec le message",
+        "name":"piece-jointe"
+      },
+      "description": "Envoyer un message à la place d'Sil'Afian.",
+      "empty": "Le message ne peut pas être vide.",
+      "help": "Cette commande permet d'envoyer des messages à travers Sil'Afian.",
+      "name": "message",
+      "reply":{
+        "attachmentOption":{
+          "description":"Pièce-jointe a transmettre avec le message",
+          "name":"piece-jointe"
+        },          
+        "spoilOption":{
+          "description": "Si la pièce-jointe doit être mise en spoiler.",
+          "name": "to-spoil"
+        },
+        "description": "Pour répondre à un message à travers Sil'Afian.",
+        "name": "reply",
+        "pingOption":{
+          "description": "Si l'utilisateurice doit être mentionné.",
+          "name": "to-ping"
+        },
+        "sent": "Le message est envoyé.",
+        "stringOption":{
+          "description": "Contenu du message d'Sil'Afian",
+          "name": "message"
+        },
+        "urlOption":{
+          "description": "Le lien du message auquel répondre.",
+          "name": "url"
+        }
+      },
+      "send":{
+        "attachmentOption":{
+          "description":"Pièce-jointe a transmettre avec le message",
+          "name":"piece-jointe"
+        },
+        "booleanOption":{
+          "description": "Si la pièce-jointe doit être mise en spoiler.",
+          "name": "to-spoil"
+        },
+        "channelOption":{
+          "description": "Salon de destination",
+          "name": "salon"
+        },
+        "description": "Pour envoyer un message à travers Sil'Afian.",
+        "name": "send",
+        "sent": "Le message est envoyé.",
+        "stringOption":{
+          "description": "Contenu du message d'Sil'Afian",
+          "name": "message"
+        }
+      },
+      "wrongUrl": "Le lien du message auquel répondre n'est pas accessible.",
+      "wrongUser": "Vous n'avez pas accès à cette commande."
+    },
+    "helloWorld": {
+      "description": "Ping !",
+      "help": "Cette commande n'a pas besoin de description.",
+      "name": "ping",
+      "pong": "pong !"
+    },
+    "help": {
+      "description": "Cette commande permet d'afficher l'aide d'une commande.",
+      "help": "Pour obtenir l'aide d'une commande `timeout`, tape `/help timeout`.",
+      "init": "Cette commande permet d'afficher l'aide d'une commande. Pour obtenir l'aide d'une commande `roll`, tape `$help roll`.\nPour le moment, les commandes suivantes ont été implémentées :\n",
+      "name": "help",
+      "notFound": "La commande dont vous cherchez l'aide n'existe pas.",
+      "stringOption": {
+        "description": "Nom de la commande",
+        "name": "which_command"
+      }
+    },
+    "ignoreChannel": {
+      "channelOption": {
+        "description": "Salon concerné",
+        "name": "salon"
+      },
+      "description": "Sil'Afian ignore ou non le channel.",
+      "ignored": "Je vais ignorer les messages de ",
+      "name": "ignore_channel",
+      "notIgnored": "Je n'ignorerai plus les messages de ",
+      "help": "Sil'Afian ignore ou non le channel. Utilisation :\n- `/ignoreChannel #channel` dans n'importe quel channel.\n- `/ignoreChannel` dans le channel concerné."
+    },
+    "ignoreUser": {
+      "description": "Permet de choisir si je réagirai à vos messages ou non.",
+      "help": "Cette commande m'empêche ou non de réagir à vos messages.",
+      "name": "ignore_user",
+      "ignored": "Dorénavant j'ignorerai ",
+      "notIgnored": "Dorénavant je n'ignore plus ",
+      "userOption": {
+        "description": "Utilisateurice à ignorer",
+        "name": "utilisateurice"
+      }
+    },
+    "saveLog": {
+      "author": "Logué par :",
+      "help": "Cette commande permet de sauvegarder un log du thread dans le salon des logs. Procédure : `Clique droit sur le log, Applications, save-log`.",
+      "noEmbed": "Le message ne contient pas d'embed ou de pièce jointe.",
+      "sent": "Le log est archivé.",
+      "wrongChannel": "A n'utiliser que sur les logs fréquents.",
+      "wrongMessage": "Mauvais message : ce n'est pas un log de message modifié ou supprimé."
+    },
+    "timeout": {
+      "description": "Pour exclure une personne du serveur.",
+      "daysOption": {
+        "description": "Nombre de jours d'exclusion.",
+        "name": "jours"
+      },
+      "errorMissingPermission": "Je n'ai pas le droit de timeout cette personne. Problème de permission.\n\nRappel : je ne peux pas timeout un.e membre de la modération (Andartien.nes, Sil'Afian, Sentinelles).",
+      "errorMissingDelay": "Attention, il faut renseigner un délai.",
+      "errorUnknown": "Une erreur inconnue s'est produite.",
+      "help": "Cette commande permet de timeout un.e utilisateurice.\nJe ne peux pas timeout un.e membre de la modération (Andartien.nes, Sil'Afian, Sentinelles).\n\nUtilisation : `/timeout utilisateurice:@personne raison:'Raison du timeout'` - **Ne pas oublier de renseigner une durée**",
+      "hoursOption": {
+        "description": "Nombre d'heures d'exclusion.",
+        "name": "heures"
+      },
+      "minsOption": {
+        "description": "Nombre de minutes d'exclusion.",
+        "name": "minutes"
+      },
+      "name": "timeout",
+      "reasonOption": {
+        "description": "Raison du timeout.",
+        "name": "raison"
+      },
+      "ok": "L'utilisateurice a été timeout.",
+      "userOption": {
+        "description": "Utilisateurice à timeout",
+        "name": "utilisateurice"
+      },
+      "weeksOption": {
+        "description": "Nombre de semaines d'exclusion.",
+        "name": "semaines"
+      }
+    }
+  }
+}
