@@ -44,6 +44,7 @@ export const fetchAuditLog = async (guild, auditType, limit, type) => {
  * @param {TextChannel} logChannel Log channel where to send embed.s.
  * @param {?string} text Additional text to add.
  * @param {?Attachment[]} attachments Message attachments.
+ * @param {?string[]} stickers Url of stickers.
  * @returns {Promise<?[Message]>} The log message.s sent
  */
 export const finishEmbed = async (
@@ -54,6 +55,7 @@ export const finishEmbed = async (
   logChannel,
   text,
   attachments,
+  stickers,
 ) => {
   const currentServer = COMMONS.getTest(); //get test data
   if (
@@ -85,11 +87,17 @@ export const finishEmbed = async (
       embeds: newEmbeds,
       allowed_mentions: { parse: [] },
     }); //send
+    let result = [message];
+    if (stickers && stickers.length !== 0) {
+      const textUrl = stickers.reduce((acc, cur) => acc + "\n" + cur, "");
+      const stickerMessage = await message.reply(textUrl);
+      result.push(stickerMessage);
+    }
     if (attachments && attachments.length !== 0) {
       const gifMessage = await message.reply({ files: attachments }); //if attachments, send new message
-      return [message, gifMessage];
+      result.push(gifMessage);
     }
-    return [message];
+    return result;
   } catch (e) {
     console.log("finishEmbed error\n", eventPerso.title, new Date(), e);
     return [];
