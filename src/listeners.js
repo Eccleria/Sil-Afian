@@ -1,6 +1,6 @@
 import { ChannelType } from "discord.js";
 import { checkPinStatus } from "./admin/listeners.js";
-import { octagonalLog } from "./admin/utils.js";
+import { octagonalLog } from "./admin/octagonal.js";
 import { buttonHandler, selectMenuHandler } from "./commands/utils.js";
 import { interactionReply, isReleasedCommand } from "./helpers/index.js";
 import { COMMONS } from "./commons.js";
