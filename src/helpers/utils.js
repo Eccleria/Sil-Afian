@@ -47,7 +47,7 @@ export const checkEmbedContent = (content, embed, personality) => {
 /**
  * Fetch Log Channel using commons value
  * @param {object} eventObject Object given by listener event.
- * @param {string} [type] String to ditinguish which channel/thread to return. 
+ * @param {string} [type] String to ditinguish which channel/thread to return.
  *  Can be "thread" or "inAndOut" channel. Null is for log channel.
  * @returns {TextChannel}
  */

@@ -530,6 +530,10 @@ export const onMessageDelete = async (message) => {
     [embed],
   );
 
+  //stickers
+  const stickers = message.stickers;
+  const stickersUrl = stickers.reduce((acc, cur) => [...acc, cur.url], []);
+
   //handle content
   let content = message.content ? message.content : messageDel.note;
   checkEmbedContent(content, embed, messageDel);
@@ -546,6 +550,7 @@ export const onMessageDelete = async (message) => {
       logChannel,
       null,
       attachments,
+      stickersUrl,
     );
     if (gifs !== null)
       gifs.forEach((gif) => {
@@ -574,6 +579,7 @@ export const onMessageDelete = async (message) => {
       logChannel,
       null,
       attachments,
+      stickersUrl,
     );
     if (gifs !== null) {
       const content = gifs.join("\n");
@@ -593,6 +599,7 @@ export const onMessageDelete = async (message) => {
       logChannel,
       null,
       attachments,
+      stickersUrl,
     );
     if (gifs !== null) {
       const content = gifs.join("\n");

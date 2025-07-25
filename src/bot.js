@@ -31,7 +31,11 @@ import {
   onGuildMemberRemove,
   onGuildMemberUpdate,
 } from "./admin/listeners.js";
-import { onInteractionCreate, onMessageCreate, onReactionAdd } from "./listeners.js";
+import {
+  onInteractionCreate,
+  onMessageCreate,
+  onReactionAdd,
+} from "./listeners.js";
 
 // admin inits
 import { setupAlavirien } from "./admin/alavirien.js";
