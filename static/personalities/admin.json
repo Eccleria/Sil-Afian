@@ -87,6 +87,15 @@
     "textAgain": "Contenu - suite",
     "title": "Message supprimé"
   },
+  "messageReference": {
+    "author":"Auteur :",
+    "channel":"Salon :",
+    "date":"Envoyé le :",
+    "linkMessage": "Clique pour aller au message.",
+    "linkName": "Lien",
+    "placeholder": "Le message référé n'existe pas.",
+    "title": "Message référé"
+  },
   "messageUpdate": {
     "author": "Membre :",
     "channel": "Salon :",

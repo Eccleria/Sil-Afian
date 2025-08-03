@@ -1,4 +1,4 @@
-import { Colors } from "discord.js";
+import { Colors, EmbedBuilder } from "discord.js";
 import {
   checkEmbedContent,
   fetchLogChannel,
@@ -712,3 +712,46 @@ export const onlyInLeft = (left, right, compareFunction) => {
       !right.some((rightValue) => compareFunction(leftValue, rightValue)),
   );
 };
+
+export const createMessageReferenceEmbed = async (client, reference, color) => {
+  const perso = PERSONALITY.getAdmin().messageReference;
+
+  let channel = null;
+  if (reference.channelId && reference.messageId) 
+    channel = await client.channels.fetch(reference.channelId);
+
+  let embed;
+  if (!channel) {
+    //no channel => send placeholder embed
+    embed = new EmbedBuilder()
+      .setTitle(perso.title)
+      .setColor(color);
+    embed.addFields({
+      name: perso.title,
+      value: perso.placeholder
+    });
+    return embed
+  }
+
+  const message = await channel.messages.fetch(reference.messageId);
+  embed = setupEmbed(color, perso, message.author, "tag");
+
+  const currentServer = COMMONS.fetchFromGuildId(reference.guildId);
+
+  //add creation date + channel
+  const uDate = new Date(message.createdAt); //set date as Date object
+  const unixDate = Math.floor(uDate / 1000);
+  if (currentServer.name === "prod") uDate.setHours(uDate.getHours() + 1); //add 1h to date
+  const unixTimestamp = parseUnixTimestamp(unixDate, "F"); //slice date string
+  embed.addFields(
+    { name: perso.date, value: unixTimestamp, inline: true }, //date of message creation
+    { name: perso.channel, value: `<#${message.channelId}>`, inline: true }, //message channel
+  );
+
+  //add reference messsage content
+
+  //add message link
+  const link = `[${perso.linkMessage}](${message.url})`;
+  embed.addFields({ name: perso.linkName, value: link });
+  return embed;
+}
