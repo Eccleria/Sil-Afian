@@ -3,6 +3,7 @@ import {
   AuditLogEvent,
   ChannelType,
   Colors,
+  MessageReferenceType,
   MessageType,
   OverwriteType,
 } from "discord.js";
@@ -18,6 +19,7 @@ import {
   removeUserFromDB,
   onlyInLeft,
   isSameEmojiInGuildUpdate,
+  createMessageReferenceEmbed,
 } from "./utils.js";
 import {
   addAlavirien,
@@ -757,6 +759,14 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   //add message link
   const link = `[${messageU.linkMessage}](${nMessage.url})`;
   embed.addFields({ name: messageU.linkName, value: link });
+
+  //check for reference
+  const reference = nMessage.reference;
+  console.log(reference);
+  if (reference && reference.type === MessageReferenceType.Default) {
+    const referenceEmbed = await createMessageReferenceEmbed(nMessage.client, reference, color);
+    embeds = [...embeds, referenceEmbed];
+  }
 
   //send log
   const messageList = await finishEmbed(
