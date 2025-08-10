@@ -24,16 +24,33 @@ const optionalActivities = () => {
 
 // activity list
 const activityList = [
-  { name: "Adrien Sépulchre", type: ActivityType.Listening },
-  { name: "JDR Ewilan par Charlie", type: ActivityType.Playing },
   {
-    name: "Ewilan EP" + (Math.round(7 * Math.random()) + 1).toString(),
-    type: ActivityType.Watching,
+    name: "le Chant du Dragon",
+    type: ActivityType.Listening,
+    state:
+      "Songespoir, flammèches ignées talées par l'allubrillance des pyrocarbonides.",
   },
-  { name: "la bataille contre Azan", type: ActivityType.Competing },
-  { name: "la création d'Al-Jeit", type: ActivityType.Competing },
-  { name: "épier les clochinettes", type: ActivityType.Playing },
-  { name: "compter les poêles", type: ActivityType.Playing },
+  {
+    name: "sonner la cloche",
+    type: ActivityType.Playing,
+    state: "Aide de camp ?",
+  },
+  {
+    name: "pacifier les Blancs",
+    type: ActivityType.Competing,
+    state: "La situation nous échappe",
+  },
+  {
+    name: "les 10 tournois",
+    type: ActivityType.Watching,
+    state: "Tu as réussi, vieux frère !",
+  },
+  {
+    name: "Ewilan gronder Edwin",
+    type: ActivityType.Listening,
+    state: "J'ai perdu 100 pièces d'or...",
+  },
+  { name: "compter les poêles", type: ActivityType.Playing, state: "zbim" },
   ...optionalActivities(),
 ];
 
