@@ -24,11 +24,32 @@ const optionalActivities = () => {
 
 // activity list
 const activityList = [
-  { name: "le Chant du Dragon", type: ActivityType.Listening, state: "Songespoir, flammèches ignées talées par l'allubrillance des pyrocarbonides." },
-  { name: "sonner la cloche", type: ActivityType.Playing, state: "Aide de camp ?" },
-  { name: "pacifier les Blancs", type: ActivityType.Competing, state: "La situation nous échappe" },
-  { name: "les 10 tournois", type: ActivityType.Watching, state: "Tu as réussi, vieux frère !" },
-  { name: "Ewilan gronder Edwin", type: ActivityType.Listening, state: "J'ai perdu 100 pièces d'or..." },
+  {
+    name: "le Chant du Dragon",
+    type: ActivityType.Listening,
+    state:
+      "Songespoir, flammèches ignées talées par l'allubrillance des pyrocarbonides.",
+  },
+  {
+    name: "sonner la cloche",
+    type: ActivityType.Playing,
+    state: "Aide de camp ?",
+  },
+  {
+    name: "pacifier les Blancs",
+    type: ActivityType.Competing,
+    state: "La situation nous échappe",
+  },
+  {
+    name: "les 10 tournois",
+    type: ActivityType.Watching,
+    state: "Tu as réussi, vieux frère !",
+  },
+  {
+    name: "Ewilan gronder Edwin",
+    type: ActivityType.Listening,
+    state: "J'ai perdu 100 pièces d'or...",
+  },
   { name: "compter les poêles", type: ActivityType.Playing, state: "zbim" },
   ...optionalActivities(),
 ];
