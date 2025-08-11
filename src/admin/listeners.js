@@ -521,10 +521,7 @@ export const onMessageDelete = async (message) => {
   //sneak the snapshot as if it is the original message.
   //create the snapshot embed
   const isSnapshot = message.messageSnapshots.size != 0;
-  const sMessage =
-    isSnapshot
-      ? message.messageSnapshots.first()
-      : message;
+  const sMessage = isSnapshot ? message.messageSnapshots.first() : message;
   const sEmbed = new EmbedBuilder()
     .setTitle(messageDel.snapshot)
     .setColor(color);
@@ -534,14 +531,11 @@ export const onMessageDelete = async (message) => {
     return [...acc, cur.attachment];
   }, []);
   let gifReduceInput = isSnapshot ? [embed, sEmbed] : [embed];
-  const embeds = sMessage.embeds.reduce(
-    (acc, cur) => {
-      const data = cur.data;
-      if (data.type !== "gifv" && data.type !== "image") return [...acc, cur]; //remove gif embeds
-      return acc;
-    },
-    gifReduceInput,
-  );
+  const embeds = sMessage.embeds.reduce((acc, cur) => {
+    const data = cur.data;
+    if (data.type !== "gifv" && data.type !== "image") return [...acc, cur]; //remove gif embeds
+    return acc;
+  }, gifReduceInput);
 
   //stickers
   const stickers = message.stickers;
