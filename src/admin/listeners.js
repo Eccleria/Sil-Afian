@@ -66,8 +66,38 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
   if (process.env.DEBUG === "no" && isTestServer(newChannel)) return; //if in prod && modif in test server
   const logChannel = await fetchLogChannel(newChannel); //get logChannelId
   if (process.env.DEBUG === "no" && isTestServer(logChannel)) return; //if in prod && modif in test server
+
+  //get client
+  const client = newChannel.client;
+  const channelUpdate = client.channelUpdate;
+
+  const changePos = [
+    "rawPosition",
+    oldChannel.rawPosition,
+    newChannel.rawPosition,
+  ];
+  if (changePos[1] !== changePos[2]) {
+    //if position change, no AuditLog
+
+    const timeout = channelUpdate ? channelUpdate.timeout : null;
+    if (timeout) clearTimeout(timeout); //if timeout, clear it
+
+    bufferizeEventUpdate(
+      client,
+      oldChannel,
+      newChannel,
+      chnUp,
+      auditLog,
+      logChannel,
+      "channel",
+    ); //update client data
+    return;
+  }
+
+  //setup embed
   const color = Colors.DarkAqua;
   const embed = setupEmbed(color, chnUp, newChannel, "tag"); //setup embed
+  embed.addFields({ name: chnUp.id, value: newChannel.id, inline: true });
   const chnLog = await fetchAuditLog(
     oldChannel.guild,
     AuditLogEvent.ChannelUpdate,
@@ -194,34 +224,6 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
     return;
   }
 
-  //get client
-  const client = newChannel.client;
-  const channelUpdate = client.channelUpdate;
-
-  const changePos = [
-    "rawPosition",
-    oldChannel.rawPosition,
-    newChannel.rawPosition,
-  ];
-  if (changePos[1] !== changePos[2]) {
-    //if position change, no AuditLog
-
-    const timeout = channelUpdate ? channelUpdate.timeout : null;
-    if (timeout) clearTimeout(timeout); //if timeout, clear it
-
-    bufferizeEventUpdate(
-      client,
-      oldChannel,
-      newChannel,
-      chnUp,
-      auditLog,
-      logChannel,
-      [embed],
-      "channel",
-    ); //update client data
-    return;
-  }
-
   if (chnLog) {
     const changes = chnLog.changes.map((obj) => [obj.key, obj.old, obj.new]);
     const text = changes.reduce((acc, cur) => {
@@ -335,7 +337,7 @@ export const onThreadDelete = async (thread) => {
   processGeneralEmbed(perso, thread, color, logType, 1);
 };
 
-export const onThreadUpdate = async (oldThread, newThread) => {
+export const onThreadUpdate = async (_oldThread, newThread) => {
   //handle thread update
 
   //console.log("oldThread", oldThread, "newThread", newThread)
@@ -369,8 +371,6 @@ export const onRoleUpdate = async (oldRole, newRole) => {
   if (process.env.DEBUG === "no" && isTestServer(newRole)) return; //if in prod && modif in test server
   const logChannel = await fetchLogChannel(newRole); //get logChannelId
   if (process.env.DEBUG === "no" && isTestServer(logChannel)) return; //if in prod && modif in test server
-  const color = Colors.DarkGold;
-  const embed = setupEmbed(color, roleUp, newRole); //setup embed
 
   //get client
   const client = newRole.client;
@@ -390,12 +390,14 @@ export const onRoleUpdate = async (oldRole, newRole) => {
       roleUp,
       auditLog,
       logChannel,
-      embed,
       "role",
     ); //update client data
     return;
   }
 
+  const color = Colors.DarkGold;
+  const embed = setupEmbed(color, roleUp, newRole); //setup embed
+  embed.addFields({ name: roleUp.id, value: newRole.id, inline: true });
   const roleLog = await fetchAuditLog(
     newRole.guild,
     AuditLogEvent.RoleUpdate,

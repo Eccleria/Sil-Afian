@@ -3,3 +3,4 @@
 - Feat: add `stickers` handling for `MessageDelete` logs ([#15](https://github.com/Eccleria/Sil-Afian/issues/15)) ([#18](https://github.com/Eccleria/Sil-Afian/pull/18))
 - Feat:  add `snapshots` handling for `messageDelete` logs ([#15](https://github.com/Eccleria/Sil-Afian/issues/15)) ([#16](https://github.com/Eccleria/Sil-Afian/pull/16))
 - Update: change `activities` text so they are bot specific ([#23](https://github.com/Eccleria/Sil-Afian/pull/23))
+- Update: add more IDs on adminLogs ([#2](https://github.com/Eccleria/Sil-Afian/issues/2)) ([#17](https://github.com/Eccleria/Sil-Afian/pull/17))
