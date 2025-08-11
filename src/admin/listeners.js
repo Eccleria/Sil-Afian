@@ -3,6 +3,7 @@ import {
   AuditLogEvent,
   ChannelType,
   Colors,
+  EmbedBuilder,
   MessageType,
   OverwriteType,
 } from "discord.js";
@@ -517,25 +518,31 @@ export const onMessageDelete = async (message) => {
     return;
   }
 
+  //sneak the snapshot as if it is the original message.
+  //create the snapshot embed
+  const isSnapshot = message.messageSnapshots.size != 0;
+  const sMessage = isSnapshot ? message.messageSnapshots.first() : message;
+  const sEmbed = new EmbedBuilder()
+    .setTitle(messageDel.snapshot)
+    .setColor(color);
+
   //get message data
-  const attachments = message.attachments.reduce((acc, cur) => {
+  const attachments = sMessage.attachments.reduce((acc, cur) => {
     return [...acc, cur.attachment];
   }, []);
-  const embeds = message.embeds.reduce(
-    (acc, cur) => {
-      const data = cur.data;
-      if (data.type !== "gifv" && data.type !== "image") return [...acc, cur]; //remove gif embeds
-      return acc;
-    },
-    [embed],
-  );
+  let gifReduceInput = isSnapshot ? [embed, sEmbed] : [embed];
+  const embeds = sMessage.embeds.reduce((acc, cur) => {
+    const data = cur.data;
+    if (data.type !== "gifv" && data.type !== "image") return [...acc, cur]; //remove gif embeds
+    return acc;
+  }, gifReduceInput);
 
   //stickers
   const stickers = message.stickers;
   const stickersUrl = stickers.reduce((acc, cur) => [...acc, cur.url], []);
 
   //handle content
-  let content = message.content ? message.content : messageDel.note;
+  let content = sMessage.content ? sMessage.content : messageDel.note;
   checkEmbedContent(content, embed, messageDel);
 
   const gifs = gifParser(content); //handle gifs
@@ -569,47 +576,30 @@ export const onMessageDelete = async (message) => {
   const diff =
     logCreationDate !== null ? dayjs().diff(logCreationDate, "s") : null;
 
-  if (target.id === message.author.id && diff <= 5) {
-    //check if log report the correct user && log is recent
-    const messageList = await finishEmbed(
-      messageDel,
-      executor,
-      embeds,
-      true,
-      logChannel,
-      null,
-      attachments,
-      stickersUrl,
-    );
-    if (gifs !== null) {
-      const content = gifs.join("\n");
-      const msg = await logChannel.send(content);
-      messageList.push(msg);
-    }
-    messageList.forEach((msg) =>
-      addAdminLogs(msg.client.db, msg.id, "frequent", 6),
-    );
-  } else {
-    //if bot or author deleted the message
-    const messageList = await finishEmbed(
-      messageDel,
-      auditLog.noExec,
-      embeds,
-      true,
-      logChannel,
-      null,
-      attachments,
-      stickersUrl,
-    );
-    if (gifs !== null) {
-      const content = gifs.join("\n");
-      const msg = await logChannel.send(content);
-      messageList.push(msg);
-    }
-    messageList.forEach((msg) =>
-      addAdminLogs(msg.client.db, msg.id, "frequent", 6),
-    );
+  //check if log report the correct user && log is recent
+  //otherwise bot or author deleted the message
+  const realExecutor =
+    target.id === message.author.id && diff <= 5 ? executor : auditLog.noExec;
+
+  //send log and all the stuff around (gif, attachment, snapshot)
+  const messageList = await finishEmbed(
+    messageDel,
+    realExecutor,
+    embeds,
+    true,
+    logChannel,
+    null,
+    attachments,
+    stickersUrl,
+  );
+  if (gifs !== null) {
+    const content = gifs.join("\n");
+    const msg = await logChannel.send(content);
+    messageList.push(msg);
   }
+  messageList.forEach((msg) =>
+    addAdminLogs(msg.client.db, msg.id, "frequent", 6),
+  );
 };
 
 export const onMessageUpdate = async (oldMessage, newMessage) => {
