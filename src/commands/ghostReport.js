@@ -73,12 +73,13 @@ const action = async (interaction) => {
   //send log
   const payload = {
     allowedMentions: { parse: [] }, 
-    components: [container, confirmActionRow], 
+    components: [container], 
     flags: MessageFlags.IsComponentsV2 
   };
   try {
     const msg = await logChannel.send(payload);
-    if (msg) interactionReply(interaction, perso.sent);
+    const interactionPayload = {content: perso.sent, components: [confirmActionRow], flags: MessageFlags.Ephemeral}
+    if (msg) interaction.reply(interactionPayload);
     else interactionReply(interaction, perso.errorNotSent);
   } catch (err) {
     console.log("ghostReport ERROR ", err);
