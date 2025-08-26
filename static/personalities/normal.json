@@ -109,11 +109,29 @@
           "label": "Ajouter du contexte"
         }
       },
+      "context": {
+        "text": {
+          "channel": "**Salon : **",
+          "context": "**Signalé par : **"
+        },
+        "title": "### Contexte du signalement"
+      },
       "description": "Signaler discrètement un salon à la modération",
       "errorNotSent": "Le signalement n'a pas pu être envoyé. Veuillez contacter un.e modo en MP",
+      "errorReportNotFound": "Désolé, le signalement n'a pas pu être retrouvé. Veuillez réessayer. Si ce n'est pas la première fois, mentionner un.e modérateurice en MP.",
       "help": "La commande mentionne aux Modérateurices d'intervenir dans le salon dans lequel la commande est exécutée.",
+      "modal": {
+        "customId": "ghostReport_modal_giveContext",
+        "textInput": {
+          "customId": "ghostReport_modal_giveContext_textInput",
+          "label": "Le contexte du signalement",
+          "placeholder": "Ecrivez ici votre contexte"
+        },
+        "title": "Ajout de contexte pour les modos"
+      },
       "name": "ghost_report",
-      "sent": "Le signalement silencieux a bien été envoyé."
+      "sent": "Le signalement silencieux a bien été envoyé.",
+      "sentContext": "Le contexte a bien été envoyé."
     },
     "helloWorld": {
       "description": "Ping !",

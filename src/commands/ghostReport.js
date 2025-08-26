@@ -1,19 +1,77 @@
-import { SlashCommandBuilder, ContainerBuilder, Colors, SectionBuilder, ButtonStyle, ButtonBuilder, TextDisplayBuilder, MessageFlags, ActionRowBuilder } from "discord.js";
+import { SlashCommandBuilder, ContainerBuilder, Colors, SectionBuilder, ButtonStyle, ButtonBuilder, TextDisplayBuilder, MessageFlags, ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } from "discord.js";
 import { PERSONALITY } from "../personality.js";
 import { fetchLogChannel, interactionReply, parseUnixTimestamp } from "../helpers/index.js";
 import { createButton } from "./utils.js";
+import { GHOSTREPORT, ghostReportObject } from "../classes/ghostReport.js";
+import { COMMONS } from "../commons.js";
 
 export const ghostReportButtonHandler = (interaction) => {
-
+  const { customId } = interaction;
+  console.log(customId)
+  if (customId.includes("_confirmButton")) 
+    ghostReportConfirmContextButton(interaction);
 }
 
 const ghostReportConfirmContextButton = (interaction) => {
+  const perso = PERSONALITY.getPersonality().ghostReport.modal;
 
-}
+  const textInput = new TextInputBuilder()
+    .setCustomId(perso.textInput.customId)
+    .setLabel(perso.textInput.label)
+    .setPlaceholder(perso.textInput.placeholder)
+    .setStyle(TextInputStyle.Paragraph)
+    .setMinLength(1)
+    .setRequired(true);
+
+  const actionRow = new ActionRowBuilder()
+    .addComponents(textInput);
+
+  const modal = new ModalBuilder()
+    .setTitle(perso.title)
+    .setCustomId(perso.customId)
+    .addComponents(actionRow);
+
+  interaction.showModal(modal);
+};
 
 const ghostReportCancelContextButton = (interaction) => {
   
-}
+};
+
+export const ghostReportModalHandler = async (interaction) => {
+  const perso = PERSONALITY.getPersonality().ghostReport;
+
+  //fetch the log to which user add context
+  const logChannel = await fetchLogChannel(interaction);
+  const report = GHOSTREPORT.getReportFromConfirmMessage(interaction.message.id);
+  if (!report) {
+    console.warn("ghostReport - report not found", interaction);
+    interaction.update({content: perso.errorReportNotFound, components: []}); //remove the ghostReport interaction reply
+    return;
+  }
+  const logMessage = await logChannel.messages.fetch(report.reportId);
+
+  //create the context payload
+  const content = interaction.fields.getTextInputValue(perso.modal.textInput.customId);
+  const textDisplay = new TextDisplayBuilder()
+    .setContent(content);
+  const container = new ContainerBuilder()
+    .addTextDisplayComponents(textDisplay)
+    .setAccentColor(Colors.DarkRed);
+
+  const oldContainer = new ContainerBuilder(logMessage.components[0].toJSON());
+  
+  try {
+    logMessage.edit({
+      components: [oldContainer, container]
+    })
+
+    interactionReply(interaction, perso.sentContext);
+  } catch(e) {
+    console.error("ghostReport - fail to edit log with context", e);
+    console.log("ghostReport context: ", content);
+  }
+};
 
 const command = new SlashCommandBuilder()
   .setDefaultMemberPermissions(0)
@@ -78,8 +136,19 @@ const action = async (interaction) => {
   };
   try {
     const msg = await logChannel.send(payload);
-    const interactionPayload = {content: perso.sent, components: [confirmActionRow], flags: MessageFlags.Ephemeral}
-    if (msg) interaction.reply(interactionPayload);
+    const interactionPayload = {content: perso.sent, components: [confirmActionRow], flags: MessageFlags.Ephemeral, withResponse: true};
+    if (msg)  {
+      //send confirmation
+      const reply = await interaction.reply(interactionPayload); 
+
+      //store the report in GHOSTREPORT
+      const timeout = setTimeout(() => {
+        console.log("ghostReport - delete report ", msg.id);
+        GHOSTREPORT.removeReport(msg.id);
+      }, 2 * 60 * 60 * 1000); //2h timeout
+      const report = new ghostReportObject(msg.id, interaction.user.id, timeout, interaction.channelId, reply.resource.message.id);
+      GHOSTREPORT.addReport(report);
+    }
     else interactionReply(interaction, perso.errorNotSent);
   } catch (err) {
     console.log("ghostReport ERROR ", err);
