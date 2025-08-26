@@ -1,6 +1,7 @@
 import { ButtonBuilder } from "discord.js";
 import { announceButtonHandler } from "./announce.js";
 import { interactionReply } from "../helpers/index.js";
+import { ghostReportButtonHandler, ghostReportModalHandler } from "./ghostReport.js";
 
 /**
  * Create a button from ButtonBuilder
@@ -24,6 +25,8 @@ export const createButton = (id, label, style, emoji) => {
 export const buttonHandler = (interaction) => {
   const { customId } = interaction;
   if (customId.startsWith("announce")) announceButtonHandler(interaction);
+  else if (customId.startsWith("ghostReport")) 
+    ghostReportButtonHandler(interaction);
   else interactionReply(interaction, "ERROR 404");
 };
 
@@ -35,3 +38,10 @@ export const selectMenuHandler = (interaction) => {
   const { customId } = interaction;
   console.log("menuHandler", customId);
 };
+
+export const modalHandler = (interaction) => {
+  const { customId } = interaction;
+  console.log("modalHandler", customId);
+  if (customId.startsWith("ghostReport"))
+    ghostReportModalHandler(interaction);
+}
