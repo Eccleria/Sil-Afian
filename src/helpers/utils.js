@@ -3,18 +3,19 @@ import { EmbedBuilder, MessageFlags } from "discord.js";
 import { COMMONS } from "../commons.js";
 
 /**
- * Slice a string len times and returns it as an array
+ * Slice a thing len times and returns it as an array
  * @param {number} len Length of the returned array
- * @param {string} content Embed content to slice
- * @returns {string[]} Array of sliced content
+ * @param {string|Array} content The thing to slice
+ * @param {number} size Size of the slices
+ * @returns {string[]} Array of sliced things
  */
-const sliceEmbedContent = (len, content) => {
+export const sliceThings = (len, content, size) => {
   const lenArray = Array.from(new Array(len));
   const sliced = lenArray.reduce((acc, _cur, idx) => {
-    if (idx === len - 1) return [...acc, content.slice(idx * 1024)]; //last index
-    const sliced = content.slice(idx * 1024, (idx + 1) * 1024);
+    if (idx === len - 1) return [...acc, content.slice(idx * size)]; //last index
+    const sliced = content.slice(idx * size, (idx + 1) * size);
     return [...acc, sliced];
-  }, []); //slice content in less than 1024 characters
+  }, []); //slice content in less than size characters
   return sliced;
 };
 
@@ -25,11 +26,12 @@ const sliceEmbedContent = (len, content) => {
  * @param {object} personality The personality object of the embed.
  */
 export const checkEmbedContent = (content, embed, personality) => {
-  const slice = Math.ceil(content.length / 1024); //get number of time to slice oldContent by 1024
+  const size = 1024;
+  const slice = Math.ceil(content.length / size); //get number of time to slice oldContent by 1024
 
   if (slice > 1) {
     //if need to slice
-    const sliced = sliceEmbedContent(slice, content); //slice content
+    const sliced = sliceThings(slice, content, size); //slice content
 
     //add content to embed, according to its index
     sliced.forEach((str, idx) => {
