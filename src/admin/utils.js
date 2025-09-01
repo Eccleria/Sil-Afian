@@ -11,6 +11,7 @@ import {
 } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
 import { PERSONALITY } from "../personality.js";
+import { sliceThings } from "../helpers/utils.js";
 
 /**
  * Fetch AuditLog from API.
@@ -575,14 +576,21 @@ const logsRemover = async (client) => {
   let data = dbData[type][0]; //get corresponding data
   if (data.length !== 0) {
     const threadChannel = await client.channels.fetch(server.logThreadId);
-    const result = await threadChannel.bulkDelete(data); //bulkDelete and get ids where it was okay
+    const size = 100;
+    const slice = Math.ceil(data.length / size); //get number of time to slice the array by 100
+    const sliced = sliceThings(slice, data, size);
 
-    const diff = data.reduce((acc, cur) => {
-      if (result.has(cur))
-        return acc; //if no diff
-      else return [...acc, cur];
-    }, []); //find diff for error check
-    console.log("frequent diff", diff); //log for debug
+    sliced.forEach(async (elements) => {
+      const result = await threadChannel.bulkDelete(elements); //bulkDelete and get ids where it was okay
+
+      const diff = elements.reduce((acc, cur) => {
+        if (result.has(cur))
+          return acc; //if no diff
+        else return [...acc, cur];
+      }, []); //find diff for error check
+
+      console.log("frequent diff", diff); //log for debug
+    })
   }
   removeAdminLogs(db, type); //remove from db
 
