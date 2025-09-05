@@ -2,6 +2,20 @@ import dayjs from "dayjs";
 import { EmbedBuilder, MessageFlags } from "discord.js";
 import { COMMONS } from "../commons.js";
 
+//#region Types
+
+/**
+ * @enum {number} return values for most db helper functions
+ */
+export const dbReturnType = Object.freeze({
+  isNotOk: -1,
+  isOk: 0,
+  isIn: 1,
+  isNotIn: 2,
+});
+
+//#endregion
+
 /**
  * Slice a string or an Array len times and returns it as an array
  * @param {number} len Length of the returned array
