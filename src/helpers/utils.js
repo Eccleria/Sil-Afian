@@ -4,12 +4,28 @@ import { fetchChannel } from "ewilib";
 
 import { COMMONS } from "../commons.js";
 
+//#region Types
+
+/**
+ * @enum {number} return values for most db helper functions
+ */
+export const dbReturnType = Object.freeze({
+  isNotOk: -1,
+  isOk: 0,
+  isIn: 1,
+  isNotIn: 2,
+});
+
+//#endregion
+
+
 //#region Misc
 
 /**
  * Import types exclusively for jsdocs
  * @import { TextChannel } from "discord.js"
  */
+
 
 /**
  * Slice a string or an Array len times and returns it as an array
@@ -54,16 +70,6 @@ export const checkEmbedContent = (content, embed, personality) => {
     });
   } else embed.addFields({ name: personality.text, value: content });
 };
-
-/**
- * @enum {number} return values for most db helper functions
- */
-export const dbReturnType = Object.freeze({
-  isNotOk: -1,
-  isOk: 0,
-  isIn: 1,
-  isNotIn: 2,
-});
 
 /**
  * Fetch Log Channel using commons value

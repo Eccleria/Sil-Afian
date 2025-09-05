@@ -9,6 +9,8 @@ import { COMMONS } from "./commons.js";
 import { readContentAndReact } from "./fun.js";
 import { PERSONALITY } from "./personality.js";
 import { presentationHandler } from "./admin/alavirien.js";
+import { isTicketBannedUser } from "./helpers/db/dbTicket.js";
+import { sendDMCreateTicket } from "./admin/ticket.js";
 
 //#region Listeners
 export const onInteractionCreate = (interaction) => {
@@ -76,7 +78,7 @@ export const onMessageCreate = async (message) => {
   // Function triggered for each message sent
   const { channel } = message;
 
-  if (channel.type === ChannelType.DM) return;
+  if (channel.type === ChannelType.DM) onPrivateMessage(message);
   else {
     const currentServer = COMMONS.fetchFromGuildId(channel.guildId);
     onPublicMessage(message, currentServer);
@@ -128,5 +130,12 @@ const onPublicMessage = (message, currentServer) => {
   checkPinStatus(message);
   readContentAndReact(message, currentServer);
 };
+
+const onPrivateMessage = (message) => {
+  if (message.author.id === process.env.CLIENTID) return;
+
+  if (!isTicketBannedUser(message.client.db, message.author.id))
+    sendDMCreateTicket(message);
+}
 
 //#endregion

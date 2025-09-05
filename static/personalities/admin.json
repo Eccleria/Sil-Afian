@@ -192,6 +192,19 @@
     "id": "Id du fil :",
     "title": "Fil modifié"
   },
+  "ticket": {
+    "createDM": {
+      "cancel": {
+        "customId": "ticket_button_cancelDM",
+        "label": "Annuler"
+      },
+      "confirm": {
+        "customId": "ticket_button_confirmDM",
+        "label": "Confirmer"
+      },
+      "text": "## Contacter la modération Ewilan\n\n Si vous souhaitez contacter la modération du Serveur *La Quête d'Ewilan*, cliquez sur le bouton 'Confirmer'. Cela ouvrira une conversation privée.\n\nDans le cas contraire, vous pouvez ignorer ce message."
+    }
+  },
   "timeout": {
     "author": "Membre :",
     "command": {

@@ -9,6 +9,7 @@ import announce from "./announce.js";
 import botEmote from "./botEmote.js";
 import botMessage from "./botMessage.js";
 import saveLog from "./save-log.js";
+import ticket from "./ticket.js";
 import timeout from "./timeout.js";
 import {
   //dbHelper
@@ -94,6 +95,7 @@ const slashCommands = [
   botMessage,
   ignoreChannel,
   ping,
+  ticket,
   timeout,
 ]; //command + action
 
