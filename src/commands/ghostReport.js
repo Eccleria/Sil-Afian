@@ -1,9 +1,8 @@
-import { SlashCommandBuilder, ContainerBuilder, Colors, SectionBuilder, ButtonStyle, ButtonBuilder, TextDisplayBuilder, MessageFlags, ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } from "discord.js";
+import { SlashCommandBuilder, ContainerBuilder, Colors, SectionBuilder, ButtonStyle, ButtonBuilder, TextDisplayBuilder, MessageFlags, ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, ContextMenuCommandBuilder } from "discord.js";
 import { PERSONALITY } from "../personality.js";
 import { fetchLogChannel, interactionReply, parseUnixTimestamp } from "../helpers/index.js";
 import { createButton } from "./utils.js";
 import { GHOSTREPORT, ghostReportObject } from "../classes/ghostReport.js";
-import { COMMONS } from "../commons.js";
 
 export const ghostReportButtonHandler = (interaction) => {
   const { customId } = interaction;
@@ -165,5 +164,19 @@ const ghostReport = {
   admin: false,
   sentinelle: false,
 };
+
+// CONTEXT MENU
+
+const contextCommand = new ContextMenuCommandBuilder()
+  .setName(PERSONALITY.getPersonality().ghostMessageReport.title)
+  .setType(3);
+
+const contextAction = (interaction) => {
+
+};
+
+const ghostMessageReport = {
+  
+}
 
 export default ghostReport;
