@@ -86,6 +86,80 @@
       "wrongUrl": "Le lien du message auquel répondre n'est pas accessible.",
       "wrongUser": "Vous n'avez pas accès à cette commande."
     },
+    "ghostMessageReport": {
+      "button": {
+        "id": "ghostReport_goTo",
+        "label": "Aller au salon",
+        "link": "https://discord.com/channels/"
+      },
+      "components": {
+        "text": {
+          "channel": "**Salon : **",
+          "executor": "**Signalé par : **"
+        },
+        "title": "## Signalement de Salon"
+      },
+      "confirmButton": {
+        "cancelButton": {
+          "customId": "ghostMessageReport_cancelButton",
+          "label": "Ne pas ajouter du contexte"
+        },
+        "confirmButton": {
+          "customId": "ghostMessageReport_confirmButton",
+          "label": "Ajouter du contexte"
+        }
+      },
+      "name": "signaler un message",
+      "sent": "Le signalement silencieux a bien été envoyé."
+    },
+    "ghostReport": {
+      "button": {
+        "id": "ghostReport_goTo",
+        "label": "Aller au salon",
+        "link": "https://discord.com/channels/"
+      },
+      "cancelButton": "Vous avez refusé d'envoyer du contexte à votre signalement.",
+      "components": {
+        "text": {
+          "channel": "**Salon : **",
+          "executor": "**Signalé par : **"
+        },
+        "title": "## Signalement de Salon"
+      },
+      "confirmButton": {
+        "cancelButton": {
+          "customId": "ghostReport_cancelButton",
+          "label": "Ne pas ajouter du contexte"
+        },
+        "confirmButton": {
+          "customId": "ghostReport_confirmButton",
+          "label": "Ajouter du contexte"
+        }
+      },
+      "context": {
+        "text": {
+          "channel": "**Salon : **",
+          "context": "**Signalé par : **"
+        },
+        "title": "### Contexte du signalement"
+      },
+      "description": "Signaler discrètement un salon à la modération",
+      "errorNotSent": "Le signalement n'a pas pu être envoyé. Veuillez contacter un.e modo en MP",
+      "errorReportNotFound": "Désolé, le signalement n'a pas pu être retrouvé. Veuillez réessayer. Si ce n'est pas la première fois, mentionner un.e modérateurice en MP.",
+      "help": "La commande mentionne aux Modérateurices d'intervenir dans le salon dans lequel la commande est exécutée.",
+      "modal": {
+        "customId": "ghostReport_modal_giveContext",
+        "textInput": {
+          "customId": "ghostReport_modal_giveContext_textInput",
+          "label": "Le contexte du signalement",
+          "placeholder": "Ecrivez ici votre contexte"
+        },
+        "title": "Ajout de contexte pour les modos"
+      },
+      "name": "signalement_silencieux",
+      "sent": "Le signalement silencieux a bien été envoyé.",
+      "sentContext": "Le contexte a bien été envoyé."
+    },
     "helloWorld": {
       "description": "Ping !",
       "help": "Cette commande n'a pas besoin de description.",
