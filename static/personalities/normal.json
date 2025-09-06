@@ -86,12 +86,39 @@
       "wrongUrl": "Le lien du message auquel répondre n'est pas accessible.",
       "wrongUser": "Vous n'avez pas accès à cette commande."
     },
+    "ghostMessageReport": {
+      "button": {
+        "id": "ghostReport_goTo",
+        "label": "Aller au salon",
+        "link": "https://discord.com/channels/"
+      },
+      "components": {
+        "text": {
+          "channel": "**Salon : **",
+          "executor": "**Signalé par : **"
+        },
+        "title": "## Signalement de Salon"
+      },
+      "confirmButton": {
+        "cancelButton": {
+          "customId": "ghostMessageReport_cancelButton",
+          "label": "Ne pas ajouter du contexte"
+        },
+        "confirmButton": {
+          "customId": "ghostMessageReport_confirmButton",
+          "label": "Ajouter du contexte"
+        }
+      },
+      "name": "signaler un message",
+      "sent": "Le signalement silencieux a bien été envoyé."
+    },
     "ghostReport": {
       "button": {
         "id": "ghostReport_goTo",
         "label": "Aller au salon",
         "link": "https://discord.com/channels/"
       },
+      "cancelButton": "Vous avez refusé d'envoyer du contexte à votre signalement.",
       "components": {
         "text": {
           "channel": "**Salon : **",
@@ -129,7 +156,7 @@
         },
         "title": "Ajout de contexte pour les modos"
       },
-      "name": "ghost_report",
+      "name": "signalement_silencieux",
       "sent": "Le signalement silencieux a bien été envoyé.",
       "sentContext": "Le contexte a bien été envoyé."
     },
