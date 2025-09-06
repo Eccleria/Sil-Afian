@@ -4,11 +4,15 @@ import { fetchLogChannel, interactionReply, parseUnixTimestamp } from "../helper
 import { createButton } from "./utils.js";
 import { GHOSTREPORT, ghostReportObject } from "../classes/ghostReport.js";
 
+//#region ButtonHandlers
+
 export const ghostReportButtonHandler = (interaction) => {
   const { customId } = interaction;
   console.log(customId)
   if (customId.includes("_confirmButton")) 
     ghostReportConfirmContextButton(interaction);
+  else if (customId.includes("_cancelButton"))
+    ghostReportCancelContextButton(interaction);
 }
 
 const ghostReportConfirmContextButton = (interaction) => {
@@ -34,8 +38,13 @@ const ghostReportConfirmContextButton = (interaction) => {
 };
 
 const ghostReportCancelContextButton = (interaction) => {
-  
+  const perso = PERSONALITY.getPersonality().ghostReport.cancelButton;
+  interaction.update({content: perso, components: []}); //reply and remove buttons
 };
+
+//#endregion
+
+//#region Modal
 
 export const ghostReportModalHandler = async (interaction) => {
   const perso = PERSONALITY.getPersonality().ghostReport;
@@ -72,15 +81,35 @@ export const ghostReportModalHandler = async (interaction) => {
   }
 };
 
-const command = new SlashCommandBuilder()
-  .setDefaultMemberPermissions(0)
-  .setName(PERSONALITY.getPersonality().ghostReport.name)
-  .setDescription(PERSONALITY.getPersonality().ghostReport.description)
+//#endregion
 
-const action = async (interaction) => {
-  const perso = PERSONALITY.getPersonality().ghostReport;
+//#region Log Helpers
 
-  //build the log (NOTE: Components V2)
+const createInteractionPayload = (perso) => {
+  const cPerso = perso.confirmButton;
+  const confirmButton = createButton(
+    cPerso.confirmButton.customId, 
+    cPerso.confirmButton.label, 
+    ButtonStyle.Success
+  );
+  const cancelButton = createButton(
+    cPerso.cancelButton.customId, 
+    cPerso.cancelButton.label, 
+    ButtonStyle.Secondary
+  );
+  const confirmActionRow = new ActionRowBuilder()
+    .addComponents(confirmButton, cancelButton);
+
+  const interactionPayload = {
+    content: perso.sent, 
+    components: [confirmActionRow], 
+    flags: MessageFlags.Ephemeral, 
+    withResponse: true
+  };
+  return interactionPayload;
+};
+
+const createLogMainPayload = (interaction, perso) => {
   //button
   const bPerso = perso.button;
   const channelLink = bPerso.link + `${interaction.guildId}/${interaction.channelId}`;
@@ -108,34 +137,20 @@ const action = async (interaction) => {
     .addTextDisplayComponents(titleComponent)
     .addSectionComponents(section);
 
-  
-  //get log channel
-  const logChannel = await fetchLogChannel(interaction);
-  
-  //create "add more context" buttons
-  const cPerso = perso.confirmButton;
-  const confirmButton = createButton(
-    cPerso.confirmButton.customId, 
-    cPerso.confirmButton.label, 
-    ButtonStyle.Success
-  );
-  const cancelButton = createButton(
-    cPerso.cancelButton.customId, 
-    cPerso.cancelButton.label, 
-    ButtonStyle.Secondary
-  );
-  const confirmActionRow = new ActionRowBuilder()
-    .addComponents(confirmButton, cancelButton);
-
-  //send log
   const payload = {
     allowedMentions: { parse: [] }, 
     components: [container], 
     flags: MessageFlags.IsComponentsV2 
   };
+  return payload;
+}
+
+const sendLogAndReply = async (interaction, perso, logPayload, interactionPayload) => {
+  //get log channel
+  const logChannel = await fetchLogChannel(interaction);
+
   try {
-    const msg = await logChannel.send(payload);
-    const interactionPayload = {content: perso.sent, components: [confirmActionRow], flags: MessageFlags.Ephemeral, withResponse: true};
+    const msg = await logChannel.send(logPayload);
     if (msg)  {
       //send confirmation
       const reply = await interaction.reply(interactionPayload); 
@@ -149,9 +164,39 @@ const action = async (interaction) => {
       GHOSTREPORT.addReport(report);
     }
     else interactionReply(interaction, perso.errorNotSent);
+    return msg;
   } catch (err) {
-    console.log("ghostReport ERROR ", err);
+    console.error("ghostReport ERROR ", err);
+    interactionReply(interaction, perso.errorNotSent);
+    return null;
   }
+}
+
+//#endregion
+
+//#region Slash Command
+
+const command = new SlashCommandBuilder()
+  .setDefaultMemberPermissions(0)
+  .setName(PERSONALITY.getPersonality().ghostReport.name)
+  .setDescription(PERSONALITY.getPersonality().ghostReport.description)
+
+const action = async (interaction) => {
+  const perso = PERSONALITY.getPersonality().ghostReport;
+ 
+  //build the interaction reply
+  const confirmActionRow = createInteractionPayload(perso);
+  const interactionPayload = {
+    content: perso.sent, 
+    components: [confirmActionRow], 
+    flags: MessageFlags.Ephemeral, 
+    withResponse: true
+  };
+  
+  //build the log (NOTE: Components V2)
+  const payload = createLogMainPayload(interaction, perso);
+  
+  sendLogAndReply(interaction, perso, payload, interactionPayload);
 }
 
 const ghostReport = {
@@ -165,18 +210,46 @@ const ghostReport = {
   sentinelle: false,
 };
 
-// CONTEXT MENU
+//#endregion
+
+//#region Context Command
 
 const contextCommand = new ContextMenuCommandBuilder()
-  .setName(PERSONALITY.getPersonality().ghostMessageReport.title)
+  .setName(PERSONALITY.getPersonality().ghostMessageReport.name)
   .setType(3);
 
-const contextAction = (interaction) => {
+const contextAction = async (interaction) => {
+  console.log(interaction);
+  const message = interaction.targetMessage;
+  const perso = PERSONALITY.getPersonality().ghostMessageReport;
 
+  //build the message log payload
+  const messagePayload = {
+    content: message.content,
+    
+  }
+
+  //build the interaction reply
+  const interactionPayload = createInteractionPayload(perso);
+
+  //build the log main container
+  const payload = createLogMainPayload(interaction, perso);
+
+  const log = await sendLogAndReply(interaction, perso, payload, interactionPayload);
+  log.reply(messagePayload);
 };
 
 const ghostMessageReport = {
-  
+  command: contextCommand,
+  action: contextAction,
+    help: (interaction) => {
+    const perso = PERSONALITY.getPersonality().ghostMessageReport;
+    interactionReply(interaction, perso.help);
+  },
+  admin: false,
+  sentinelle: false,
 }
 
-export default ghostReport;
+//#endregion
+
+export { ghostReport, ghostMessageReport };
