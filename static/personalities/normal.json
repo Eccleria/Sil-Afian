@@ -89,7 +89,7 @@
     "ghostMessageReport": {
       "button": {
         "id": "ghostReport_goTo",
-        "label": "Aller au salon",
+        "label": "Aller au message",
         "link": "https://discord.com/channels/"
       },
       "components": {
@@ -97,7 +97,7 @@
           "channel": "**Salon : **",
           "executor": "**Signalé par : **"
         },
-        "title": "## Signalement de Salon"
+        "title": "## Signalement de Message"
       },
       "confirmButton": {
         "cancelButton": {
@@ -109,7 +109,7 @@
           "label": "Ajouter du contexte"
         }
       },
-      "name": "signaler un message",
+      "name": "signaler ce message",
       "sent": "Le signalement silencieux a bien été envoyé."
     },
     "ghostReport": {

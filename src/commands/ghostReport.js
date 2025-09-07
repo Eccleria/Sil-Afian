@@ -1,6 +1,6 @@
 import { SlashCommandBuilder, ContainerBuilder, Colors, SectionBuilder, ButtonStyle, ButtonBuilder, TextDisplayBuilder, MessageFlags, ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, ContextMenuCommandBuilder } from "discord.js";
 import { PERSONALITY } from "../personality.js";
-import { fetchLogChannel, interactionReply, parseUnixTimestamp } from "../helpers/index.js";
+import { fetchLogChannel, interactionReply, parseUnixTimestamp, setupEmbed } from "../helpers/index.js";
 import { createButton } from "./utils.js";
 import { GHOSTREPORT, ghostReportObject } from "../classes/ghostReport.js";
 
@@ -109,14 +109,14 @@ const createInteractionPayload = (perso) => {
   return interactionPayload;
 };
 
-const createLogMainPayload = (interaction, perso) => {
+const createLogMainPayload = (interaction, perso, isChannel) => {
   //button
   const bPerso = perso.button;
-  const channelLink = bPerso.link + `${interaction.guildId}/${interaction.channelId}`;
+  const link = isChannel ? interaction.channel.url : interaction.targetMessage.url;
   const button = new ButtonBuilder()
     .setLabel(bPerso.label)
     .setStyle(ButtonStyle.Link)
-    .setURL(channelLink);
+    .setURL(link);
 
   //text
   const tPerso = perso.components.text;
@@ -194,7 +194,7 @@ const action = async (interaction) => {
   };
   
   //build the log (NOTE: Components V2)
-  const payload = createLogMainPayload(interaction, perso);
+  const payload = createLogMainPayload(interaction, perso, true);
   
   sendLogAndReply(interaction, perso, payload, interactionPayload);
 }
@@ -220,20 +220,44 @@ const contextCommand = new ContextMenuCommandBuilder()
 
 const contextAction = async (interaction) => {
   console.log(interaction);
-  const message = interaction.targetMessage;
+  const message = await interaction.targetMessage.fetch();
   const perso = PERSONALITY.getPersonality().ghostMessageReport;
 
   //build the message log payload
-  const messagePayload = {
-    content: message.content,
+  const messageEmbed = setupEmbed(Colors.DarkVividPink, perso, message.author, "tag")
+
+  //sneak the snapshot as if it is the original message.
+  //create the snapshot embed
+  const isSnapshot = message.messageSnapshots.size != 0;
+  const sMessage = isSnapshot ? message.messageSnapshots.first() : message;
+  const sEmbed = new EmbedBuilder()
+    .setTitle(messageDel.snapshot)
+    .setColor(color);
     
-  }
+  //get message data
+  const attachments = sMessage.attachments.reduce((acc, cur) => {
+    return [...acc, cur.attachment];
+  }, []);
+  let gifReduceInput = isSnapshot ? [embed, sEmbed] : [embed];
+  const embeds = sMessage.embeds.reduce((acc, cur) => {
+    const data = cur.data;
+    if (data.type !== "gifv" && data.type !== "image") return [...acc, cur]; //remove gif embeds
+    return acc;
+  }, gifReduceInput);
+
+  //stickers
+  const stickers = message.stickers;
+  const stickersUrl = stickers.reduce((acc, cur) => [...acc, cur.url], []);
+
+  //handle content
+  let content = sMessage.content ? sMessage.content : messageDel.note;
+  checkEmbedContent(content, embed, messageDel);
 
   //build the interaction reply
   const interactionPayload = createInteractionPayload(perso);
 
   //build the log main container
-  const payload = createLogMainPayload(interaction, perso);
+  const payload = createLogMainPayload(interaction, perso, false);
 
   const log = await sendLogAndReply(interaction, perso, payload, interactionPayload);
   log.reply(messagePayload);
