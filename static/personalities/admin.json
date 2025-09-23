@@ -76,6 +76,7 @@
     "title": "Membre débanni"
   },
   "messageDelete": {
+    "attachment": "```Voici le.s pièce.s jointe.s du message principal loggé```",
     "author": "Auteur :",
     "channel": "Salon :",
     "date": "Envoyé le :",
@@ -94,9 +95,12 @@
     "linkMessage": "Clique pour aller au message.",
     "linkName": "Lien",
     "placeholder": "Le message référé n'existe pas.",
+    "text": "Contenu",
+    "textAgain": "Contenu - suite",
     "title": "Message référé"
   },
   "messageUpdate": {
+    "attachment": "```Voici le.s pièce.s jointe.s du message principal loggé```",
     "author": "Membre :",
     "channel": "Salon :",
     "contentDiff": "Mots différents",

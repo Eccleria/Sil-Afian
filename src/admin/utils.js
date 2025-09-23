@@ -95,7 +95,8 @@ export const finishEmbed = async (
       result.push(stickerMessage);
     }
     if (attachments && attachments.length !== 0) {
-      const gifMessage = await message.reply({ files: attachments }); //if attachments, send new message
+      const attachmentPayload = { content: eventPerso.attachment, files: attachments }
+      const gifMessage = await message.reply(attachmentPayload); //if attachments, send new message
       result.push(gifMessage);
     }
     return result;
@@ -749,6 +750,8 @@ export const createMessageReferenceEmbed = async (client, reference, color) => {
   );
 
   //add reference messsage content
+  const len = message.content.length;
+  if (len > 0) checkEmbedContent(message.content, embed, perso);
 
   //add message link
   const link = `[${perso.linkMessage}](${message.url})`;
