@@ -8,7 +8,7 @@ import {
   removeEmote,
   removeAlavirien,
   setupEmbed,
-  sliceData
+  sliceData,
 } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
 import { PERSONALITY } from "../personality.js";
@@ -590,7 +590,7 @@ const logsRemover = async (client) => {
       }, []); //find diff for error check
 
       console.log("frequent diff", diff); //log for debug
-    })
+    });
   }
   removeAdminLogs(db, type); //remove from db
 

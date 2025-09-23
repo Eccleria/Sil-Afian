@@ -20,7 +20,7 @@ import {
   parseUnixTimestamp,
   removeEmote,
   setupEmbed,
-  sliceData
+  sliceData,
 } from "./utils.js";
 
 export {
