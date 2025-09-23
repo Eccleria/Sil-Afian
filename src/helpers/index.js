@@ -20,6 +20,7 @@ import {
   parseUnixTimestamp,
   removeEmote,
   setupEmbed,
+  sliceData
 } from "./utils.js";
 
 export {
@@ -35,6 +36,7 @@ export {
   parseUnixTimestamp,
   removeEmote,
   setupEmbed,
+  sliceData,
   // dbHelper
   //admin
   addAdminLogs,

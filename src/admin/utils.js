@@ -8,10 +8,10 @@ import {
   removeEmote,
   removeAlavirien,
   setupEmbed,
+  sliceData
 } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
 import { PERSONALITY } from "../personality.js";
-import { sliceThings } from "../helpers/utils.js";
 
 /**
  * Fetch AuditLog from API.
@@ -578,7 +578,7 @@ const logsRemover = async (client) => {
     const threadChannel = await client.channels.fetch(server.logThreadId);
     const size = 100;
     const slice = Math.ceil(data.length / size); //get number of time to slice the array by 100
-    const sliced = sliceThings(slice, data, size);
+    const sliced = sliceData(slice, data, size);
 
     sliced.forEach(async (elements) => {
       const result = await threadChannel.bulkDelete(elements); //bulkDelete and get ids where it was okay

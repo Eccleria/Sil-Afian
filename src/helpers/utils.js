@@ -3,13 +3,13 @@ import { EmbedBuilder, MessageFlags } from "discord.js";
 import { COMMONS } from "../commons.js";
 
 /**
- * Slice a thing len times and returns it as an array
+ * Slice a string or an Array len times and returns it as an array
  * @param {number} len Length of the returned array
- * @param {string|Array} content The thing to slice
+ * @param {string|Array} content The data to slice
  * @param {number} size Size of the slices
  * @returns {string[]} Array of sliced things
  */
-export const sliceThings = (len, content, size) => {
+export const sliceData = (len, content, size) => {
   const lenArray = Array.from(new Array(len));
   const sliced = lenArray.reduce((acc, _cur, idx) => {
     if (idx === len - 1) return [...acc, content.slice(idx * size)]; //last index
@@ -31,7 +31,7 @@ export const checkEmbedContent = (content, embed, personality) => {
 
   if (slice > 1) {
     //if need to slice
-    const sliced = sliceThings(slice, content, size); //slice content
+    const sliced = sliceData(slice, content, size); //slice content
 
     //add content to embed, according to its index
     sliced.forEach((str, idx) => {
