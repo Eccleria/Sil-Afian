@@ -35,7 +35,7 @@ import {
 import { COMMONS } from "../commons.js";
 import { PERSONALITY } from "../personality.js";
 
-//#region LISTENERS
+//#region Channel
 
 export const onChannelCreate = async (channel) => {
   if (channel.type === ChannelType.DM) return;
@@ -301,6 +301,10 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
   return;
 };
 
+//#endregion
+
+//#region Threads
+
 export const onThreadCreate = async (thread, newly) => {
   //handle thread creation
   if (!newly) return; // if not new = joined, return
@@ -348,6 +352,10 @@ export const onThreadUpdate = async (_oldThread, newThread) => {
   const color = Colors.DarkGrey;
   processGeneralEmbed(perso, newThread, color, logType, 1);
 };
+
+//#endregion
+
+//#region Role
 
 export const onRoleCreate = async (role) => {
   const logType = AuditLogEvent.RoleCreate;
@@ -459,6 +467,10 @@ export const onRoleUpdate = async (oldRole, newRole) => {
   }
   endCasesEmbed(newRole, null, roleUp, auditLog, embed, false, logChannel);
 };
+
+//#endregion
+
+//#region Message Delete
 
 export const onMessageDelete = async (message) => {
   // handle message deleted event
@@ -605,6 +617,10 @@ export const onMessageDelete = async (message) => {
     addAdminLogs(msg.client.db, msg.id, "frequent", 6),
   );
 };
+
+//#endregion
+
+//#region Message Update
 
 export const onMessageUpdate = async (oldMessage, newMessage) => {
   //handle message update event
@@ -775,6 +791,10 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   );
 };
 
+//#endregion
+
+//#region Ban
+
 export const onGuildBanAdd = async (userBan) => {
   console.log("member banned from Discord Server");
 
@@ -801,6 +821,10 @@ export const onGuildBanRemove = (userBan) => {
   const color = Colors.DarkNavy;
   processGeneralEmbed(perso, userBan, color, logType, 1, "user", "user");
 };
+
+//#endregion
+
+//#region Member
 
 export const onGuildMemberUpdate = async (_oldMember, newMember) => {
   //check if timeout added or removed
@@ -963,6 +987,8 @@ export const onGuildMemberAdd = async (guildMember) => {
 
 //#endregion
 
+//#region HELPERS
+
 export const checkPinStatus = async (message) => {
   if (!message.system) return; //if not message system, not pinned
 
@@ -1009,3 +1035,5 @@ export const checkPinStatus = async (message) => {
     }
   }
 };
+
+//#endregion
