@@ -770,9 +770,8 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
 
   //check for reference
   const reference = nMessage.reference;
-  console.log(reference);
   if (reference && reference.type === MessageReferenceType.Default) {
-    const referenceEmbed = await createMessageReferenceEmbed(nMessage.client, reference, color);
+    const referenceEmbed = await createMessageReferenceEmbed(nMessage.client, reference, Colors.Green);
     embeds = [...embeds, referenceEmbed];
   }
 
