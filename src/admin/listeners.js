@@ -547,7 +547,7 @@ export const onMessageDelete = async (message) => {
     return [...acc, cur.attachment];
   }, []);
   let gifReduceInput = isSnapshot ? [embed, sEmbed] : [embed];
-  const embeds = sMessage.embeds.reduce((acc, cur) => {
+  let embeds = sMessage.embeds.reduce((acc, cur) => {
     const data = cur.data;
     if (data.type !== "gifv" && data.type !== "image") return [...acc, cur]; //remove gif embeds
     return acc;
@@ -596,6 +596,13 @@ export const onMessageDelete = async (message) => {
   //otherwise bot or author deleted the message
   const realExecutor =
     target.id === message.author.id && diff <= 5 ? executor : auditLog.noExec;
+
+    //check for reference
+  const reference = message.reference;
+  if (reference && reference.type === MessageReferenceType.Default) {
+    const referenceEmbed = await createMessageReferenceEmbed(message.client, reference, Colors.Red);
+    embeds = [...embeds, referenceEmbed];
+  }
 
   //send log and all the stuff around (gif, attachment, snapshot)
   const messageList = await finishEmbed(
