@@ -1,10 +1,12 @@
 import { ContextMenuCommandBuilder } from "@discordjs/builders";
 import { EmbedBuilder } from "discord.js";
 import {
+  channelSend,
   fetchLogChannel,
   getAdminLogs,
   gifParser,
   interactionReply,
+  messageReply,
 } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
 import { PERSONALITY } from "../personality.js";
@@ -37,7 +39,7 @@ const action = async (interaction) => {
       (acc, cur) => [...acc, cur],
       [],
     );
-    logChannel.send({ files: attachments });
+    channelSend(logChannel, { files: attachments });
 
     interactionReply(interaction, saveLogP.sent); //reply to interaction
     return;
@@ -68,7 +70,7 @@ const action = async (interaction) => {
     inline: true,
   });
 
-  const savedMessage = await logChannel.send({
+  const savedMessage = await channelSend(logChannel, {
     embeds: embeds,
     allowed_mentions: { parse: [] },
   }); //Send log
@@ -94,7 +96,7 @@ const action = async (interaction) => {
           (acc, cur) => [...acc, cur],
           [],
         );
-        savedMessage.reply({ files: attachments });
+        messageReply(savedMessage, { files: attachments });
       }
     }
   }
@@ -114,7 +116,7 @@ const action = async (interaction) => {
     }, []);
   }
 
-  if (gifs.length !== 0) gifs.forEach((gif) => savedMessage.reply(gif)); //send found gifs
+  if (gifs.length !== 0) gifs.forEach((gif) => messageReply(savedMessage, gif)); //send found gifs
 };
 
 const saveLog = {
