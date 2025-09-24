@@ -9,7 +9,6 @@ import { COMMONS } from "../commons.js";
 
 export const ghostReportButtonHandler = (interaction) => {
   const { customId } = interaction;
-  console.log(customId)
   if (customId.includes("_confirmButton")) 
     ghostReportConfirmContextButton(interaction);
   else if (customId.includes("_cancelButton"))
@@ -63,7 +62,7 @@ export const ghostReportModalHandler = async (interaction) => {
   //create the context payload
   const content = interaction.fields.getTextInputValue(perso.modal.textInput.customId);
   const textDisplay = new TextDisplayBuilder()
-    .setContent(content);
+    .setContent(perso.userContext + content);
   const container = new ContainerBuilder()
     .addTextDisplayComponents(textDisplay)
     .setAccentColor(Colors.DarkRed);
@@ -155,7 +154,6 @@ const sendLogAndReply = async (interaction, perso, logPayload, interactionPayloa
     const msg = await logChannel.send(logPayload);
     if (msg)  {
       //send confirmation
-      console.log(interactionPayload);
       const reply = await interaction.reply(interactionPayload); 
 
       //store the report in GHOSTREPORT
@@ -217,7 +215,6 @@ const contextCommand = new ContextMenuCommandBuilder()
   .setType(3);
 
 const contextAction = async (interaction) => {
-  console.log(interaction);
   const message = await interaction.targetMessage.fetch();
   const perso = PERSONALITY.getPersonality().ghostMessageReport;
   const mPerso = perso.messageEmbed;
