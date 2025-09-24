@@ -155,6 +155,7 @@ const sendLogAndReply = async (interaction, perso, logPayload, interactionPayloa
     const msg = await logChannel.send(logPayload);
     if (msg)  {
       //send confirmation
+      console.log(interactionPayload);
       const reply = await interaction.reply(interactionPayload); 
 
       //store the report in GHOSTREPORT
@@ -169,6 +170,7 @@ const sendLogAndReply = async (interaction, perso, logPayload, interactionPayloa
     return msg;
   } catch (err) {
     console.error("ghostReport ERROR ", err);
+    console.error("err.requestBody.json.data ", err.requestBody.json.data);
     interactionReply(interaction, perso.errorNotSent);
     return null;
   }
@@ -187,13 +189,7 @@ const action = async (interaction) => {
   const perso = PERSONALITY.getPersonality().ghostReport;
  
   //build the interaction reply
-  const confirmActionRow = createInteractionPayload(perso);
-  const interactionPayload = {
-    content: perso.sent, 
-    components: [confirmActionRow], 
-    flags: MessageFlags.Ephemeral, 
-    withResponse: true
-  };
+  const interactionPayload = createInteractionPayload(perso);
   
   //build the log (NOTE: Components V2)
   const payload = createLogMainPayload(interaction, perso, true);
