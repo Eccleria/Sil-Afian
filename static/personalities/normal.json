@@ -109,6 +109,7 @@
           "label": "Ajouter du contexte"
         }
       },
+      "help": "Cette commande contextuelle permet de signaler discrètement un message spécifique aux modos. Vous pourrez également ajouter du contexte à votre signalement, si vous le jugez nécessaire.\n\nCette commande s'utilise comme ceci : `Clique droit sur un message > Applications > signaler aux modos`.",
       "messageEmbed": {
         "author": "Membre :",
         "channel": "Salon :",
@@ -159,7 +160,7 @@
       "description": "Signaler discrètement un salon à la modération",
       "errorNotSent": "Le signalement n'a pas pu être envoyé. Veuillez contacter un.e modo en MP",
       "errorReportNotFound": "Désolé, le signalement n'a pas pu être retrouvé. Veuillez réessayer. Si ce n'est pas la première fois, mentionner un.e modérateurice en MP.",
-      "help": "La commande mentionne aux Modérateurices d'intervenir dans le salon dans lequel la commande est exécutée.",
+      "help": "La commande mentionne discrètement aux Modérateurices d'intervenir dans le salon dans lequel la commande est exécutée.",
       "modal": {
         "customId": "ghostReport_modal_giveContext",
         "textInput": {
