@@ -76,7 +76,7 @@ export const ghostReportModalHandler = async (interaction) => {
       components: [oldContainer, container],
     })
 
-    interactionReply(interaction, perso.sentContext);
+    interaction.update({content: perso.sentContext, components: []});
   } catch(e) {
     console.error("ghostReport - fail to edit log with context", e);
     console.log("ghostReport context: ", content);
