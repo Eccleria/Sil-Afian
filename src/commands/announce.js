@@ -74,13 +74,10 @@ const action = (interaction) => {
     createButton(whichAnnounceP.id, announceP.buttonLabel, ButtonStyle.Danger),
   );
 
-  interactionReply(
-    interaction, 
-    {
-      content: whichAnnounceP.confirm,
-      components: [actionRow],
-    }
-  );
+  interactionReply(interaction, {
+    content: whichAnnounceP.confirm,
+    components: [actionRow],
+  });
 };
 
 //list of announces
