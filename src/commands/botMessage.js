@@ -1,6 +1,11 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { AttachmentBuilder, ChannelType } from "discord.js";
-import { channelSend, interactionReply, isAdmin, messageReply } from "../helpers/index.js";
+import {
+  channelSend,
+  interactionReply,
+  isAdmin,
+  messageReply,
+} from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 
 const command = new SlashCommandBuilder()
