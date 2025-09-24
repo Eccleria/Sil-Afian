@@ -86,12 +86,10 @@ export const finishEmbed = async (
 
   try {
     const newEmbeds = isEmbedList ? [embed, ...logEmbed.slice(1)] : [embed];
-    const message = await channelSend(logChannel, 
-      {
-        embeds: newEmbeds,
-        allowed_mentions: { parse: [] },
-      }
-    ); //send
+    const message = await channelSend(logChannel, {
+      embeds: newEmbeds,
+      allowed_mentions: { parse: [] },
+    }); //send
     let result = [message];
     if (stickers && stickers.length !== 0) {
       const textUrl = stickers.reduce((acc, cur) => acc + "\n" + cur, "");
