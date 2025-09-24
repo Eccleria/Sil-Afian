@@ -32,7 +32,7 @@ const ping = {
     .setDefaultMemberPermissions(0x0000010000000000), //set default permission to 0x0000010000000000 (manage messages)
   action: (interaction) => {
     const personality = PERSONALITY.getPersonality();
-    interaction.reply(personality.helloWorld.pong);
+    interactionReply(interaction, personality.helloWorld.pong, false);
   },
   help: (interaction) => {
     const personality = PERSONALITY.getPersonality();

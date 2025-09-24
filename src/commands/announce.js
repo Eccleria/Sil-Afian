@@ -4,7 +4,6 @@ import {
   //  EmbedBuilder,
   ButtonStyle,
   //  Colors,
-  MessageFlags,
 } from "discord.js";
 import { createButton } from "./utils.js";
 import { interactionReply, isAdmin } from "../helpers/index.js";
@@ -40,7 +39,7 @@ const giftAction = async (interaction) => {
   const channel = await interaction.client.channels.fetch(channelId);
 
   //send gift announce
-  channel.send({ embeds: [embed] });
+  channelSend(channel, { embeds: [embed] });
 };
 
 const giftAnnounce = {
@@ -75,11 +74,13 @@ const action = (interaction) => {
     createButton(whichAnnounceP.id, announceP.buttonLabel, ButtonStyle.Danger),
   );
 
-  interaction.reply({
-    content: whichAnnounceP.confirm,
-    components: [actionRow],
-    flags: MessageFlags.Ephemeral,
-  });
+  interactionReply(
+    interaction, 
+    {
+      content: whichAnnounceP.confirm,
+      components: [actionRow],
+    }
+  );
 };
 
 //list of announces

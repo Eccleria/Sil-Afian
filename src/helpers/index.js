@@ -9,6 +9,7 @@ import {
 } from "./db/dbIgnore.js";
 
 import {
+  channelSend,
   checkEmbedContent,
   fetchLogChannel,
   gifParser,
@@ -17,6 +18,7 @@ import {
   isAdmin,
   isReleasedCommand,
   isSentinelle,
+  messageReply,
   parseUnixTimestamp,
   removeEmote,
   setupEmbed,
@@ -25,6 +27,7 @@ import {
 
 export {
   // utils
+  channelSend,
   checkEmbedContent,
   fetchLogChannel,
   gifParser,
@@ -33,6 +36,7 @@ export {
   isAdmin,
   isReleasedCommand,
   isSentinelle,
+  messageReply,
   parseUnixTimestamp,
   removeEmote,
   setupEmbed,
