@@ -27,7 +27,7 @@ class GhostReport {
   };
 
   getReportFromConfirmMessage(confirmMessageId) {
-    console.log("Object.values(this)", Object.values(this));
+    console.log("getReportFromConfirmMessage - Object.values(this)", Object.values(this));
     const report = Object.values(this).find((rprt) => rprt.confirmMessageId === confirmMessageId);
     return report;
   }
