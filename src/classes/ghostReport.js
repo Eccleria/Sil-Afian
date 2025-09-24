@@ -33,6 +33,7 @@ class GhostReport {
   }
 
   removeReport(reportId) {
+    console.log("GhostReport - removeReport ", reportId);
     delete this[reportId];
   }
 }
