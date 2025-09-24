@@ -32,7 +32,7 @@ const ping = {
     .setDefaultMemberPermissions(0x0000010000000000), //set default permission to 0x0000010000000000 (manage messages)
   action: (interaction) => {
     const personality = PERSONALITY.getPersonality();
-    interaction.reply(personality.helloWorld.pong);
+    interactionReply(interaction, personality.helloWorld.pong, false);
   },
   help: (interaction) => {
     const personality = PERSONALITY.getPersonality();
@@ -47,7 +47,7 @@ const ignoreChannel = {
   command: new SlashCommandBuilder()
     .setName(PERSONALITY.getPersonality().ignoreChannel.name)
     .setDescription(PERSONALITY.getPersonality().ignoreChannel.description)
-    .setDefaultMemberPermissions(0x0000010000000000) 
+    .setDefaultMemberPermissions(0x0000010000000000)
     .addChannelOption((option) =>
       option
         .setName(PERSONALITY.getPersonality().ignoreChannel.channelOption.name)
