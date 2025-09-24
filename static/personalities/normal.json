@@ -172,7 +172,8 @@
       },
       "name": "signalement_silencieux",
       "sent": "Le signalement silencieux a bien été envoyé.",
-      "sentContext": "Le contexte a bien été envoyé."
+      "sentContext": "Le contexte a bien été envoyé.",
+      "userContext": "`L'utilisateurice a ajouté le contexte suivant :`\n"
     },
     "helloWorld": {
       "description": "Ping !",
