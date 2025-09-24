@@ -109,6 +109,19 @@
           "label": "Ajouter du contexte"
         }
       },
+      "messageEmbed": {
+        "author": "Membre :",
+        "channel": "Salon :",
+        "content": {
+          "text": "Contenu",
+          "textAgain": "Contenu - suite"
+        },
+        "date": "Envoyé le :",
+        "note": "```Note: voir le prochain message pour le contenu. Si rien ne suit, alors le message était vide.```",
+        "snapshot": "Contenu provenant d'un message transféré.",
+        "text": "Contenu du message :",
+        "title": "Message signalé"
+      },
       "name": "signaler ce message",
       "sent": "Le signalement silencieux a bien été envoyé."
     },
