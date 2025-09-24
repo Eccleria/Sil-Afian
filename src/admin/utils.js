@@ -9,6 +9,8 @@ import {
   removeAlavirien,
   setupEmbed,
   sliceData,
+  messageReply,
+  channelSend,
 } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
 import { PERSONALITY } from "../personality.js";
@@ -84,19 +86,21 @@ export const finishEmbed = async (
 
   try {
     const newEmbeds = isEmbedList ? [embed, ...logEmbed.slice(1)] : [embed];
-    const message = await logChannel.send({
-      embeds: newEmbeds,
-      allowed_mentions: { parse: [] },
-    }); //send
+    const message = await channelSend(logChannel, 
+      {
+        embeds: newEmbeds,
+        allowed_mentions: { parse: [] },
+      }
+    ); //send
     let result = [message];
     if (stickers && stickers.length !== 0) {
       const textUrl = stickers.reduce((acc, cur) => acc + "\n" + cur, "");
-      const stickerMessage = await message.reply(textUrl);
+      const stickerMessage = await messageReply(message, textUrl);
       result.push(stickerMessage);
     }
     if (attachments && attachments.length !== 0) {
       const attachmentPayload = { content: eventPerso.attachment, files: attachments }
-      const gifMessage = await message.reply(attachmentPayload); //if attachments, send new message
+      const gifMessage = await messageReply(message, attachmentPayload); //if attachments, send new message
       result.push(gifMessage);
     }
     return result;

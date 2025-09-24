@@ -1,6 +1,7 @@
 import { Colors, SlashCommandBuilder } from "discord.js";
 import { PERSONALITY } from "../personality.js";
 import {
+  channelSend,
   fetchLogChannel,
   interactionReply,
   setupEmbed,
@@ -112,7 +113,7 @@ const action = async (interaction) => {
   const logChannel = await fetchLogChannel(interaction);
   const tPerso = PERSONALITY.getAdmin().timeout.command;
   const embed = setupEmbed(Colors.Orange, tPerso, interaction.user, "tag");
-  logChannel.send({ embeds: [embed] });
+  channelSend(logChannel, { embeds: [embed] });
 
   //timeout guildMember
   try {
