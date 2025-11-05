@@ -566,7 +566,9 @@ export const onMessageDelete = async (message) => {
     const id = deletionLog
       ? deletionLog.executor.id
       : "pas de AuditLog, Id inconnu";
-    console.warn(`${logType} ${message.id} supprimé par un.e modo ${id} dans ${message.channelId}`);
+    console.warn(
+      `${logType} ${message.id} supprimé par un.e modo ${id} dans ${message.channelId}`,
+    );
   }
 
   //if no AuditLog
