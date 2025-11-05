@@ -85,7 +85,13 @@ export const onReactionAdd = async (messageReaction, user) => {
   // Function triggered for each reaction added
   const cmnShared = COMMONS.getShared();
 
-  if (cmnShared.octagonalSignEmoji === messageReaction.emoji.name) {
+  //if message not in cache, count == null => requires to fetch
+  if (messageReaction.count === null) await messageReaction.fetch();
+
+  if (
+    cmnShared.octagonalSignEmoji === messageReaction.emoji.name &&
+    messageReaction.count === 1
+  ) {
     octagonalLog(messageReaction, user);
     return;
   }

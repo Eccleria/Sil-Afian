@@ -10,6 +10,7 @@ import {
 
 import {
   checkEmbedContent,
+  dbReturnType,
   fetchLogChannel,
   gifParser,
   hasOctagonalSign,
@@ -26,6 +27,7 @@ import {
 export {
   // utils
   checkEmbedContent,
+  dbReturnType,
   fetchLogChannel,
   gifParser,
   hasOctagonalSign,

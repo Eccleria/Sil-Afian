@@ -7,3 +7,4 @@
 - Update: add more IDs on adminLogs ([#2](https://github.com/Eccleria/Sil-Afian/issues/2)) ([#17](https://github.com/Eccleria/Sil-Afian/pull/17))
 - Update: logs deleted aren't ignored anymore ([#31](https://github.com/Eccleria/Sil-Afian/issues/31)) ([#34](https://github.com/Eccleria/Sil-Afian/pull/34))
 - Fix: add a loop to handle logs count > 100 because of `bulkDelete` limitations ([#7](https://github.com/Eccleria/Sil-Afian/issues/7)) ([#25](https://github.com/Eccleria/Sil-Afian/pull/25))
+- Fix: `octagonalLog` now fire only once when users react to the same message ([#28](https://github.com/Eccleria/Sil-Afian/issues/28)) ([#30](https://github.com/Eccleria/Sil-Afian/pull/30))

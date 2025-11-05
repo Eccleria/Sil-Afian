@@ -47,6 +47,16 @@ export const checkEmbedContent = (content, embed, personality) => {
 };
 
 /**
+ * @enum {number} return values for most db helper functions
+ */
+export const dbReturnType = Object.freeze({
+  isNotOk: -1,
+  isOk: 0,
+  isIn: 1,
+  isNotIn: 2,
+});
+
+/**
  * Fetch Log Channel using commons value
  * @param {object} eventObject Object given by listener event.
  * @param {string} [type] String to ditinguish which channel/thread to return.
