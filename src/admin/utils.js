@@ -640,7 +640,7 @@ export const initAdminLogClearing = (client, waitingTime) => {
 };
 
 export const octagonalLog = async (object, user) => {
-  console.log("octagonalLog !!!")
+  console.log("octagonalLog !!!");
   //get personality
   const personality = PERSONALITY.getAdmin();
   const octaPerso = personality.octagonalSign;
