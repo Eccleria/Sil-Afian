@@ -4,6 +4,7 @@ import {
   ChannelType,
   Colors,
   EmbedBuilder,
+  MessageReferenceType,
   MessageType,
   OverwriteType,
 } from "discord.js";
@@ -19,6 +20,7 @@ import {
   removeUserFromDB,
   onlyInLeft,
   isSameEmojiInGuildUpdate,
+  createMessageReferenceEmbed,
 } from "./utils.js";
 import {
   addAlavirien,
@@ -33,7 +35,7 @@ import {
 import { COMMONS } from "../commons.js";
 import { PERSONALITY } from "../personality.js";
 
-//#region LISTENERS
+//#region Channel
 
 export const onChannelCreate = async (channel) => {
   if (channel.type === ChannelType.DM) return;
@@ -299,6 +301,10 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
   return;
 };
 
+//#endregion
+
+//#region Threads
+
 export const onThreadCreate = async (thread, newly) => {
   //handle thread creation
   if (!newly) return; // if not new = joined, return
@@ -346,6 +352,10 @@ export const onThreadUpdate = async (_oldThread, newThread) => {
   const color = Colors.DarkGrey;
   processGeneralEmbed(perso, newThread, color, logType, 1);
 };
+
+//#endregion
+
+//#region Role
 
 export const onRoleCreate = async (role) => {
   const logType = AuditLogEvent.RoleCreate;
@@ -458,6 +468,10 @@ export const onRoleUpdate = async (oldRole, newRole) => {
   endCasesEmbed(newRole, null, roleUp, auditLog, embed, false, logChannel);
 };
 
+//#endregion
+
+//#region Message Delete
+
 export const onMessageDelete = async (message) => {
   // handle message deleted event
   if (!message.guild) return; //Ignore DM
@@ -533,7 +547,7 @@ export const onMessageDelete = async (message) => {
     return [...acc, cur.attachment];
   }, []);
   let gifReduceInput = isSnapshot ? [embed, sEmbed] : [embed];
-  const embeds = sMessage.embeds.reduce((acc, cur) => {
+  let embeds = sMessage.embeds.reduce((acc, cur) => {
     const data = cur.data;
     if (data.type !== "gifv" && data.type !== "image") return [...acc, cur]; //remove gif embeds
     return acc;
@@ -583,6 +597,13 @@ export const onMessageDelete = async (message) => {
   const realExecutor =
     target.id === message.author.id && diff <= 5 ? executor : auditLog.noExec;
 
+    //check for reference
+  const reference = message.reference;
+  if (reference && reference.type === MessageReferenceType.Default) {
+    const referenceEmbed = await createMessageReferenceEmbed(message.client, reference, Colors.Red);
+    embeds = [...embeds, referenceEmbed];
+  }
+
   //send log and all the stuff around (gif, attachment, snapshot)
   const messageList = await finishEmbed(
     messageDel,
@@ -603,6 +624,10 @@ export const onMessageDelete = async (message) => {
     addAdminLogs(msg.client.db, msg.id, "frequent", 6),
   );
 };
+
+//#endregion
+
+//#region Message Update
 
 export const onMessageUpdate = async (oldMessage, newMessage) => {
   //handle message update event
@@ -750,6 +775,13 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   const link = `[${messageU.linkMessage}](${nMessage.url})`;
   embed.addFields({ name: messageU.linkName, value: link });
 
+  //check for reference
+  const reference = nMessage.reference;
+  if (reference && reference.type === MessageReferenceType.Default) {
+    const referenceEmbed = await createMessageReferenceEmbed(nMessage.client, reference, Colors.Green);
+    embeds = [...embeds, referenceEmbed];
+  }
+
   //send log
   const messageList = await finishEmbed(
     messageU,
@@ -764,6 +796,10 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     addAdminLogs(msg.client.db, msg.id, "frequent", 6),
   );
 };
+
+//#endregion
+
+//#region Ban
 
 export const onGuildBanAdd = async (userBan) => {
   console.log("member banned from Discord Server");
@@ -791,6 +827,10 @@ export const onGuildBanRemove = (userBan) => {
   const color = Colors.DarkNavy;
   processGeneralEmbed(perso, userBan, color, logType, 1, "user", "user");
 };
+
+//#endregion
+
+//#region Member
 
 export const onGuildMemberUpdate = async (_oldMember, newMember) => {
   //check if timeout added or removed
@@ -953,6 +993,8 @@ export const onGuildMemberAdd = async (guildMember) => {
 
 //#endregion
 
+//#region HELPERS
+
 export const checkPinStatus = async (message) => {
   if (!message.system) return; //if not message system, not pinned
 
@@ -999,3 +1041,5 @@ export const checkPinStatus = async (message) => {
     }
   }
 };
+
+//#endregion

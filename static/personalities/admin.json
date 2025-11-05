@@ -76,18 +76,31 @@
     "title": "Membre débanni"
   },
   "messageDelete": {
+    "attachment": "```Voici le.s pièce.s jointe.s du message principal loggé```",
     "author": "Auteur :",
     "channel": "Salon :",
     "date": "Envoyé le :",
     "executor": "Supprimé par :",
-    "note": "*Note: voir le prochain message pour le contenu. Si rien ne suit, alors le message était vide.*",
+    "note": "```Note: voir le prochain message pour le contenu. Si rien ne suit, alors le message était vide.```",
     "pinned": "*Un message System Discord indiquant qu'un message a été épinglé a été supprimé.*",
     "snapshot": "Contenu provenant d'un message transféré.",
     "text": "Contenu du message :",
     "textAgain": "Contenu - suite",
     "title": "Message supprimé"
   },
+  "messageReference": {
+    "author":"Auteur :",
+    "channel":"Salon :",
+    "date":"Envoyé le :",
+    "linkMessage": "Clique pour aller au message.",
+    "linkName": "Lien",
+    "placeholder": "Le message référé n'existe pas.",
+    "text": "Contenu",
+    "textAgain": "Contenu - suite",
+    "title": "Message référé"
+  },
   "messageUpdate": {
+    "attachment": "```Voici le.s pièce.s jointe.s du message principal loggé```",
     "author": "Membre :",
     "channel": "Salon :",
     "contentDiff": "Mots différents",
@@ -102,7 +115,7 @@
     "date": "Envoyé le :",
     "linkMessage": "Clique pour aller au message.",
     "linkName": "Lien",
-    "note": "*Note: voir le prochain message pour le contenu. Si rien ne suit, alors le message était vide.*",
+    "note": "```Note: voir le prochain message pour le contenu. Si rien ne suit, alors le message était vide.```",
     "pinned": {
       "executor": "Epinglé par :",
       "title": "Message épinglé",
