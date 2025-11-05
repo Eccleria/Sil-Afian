@@ -478,12 +478,6 @@ export const onMessageDelete = async (message) => {
 
   const currentServer = COMMONS.fetchFromGuildId(message.guildId);
 
-  if (
-    message.channelId === currentServer.logThreadId ||
-    message.channelId === currentServer.logChannelId
-  )
-    return;
-
   const personality = PERSONALITY.getAdmin(); //get personality
   const messageDel = personality.messageDelete;
   const auditLog = personality.auditLog;
@@ -562,6 +556,20 @@ export const onMessageDelete = async (message) => {
   checkEmbedContent(content, embed, messageDel);
 
   const gifs = gifParser(content); //handle gifs
+
+  //handle moderator action
+  if (
+    message.channelId === currentServer.logThreadId ||
+    message.channelId === currentServer.logChannelId
+  ) {
+    const logType = message.embeds.length ? "Log" : "Message";
+    const id = deletionLog
+      ? deletionLog.executor.id
+      : "pas de AuditLog, Id inconnu";
+    console.warn(
+      `${logType} ${message.id} supprimé par un.e modo ${id} dans ${message.channelId}`,
+    );
+  }
 
   //if no AuditLog
   if (!deletionLog) {
