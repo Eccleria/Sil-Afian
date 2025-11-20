@@ -584,10 +584,10 @@ export const onMessageDelete = async (message) => {
       stickersUrl,
     );
     if (gifs !== null)
-      gifs.forEach((gif) => {
-        const msg = logChannel.send(gif);
+      for (const gif of gifs) {
+        const msg = await logChannel.send(gif);
         messageList.push(msg);
-      });
+      };
 
     messageList.forEach((msg) =>
       addAdminLogs(msg.client.db, msg.id, "frequent", 6),
