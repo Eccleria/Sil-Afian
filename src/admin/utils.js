@@ -95,7 +95,10 @@ export const finishEmbed = async (
       result.push(stickerMessage);
     }
     if (attachments && attachments.length !== 0) {
-      const attachmentPayload = { content: eventPerso.attachment, files: attachments }
+      const attachmentPayload = {
+        content: eventPerso.attachment,
+        files: attachments,
+      };
       const gifMessage = await message.reply(attachmentPayload); //if attachments, send new message
       result.push(gifMessage);
     }
@@ -719,20 +722,18 @@ export const createMessageReferenceEmbed = async (client, reference, color) => {
   const perso = PERSONALITY.getAdmin().messageReference;
 
   let channel = null;
-  if (reference.channelId && reference.messageId) 
+  if (reference.channelId && reference.messageId)
     channel = await client.channels.fetch(reference.channelId);
 
   let embed;
   if (!channel) {
     //no channel => send placeholder embed
-    embed = new EmbedBuilder()
-      .setTitle(perso.title)
-      .setColor(color);
+    embed = new EmbedBuilder().setTitle(perso.title).setColor(color);
     embed.addFields({
       name: perso.title,
-      value: perso.placeholder
+      value: perso.placeholder,
     });
-    return embed
+    return embed;
   }
 
   const message = await channel.messages.fetch(reference.messageId);
@@ -758,4 +759,4 @@ export const createMessageReferenceEmbed = async (client, reference, color) => {
   const link = `[${perso.linkMessage}](${message.url})`;
   embed.addFields({ name: perso.linkName, value: link });
   return embed;
-}
+};
