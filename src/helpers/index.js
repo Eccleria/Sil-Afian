@@ -9,6 +9,10 @@ import {
 } from "./db/dbIgnore.js";
 
 import {
+  addTicketBannedUser
+} from "./db/dbTicket.js";
+
+import {
   checkEmbedContent,
   dbReturnType,
   fetchLogChannel,
@@ -51,4 +55,6 @@ export {
   addIgnoredChannel,
   isIgnoredChannel,
   removeIgnoredChannel,
+  //ticket
+  addTicketBannedUser,
 };
