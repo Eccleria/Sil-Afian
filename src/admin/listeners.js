@@ -587,7 +587,7 @@ export const onMessageDelete = async (message) => {
       for (const gif of gifs) {
         const msg = await logChannel.send(gif);
         messageList.push(msg);
-      };
+      }
 
     messageList.forEach((msg) =>
       addAdminLogs(msg.client.db, msg.id, "frequent", 6),
@@ -605,10 +605,14 @@ export const onMessageDelete = async (message) => {
   const realExecutor =
     target.id === message.author.id && diff <= 5 ? executor : auditLog.noExec;
 
-    //check for reference
+  //check for reference
   const reference = message.reference;
   if (reference && reference.type === MessageReferenceType.Default) {
-    const referenceEmbed = await createMessageReferenceEmbed(message.client, reference, Colors.Red);
+    const referenceEmbed = await createMessageReferenceEmbed(
+      message.client,
+      reference,
+      Colors.Red,
+    );
     embeds = [...embeds, referenceEmbed];
   }
 
@@ -786,7 +790,11 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   //check for reference
   const reference = nMessage.reference;
   if (reference && reference.type === MessageReferenceType.Default) {
-    const referenceEmbed = await createMessageReferenceEmbed(nMessage.client, reference, Colors.Green);
+    const referenceEmbed = await createMessageReferenceEmbed(
+      nMessage.client,
+      reference,
+      Colors.Green,
+    );
     embeds = [...embeds, referenceEmbed];
   }
 
