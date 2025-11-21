@@ -115,6 +115,10 @@ client.once("ready", async () => {
   initAdminLogClearing(client, timeTo2Am); //adminLogs clearing init
 });
 
+process.on('unhandledRejection', (error) => {
+	console.error('Unhandled promise rejection:', error);
+});
+
 // Create an event listener for messages
 client.on("messageCreate", onMessageCreate);
 client.on("messageReactionAdd", onReactionAdd);
