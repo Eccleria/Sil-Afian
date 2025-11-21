@@ -11,7 +11,8 @@
     "presentationChannelId": "988100769356079114",
     "presentationReactId": "👋",
     "rudolphslichId": "1052970160903950346",
-    "sentinelleRoleId": "1043971181461651506"
+    "sentinelleRoleId": "1043971181461651506",
+    "spamThreadId": "1436743845646827520"
   },
   "prod": {
     "name": "prod",
@@ -25,7 +26,8 @@
     "presentationChannelId": "816966112968179712",
     "presentationReactId": "👋",
     "rudolphslichId": "1050186232547790848",
-    "sentinelleRoleId": "816975096518279188"
+    "sentinelleRoleId": "816975096518279188",
+    "spamThreadId": "1436742270878748702"
   },
   "shared": {
     "name": "shared",
