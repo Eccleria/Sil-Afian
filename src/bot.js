@@ -7,7 +7,7 @@ import "dayjs/locale/fr.js";
 dayjs.extend(RelativeTime);
 dayjs.locale("fr");
 
-import { Client, GatewayIntentBits, Partials } from "discord.js";
+import { Client, Events, GatewayIntentBits, Partials } from "discord.js";
 import { Low } from "lowdb";
 import { JSONFile } from "lowdb/node";
 
@@ -45,6 +45,7 @@ import { initAdminLogClearing } from "./admin/utils.js";
 import { slashCommandsInit } from "./commands/slash.js";
 
 // helpers imports
+import { onShardError, onUnhandledRejection } from "./error.js";
 
 // jsons import
 import { COMMONS } from "./commons.js";
@@ -115,38 +116,38 @@ client.once("ready", async () => {
   initAdminLogClearing(client, timeTo2Am); //adminLogs clearing init
 });
 
-process.on('unhandledRejection', (error) => {
-	console.error('Unhandled promise rejection:', error);
-});
+// listeners for DEBUG
+process.on('unhandledRejection', onUnhandledRejection);
+client.on(Events.ShardError, onShardError);
 
 // Create an event listener for messages
-client.on("messageCreate", onMessageCreate);
-client.on("messageReactionAdd", onReactionAdd);
+client.on(Events.MessageCreate, onMessageCreate);
+client.on(Events.MessageReactionAdd, onReactionAdd);
 
 // listener for buttons/modals
-client.on("interactionCreate", onInteractionCreate);
+client.on(Events.InteractionCreate, onInteractionCreate);
 
 // listeners for LOGS
-client.on("messageDelete", onMessageDelete);
-client.on("messageUpdate", onMessageUpdate);
+client.on(Events.MessageDelete, onMessageDelete);
+client.on(Events.MessageUpdate, onMessageUpdate);
 
-client.on("roleCreate", onRoleCreate);
-client.on("roleDelete", onRoleDelete);
-client.on("roleUpdate", onRoleUpdate);
+client.on(Events.RoleCreate, onRoleCreate);
+client.on(Events.RoleDelete, onRoleDelete);
+client.on(Events.RoleUpdate, onRoleUpdate);
 
-client.on("channelCreate", onChannelCreate);
-client.on("channelDelete", onChannelDelete);
-client.on("channelUpdate", onChannelUpdate);
+client.on(Events.ChannelCreate, onChannelCreate);
+client.on(Events.ChannelDelete, onChannelDelete);
+client.on(Events.ChannelUpdate, onChannelUpdate);
 
-client.on("threadCreate", onThreadCreate);
-client.on("threadDelete", onThreadDelete);
+client.on(Events.ThreadCreate, onThreadCreate);
+client.on(Events.ThreadDelete, onThreadDelete);
 
-client.on("guildBanAdd", onGuildBanAdd);
-client.on("guildBanRemove", onGuildBanRemove);
+client.on(Events.GuildBanAdd, onGuildBanAdd);
+client.on(Events.GuildBanRemove, onGuildBanRemove);
 
-client.on("guildMemberAdd", onGuildMemberAdd);
-client.on("guildMemberRemove", onGuildMemberRemove);
-client.on("guildMemberUpdate", onGuildMemberUpdate);
+client.on(Events.GuildMemberAdd, onGuildMemberAdd);
+client.on(Events.GuildMemberRemove, onGuildMemberRemove);
+client.on(Events.GuildMemberUpdate, onGuildMemberUpdate);
 
 // Log the bot in
 client.login(process.env.TOKEN);
