@@ -45,6 +45,7 @@ import { initAdminLogClearing } from "./admin/utils.js";
 import { slashCommandsInit } from "./commands/slash.js";
 
 // helpers imports
+import { onShardError, onUnhandledRejection } from "./error.js";
 
 // jsons import
 import { COMMONS } from "./classes/commons.js";
@@ -115,9 +116,9 @@ client.once(Events.ClientReady, async () => {
   initAdminLogClearing(client, timeTo2Am); //adminLogs clearing init
 });
 
-process.on('unhandledRejection', (error) => {
-	console.error('Unhandled promise rejection:', error);
-});
+// listeners for DEBUG
+process.on('unhandledRejection', onUnhandledRejection);
+client.on(Events.ShardError, onShardError);
 
 // Create an event listener for messages
 client.on(Events.MessageCreate, onMessageCreate);
