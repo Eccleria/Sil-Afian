@@ -1,4 +1,5 @@
 // jsons import
+import { Colors } from "discord.js";
 import { readFileSync } from "fs";
 const commons = JSON.parse(readFileSync("static/commons.json"));
 
@@ -10,6 +11,8 @@ export class Commons {
     this.test = test;
     this.prod = prod;
     this.shared = shared;
+    this._OK = Colors.DarkGreen;
+    this._KO = Colors.Red;
   }
 
   /**
@@ -34,6 +37,14 @@ export class Commons {
    */
   getShared() {
     return this.shared;
+  }
+
+  getOK() {
+    return this._OK;
+  }
+
+  getKO() {
+    return this._KO;
   }
 
   /**
