@@ -7,7 +7,7 @@ import "dayjs/locale/fr.js";
 dayjs.extend(RelativeTime);
 dayjs.locale("fr");
 
-import { Client, Events, GatewayIntentBits, Partials } from "discord.js";
+import { Client, EmbedBuilder, Events, GatewayIntentBits, Partials } from "discord.js";
 import { Low } from "lowdb";
 import { JSONFile } from "lowdb/node";
 
@@ -52,6 +52,7 @@ import { COMMONS } from "./commons.js";
 
 // fun imports
 import { setActivity, updateActivity } from "./fun.js";
+import { channelSend, fetchGuild, fetchSpamThread } from "./helpers/utils.js";
 
 // DB
 const file = join("db", "db.json"); // Use JSON file for storage
@@ -98,6 +99,15 @@ client.once("ready", async () => {
 
   // Bot init
   console.log("I am ready!");
+  const server =
+    process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
+  const guildId = server.guildId;
+  const guild = await fetchGuild(client, guildId);
+  const spamThread = await fetchSpamThread(guild);
+  const embed = new EmbedBuilder().setColor(COMMONS.getOK()).setDescription("I am ready 👋");
+  await channelSend(spamThread, {embeds: [embed]});
+
+  //Init alavirien loop check
   setupAlavirien(client, tomorrow, frequency);
 
   //Sil'Afian activity
@@ -105,9 +115,6 @@ client.once("ready", async () => {
   updateActivity(client);
 
   //slash commands
-  const server =
-    process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
-  const guildId = server.guildId;
   slashCommandsInit(guildId, client); //commands submit to API
 
   //LOGS
