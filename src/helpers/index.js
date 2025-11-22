@@ -11,7 +11,11 @@ import {
 import {
   checkEmbedContent,
   dbReturnType,
+  fetchChannel,
+  fetchGuild,
   fetchLogChannel,
+  fetchSpamThread,
+  fetchThread,
   gifParser,
   hasOctagonalSign,
   isAdmin,
@@ -27,7 +31,11 @@ export {
   // utils
   checkEmbedContent,
   dbReturnType,
+  fetchChannel,
+  fetchGuild,
   fetchLogChannel,
+  fetchSpamThread,
+  fetchThread,
   gifParser,
   hasOctagonalSign,
   isAdmin,
