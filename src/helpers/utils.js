@@ -67,27 +67,34 @@ export const dbReturnType = Object.freeze({
 
 /**
  * Fetch Log Channel using commons value
- * @param {object} eventObject Object given by listener event.
- * @param {string} [type] String to ditinguish which channel/thread to return.
- *  Can be "thread" or "inAndOut" channel. Null is for log channel.
+ * @param {string} guildId The guild id.
+ * @param {string} type String to ditinguish which channel/thread to return.
+ *  Can be "thread" or "inAndOut" channel. Empty argument is for log channel.
  * @returns {TextChannel}
  */
-export const fetchLogChannel = async (eventObject, type) => {
-  const currentServer = COMMONS.fetchFromGuildId(eventObject.guild.id); //get server local data
+export const fetchLogChannel = async (guild, type = null) => {
+  const currentServer = COMMONS.fetchFromGuildId(guild.id); //get server local data
 
   let id;
   switch (type) {
+    default:
+      id = currentServer.logChannelId;
+      break;
     case "thread":
       id = currentServer.logThreadId;
       break;
     case "inAndOut":
       id = currentServer.inAndOutLogChannelId;
       break;
-    default:
-      id = currentServer.logChannelId;
   }
 
-  return await fetchChannel(eventObject.guild.channels, id); //return the log channel
+  return await fetchChannel(guild.channels, id); //return the log channel
+};
+
+export const fetchSpamThread = async (guild) => {
+  const commons = COMMONS.fetchFromGuildId(guild.id);
+  const logChannel = await fetchLogChannel(guild);
+  return await fetchThread(logChannel, commons.spamThreadId);
 };
 
 /**
