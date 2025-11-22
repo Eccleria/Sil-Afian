@@ -3,20 +3,14 @@ import { EmbedBuilder, MessageFlags } from "discord.js";
 import { COMMONS } from "../commons.js";
 
 /**
- * Slice a string or an Array len times and returns it as an array
- * @param {number} len Length of the returned array
- * @param {string|Array} content The data to slice
- * @param {number} size Size of the slices
- * @returns {string[]} Array of sliced things
+ *
+ * @param {Channel} channel Channel where to send the message.
+ * @param {object} payload Payload of the message.
+ * @returns {Message} Message sent on channel
  */
-export const sliceData = (len, content, size) => {
-  const lenArray = Array.from(new Array(len));
-  const sliced = lenArray.reduce((acc, _cur, idx) => {
-    if (idx === len - 1) return [...acc, content.slice(idx * size)]; //last index
-    const sliced = content.slice(idx * size, (idx + 1) * size);
-    return [...acc, sliced];
-  }, []); //slice content in less than size characters
-  return sliced;
+export const channelSend = async (channel, payload) => {
+  const message = await channel.send(payload).catch((e) => console.error(e));
+  return message;
 };
 
 /**
@@ -56,29 +50,48 @@ export const dbReturnType = Object.freeze({
   isNotIn: 2,
 });
 
+export const fetchChannel = async (guild, channelId) => {
+  return await guild.channels.fetch(channelId).catch(console.error);
+};
+
+export const fetchGuild = async (client, guildId) => {
+  return await client.guilds.fetch(guildId).catch(console.error);
+};
+
 /**
  * Fetch Log Channel using commons value
- * @param {object} eventObject Object given by listener event.
- * @param {string} [type] String to ditinguish which channel/thread to return.
- *  Can be "thread" or "inAndOut" channel. Null is for log channel.
+ * @param {string} guildId The guild id.
+ * @param {string} type String to ditinguish which channel/thread to return.
+ *  Can be "thread" or "inAndOut" channel. Empty argument is for log channel.
  * @returns {TextChannel}
  */
-export const fetchLogChannel = async (eventObject, type) => {
-  const currentServer = COMMONS.fetchFromGuildId(eventObject.guild.id); //get server local data
+export const fetchLogChannel = async (guild, type = null) => {
+  const currentServer = COMMONS.fetchFromGuildId(guild.id); //get server local data
 
   let id;
   switch (type) {
+    default:
+      id = currentServer.logChannelId;
+      break;
     case "thread":
       id = currentServer.logThreadId;
       break;
     case "inAndOut":
       id = currentServer.inAndOutLogChannelId;
       break;
-    default:
-      id = currentServer.logChannelId;
   }
 
-  return await eventObject.guild.channels.fetch(id); //return the log channel
+  return await guild.channels.fetch(id); //return the log channel
+};
+
+export const fetchSpamThread = async (guild) => {
+  const commons = COMMONS.fetchFromGuildId(guild.id);
+  const logChannel = await fetchLogChannel(guild);
+  return await fetchThread(logChannel, commons.spamThreadId);
+};
+
+export const fetchThread = async (channel, threadId) => {
+  return await channel.threads.fetch(threadId).catch(console.error);
 };
 
 /**
@@ -115,15 +128,15 @@ export const hasOctagonalSign = (content, cmnShared) => {
 /**
  * Wrapper to reply to an interaction
  * @param {any} interaction Interaction the function is replying to.
- * @param {string} content Content of the replying message.
+ * @param {string|object} data Data of the replying message. Can be a message content or a MessagePayload
  * @param {boolean} [isEphemeral] Send *ephemeral or not* message, true by default.
  */
 export const interactionReply = async (
   interaction,
-  content,
+  data,
   isEphemeral = true,
 ) => {
-  const payload = { content };
+  const payload = typeof data === "string" ? { content: data } : data;
   if (isEphemeral) payload.flags = MessageFlags.Ephemeral;
 
   await interaction
@@ -157,6 +170,17 @@ export const isReleasedCommand = (command) => {
 export const isSentinelle = (member, currentServer) => {
   const roles = member.roles.cache;
   return roles.has(currentServer.sentinelleRoleId);
+};
+
+/**
+ *
+ * @param {Message} message A Discord message object
+ * @param {object} payload The content to reply with
+ */
+export const messageReply = async (message, payload) => {
+  await message
+    .reply(payload)
+    .catch((err) => console.error("message reply error", err));
 };
 
 /**
@@ -206,6 +230,23 @@ export const setupEmbed = (color, personality, object, type) => {
     embed.addFields(field);
   }
   return embed;
+};
+
+/**
+ * Slice a string or an Array len times and returns it as an array
+ * @param {number} len Length of the returned array
+ * @param {string|Array} content The data to slice
+ * @param {number} size Size of the slices
+ * @returns {string[]} Array of sliced things
+ */
+export const sliceData = (len, content, size) => {
+  const lenArray = Array.from(new Array(len));
+  const sliced = lenArray.reduce((acc, _cur, idx) => {
+    if (idx === len - 1) return [...acc, content.slice(idx * size)]; //last index
+    const sliced = content.slice(idx * size, (idx + 1) * size);
+    return [...acc, sliced];
+  }, []); //slice content in less than size characters
+  return sliced;
 };
 
 /**

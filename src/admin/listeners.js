@@ -31,6 +31,7 @@ import {
   hasOctagonalSign,
   parseUnixTimestamp,
   setupEmbed,
+  channelSend,
 } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
 import { PERSONALITY } from "../personality.js";
@@ -585,7 +586,7 @@ export const onMessageDelete = async (message) => {
     );
     if (gifs !== null)
       gifs.forEach((gif) => {
-        const msg = logChannel.send(gif);
+        const msg = channelSend(logChannel, gif);
         messageList.push(msg);
       });
 
@@ -625,7 +626,7 @@ export const onMessageDelete = async (message) => {
   );
   if (gifs !== null) {
     const content = gifs.join("\n");
-    const msg = await logChannel.send(content);
+    const msg = await channelSend(logChannel, content);
     messageList.push(msg);
   }
   messageList.forEach((msg) =>
@@ -1044,7 +1045,7 @@ export const checkPinStatus = async (message) => {
 
       //get logChannel
       const logChannel = await fetchLogChannel(message, "thread");
-      const logMessage = await logChannel.send({ embeds: [embed] });
+      const logMessage = await channelSend(logChannel, { embeds: [embed] });
       addAdminLogs(message.client.db, logMessage.id, "frequent", 6);
     }
   }

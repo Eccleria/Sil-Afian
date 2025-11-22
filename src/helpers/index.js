@@ -9,15 +9,21 @@ import {
 } from "./db/dbIgnore.js";
 
 import {
+  channelSend,
   checkEmbedContent,
   dbReturnType,
+  fetchChannel,
+  fetchGuild,
   fetchLogChannel,
+  fetchSpamThread,
+  fetchThread,
   gifParser,
   hasOctagonalSign,
   interactionReply,
   isAdmin,
   isReleasedCommand,
   isSentinelle,
+  messageReply,
   parseUnixTimestamp,
   removeEmote,
   setupEmbed,
@@ -26,15 +32,21 @@ import {
 
 export {
   // utils
+  channelSend,
   checkEmbedContent,
   dbReturnType,
+  fetchChannel,
+  fetchGuild,
   fetchLogChannel,
+  fetchSpamThread,
+  fetchThread,
   gifParser,
   hasOctagonalSign,
   interactionReply,
   isAdmin,
   isReleasedCommand,
   isSentinelle,
+  messageReply,
   parseUnixTimestamp,
   removeEmote,
   setupEmbed,

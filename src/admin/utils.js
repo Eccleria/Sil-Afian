@@ -9,6 +9,8 @@ import {
   removeAlavirien,
   setupEmbed,
   sliceData,
+  messageReply,
+  channelSend,
 } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
 import { PERSONALITY } from "../personality.js";
@@ -84,19 +86,22 @@ export const finishEmbed = async (
 
   try {
     const newEmbeds = isEmbedList ? [embed, ...logEmbed.slice(1)] : [embed];
-    const message = await logChannel.send({
+    const message = await channelSend(logChannel, {
       embeds: newEmbeds,
       allowed_mentions: { parse: [] },
     }); //send
     let result = [message];
     if (stickers && stickers.length !== 0) {
       const textUrl = stickers.reduce((acc, cur) => acc + "\n" + cur, "");
-      const stickerMessage = await message.reply(textUrl);
+      const stickerMessage = await messageReply(message, textUrl);
       result.push(stickerMessage);
     }
     if (attachments && attachments.length !== 0) {
-      const attachmentPayload = { content: eventPerso.attachment, files: attachments }
-      const gifMessage = await message.reply(attachmentPayload); //if attachments, send new message
+      const attachmentPayload = {
+        content: eventPerso.attachment,
+        files: attachments,
+      };
+      const gifMessage = await messageReply(message, attachmentPayload); //if attachments, send new message
       result.push(gifMessage);
     }
     return result;
@@ -719,20 +724,18 @@ export const createMessageReferenceEmbed = async (client, reference, color) => {
   const perso = PERSONALITY.getAdmin().messageReference;
 
   let channel = null;
-  if (reference.channelId && reference.messageId) 
+  if (reference.channelId && reference.messageId)
     channel = await client.channels.fetch(reference.channelId);
 
   let embed;
   if (!channel) {
     //no channel => send placeholder embed
-    embed = new EmbedBuilder()
-      .setTitle(perso.title)
-      .setColor(color);
+    embed = new EmbedBuilder().setTitle(perso.title).setColor(color);
     embed.addFields({
       name: perso.title,
-      value: perso.placeholder
+      value: perso.placeholder,
     });
-    return embed
+    return embed;
   }
 
   const message = await channel.messages.fetch(reference.messageId);
@@ -758,4 +761,4 @@ export const createMessageReferenceEmbed = async (client, reference, color) => {
   const link = `[${perso.linkMessage}](${message.url})`;
   embed.addFields({ name: perso.linkName, value: link });
   return embed;
-}
+};
