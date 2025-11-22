@@ -131,7 +131,7 @@ export const dbReturnType = Object.freeze({
  *  Can be "thread" or "inAndOut" channel. Empty argument is for log channel.
  * @returns {TextChannel}
  */
-export const fetchLogChannel = async (guild, type=null) => {
+export const fetchLogChannel = async (guild, type = null) => {
   const currentServer = COMMONS.fetchFromGuildId(guild.id); //get server local data
 
   let id;
