@@ -52,7 +52,7 @@ import { COMMONS } from "./commons.js";
 
 // fun imports
 import { setActivity, updateActivity } from "./fun.js";
-import { channelSend, fetchGuild, fetchSpamThread } from "./helpers/utils.js";
+import { channelSend, fetchGuild, fetchSpamThread } from "./helpers/index.js";
 
 // DB
 const file = join("db", "db.json"); // Use JSON file for storage
