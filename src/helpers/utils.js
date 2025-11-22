@@ -51,16 +51,12 @@ export const dbReturnType = Object.freeze({
 });
 
 export const fetchChannel = async (guild, channelId) => {
-  return await guild.channels
-    .fetch(channelId)
-    .catch(console.error);
-}
+  return await guild.channels.fetch(channelId).catch(console.error);
+};
 
 export const fetchGuild = async (client, guildId) => {
-  return await client.guilds
-    .fetch(guildId)
-    .catch(console.error);
-}
+  return await client.guilds.fetch(guildId).catch(console.error);
+};
 
 /**
  * Fetch Log Channel using commons value
@@ -69,7 +65,7 @@ export const fetchGuild = async (client, guildId) => {
  *  Can be "thread" or "inAndOut" channel. Empty argument is for log channel.
  * @returns {TextChannel}
  */
-export const fetchLogChannel = async (guild, type=null) => {
+export const fetchLogChannel = async (guild, type = null) => {
   const currentServer = COMMONS.fetchFromGuildId(guild.id); //get server local data
 
   let id;
@@ -92,13 +88,11 @@ export const fetchSpamThread = async (guild) => {
   const commons = COMMONS.fetchFromGuildId(guild.id);
   const logChannel = await fetchLogChannel(guild);
   return await fetchThread(logChannel, commons.spamThreadId);
-}
+};
 
 export const fetchThread = async (channel, threadId) => {
-  return await channel.threads
-    .fetch(threadId)
-    .catch(console.error);
-}
+  return await channel.threads.fetch(threadId).catch(console.error);
+};
 
 /**
  * Get strings corresponding to gif url.

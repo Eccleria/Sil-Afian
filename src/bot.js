@@ -7,7 +7,13 @@ import "dayjs/locale/fr.js";
 dayjs.extend(RelativeTime);
 dayjs.locale("fr");
 
-import { Client, EmbedBuilder, Events, GatewayIntentBits, Partials } from "discord.js";
+import {
+  Client,
+  EmbedBuilder,
+  Events,
+  GatewayIntentBits,
+  Partials,
+} from "discord.js";
 import { Low } from "lowdb";
 import { JSONFile } from "lowdb/node";
 
@@ -104,8 +110,10 @@ client.once("ready", async () => {
   const guildId = server.guildId;
   const guild = await fetchGuild(client, guildId);
   const spamThread = await fetchSpamThread(guild);
-  const embed = new EmbedBuilder().setColor(COMMONS.getOK()).setDescription("I am ready 👋");
-  await channelSend(spamThread, {embeds: [embed]});
+  const embed = new EmbedBuilder()
+    .setColor(COMMONS.getOK())
+    .setDescription("I am ready 👋");
+  await channelSend(spamThread, { embeds: [embed] });
 
   //Init alavirien loop check
   setupAlavirien(client, tomorrow, frequency);
@@ -124,7 +132,7 @@ client.once("ready", async () => {
 });
 
 // listeners for DEBUG
-process.on('unhandledRejection', onUnhandledRejection);
+process.on("unhandledRejection", onUnhandledRejection);
 client.on(Events.ShardError, onShardError);
 
 // Create an event listener for messages
