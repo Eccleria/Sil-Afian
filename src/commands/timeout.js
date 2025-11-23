@@ -109,7 +109,7 @@ const action = async (interaction) => {
   const timestamp = today.add(timeout, "ms");
 
   //send command use log
-  const logChannel = await fetchLogChannel(interaction);
+  const logChannel = await fetchLogChannel(interaction.guild);
   const tPerso = PERSONALITY.getAdmin().timeout.command;
   const embed = setupEmbed(Colors.Orange, tPerso, interaction.user, "tag");
   logChannel.send({ embeds: [embed] });
