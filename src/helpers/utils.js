@@ -1,16 +1,18 @@
 import dayjs from "dayjs";
-import {
-  Channel,
-  Client,
-  EmbedBuilder,
-  Guild,
-  Message,
-  MessageFlags,
-  MessagePayload,
-  TextChannel,
-  ThreadChannel,
-} from "discord.js";
+import { EmbedBuilder, MessageFlags } from "discord.js";
 import { COMMONS } from "../commons.js";
+
+/**
+ * @import { Channel,
+ *   EmbedBuilder,
+ *   Guild,
+ *   Message,
+ *   MessageFlags,
+ *   MessagePayload,
+ *   TextChannel,
+ *   ThreadChannel
+ * } from "discord.js"
+ */
 
 //#region API wrappers
 /**
@@ -36,7 +38,7 @@ export const fetchChannel = async (guild, channelId) => {
 
 /**
  * Fetch the guild from its id
- * @param {Client} client Bot client
+ * @param {object}} client Bot client
  * @param {string} guildId The id of the guild to fetch
  * @returns {Promise<Guild>}
  */

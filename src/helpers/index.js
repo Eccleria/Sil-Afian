@@ -9,13 +9,16 @@ import {
 } from "./db/dbIgnore.js";
 
 import {
-  checkEmbedContent,
-  dbReturnType,
+  //API
+  channelSend,
   fetchChannel,
   fetchGuild,
   fetchLogChannel,
-  fetchSpamThread,
   fetchThread,
+  //Misc
+  checkEmbedContent,
+  dbReturnType,
+  fetchSpamThread,
   gifParser,
   hasOctagonalSign,
   interactionReply,
@@ -30,13 +33,16 @@ import {
 
 export {
   // utils
-  checkEmbedContent,
-  dbReturnType,
+  //API
+  channelSend,
   fetchChannel,
   fetchGuild,
-  fetchLogChannel,
   fetchSpamThread,
   fetchThread,
+  //Misc
+  checkEmbedContent,
+  dbReturnType,
+  fetchLogChannel,
   gifParser,
   hasOctagonalSign,
   interactionReply,
