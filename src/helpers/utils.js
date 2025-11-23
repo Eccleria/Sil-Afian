@@ -7,6 +7,7 @@ import {
   Message,
   MessageFlags,
   MessagePayload,
+  TextChannel,
   ThreadChannel,
 } from "discord.js";
 import { COMMONS } from "../commons.js";
