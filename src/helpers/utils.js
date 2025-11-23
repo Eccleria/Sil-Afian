@@ -17,7 +17,7 @@ import { COMMONS } from "../commons.js";
  * Send a message payload in a specific channel
  * @param {Channel} channel Channel where to send the message.
  * @param {MessagePayload} payload Payload of the message.
- * @returns {Message} Message sent on channel
+ * @returns {Promise<Message>} Message sent on channel
  */
 export const channelSend = async (channel, payload) => {
   const message = await channel.send(payload).catch(console.error);
@@ -28,7 +28,7 @@ export const channelSend = async (channel, payload) => {
  * Fetch a channel from its id using a guild
  * @param {Guild} guild
  * @param {string} channelId
- * @returns {Channel}
+ * @returns {Promise<Channel>}
  */
 export const fetchChannel = async (guild, channelId) => {
   return await guild.channels.fetch(channelId).catch(console.error);
@@ -38,7 +38,7 @@ export const fetchChannel = async (guild, channelId) => {
  * Fetch the guild from its id
  * @param {Client} client Bot client
  * @param {string} guildId The id of the guild to fetch
- * @returns {Guild}
+ * @returns {Promise<Guild>}
  */
 export const fetchGuild = async (client, guildId) => {
   return await client.guilds.fetch(guildId).catch(console.error);
@@ -48,7 +48,7 @@ export const fetchGuild = async (client, guildId) => {
  * Fetch a thread using its id from its parent channel
  * @param {Channel} channel The channel to which the thread to fetch belongs to
  * @param {string} threadId The id of the thread to fetch
- * @returns {ThreadChannel}
+ * @returns {Promise<ThreadChannel>}
  */
 export const fetchThread = async (channel, threadId) => {
   return await channel.threads.fetch(threadId).catch(console.error);
@@ -58,7 +58,7 @@ export const fetchThread = async (channel, threadId) => {
  * Reply to a specific message using provided payload
  * @param {Message} message A Discord message object
  * @param {MessagePayload} payload The content to reply with
- * @returns {Message}
+ * @returns {Promise<Message>}
  */
 export const messageReply = async (message, payload) => {
   return await message
@@ -129,7 +129,7 @@ export const dbReturnType = Object.freeze({
  * @param {string} guildId The guild id.
  * @param {string} type String to ditinguish which channel/thread to return.
  *  Can be "thread" or "inAndOut" channel. Empty argument is for log channel.
- * @returns {TextChannel}
+ * @returns {Promise<TextChannel>}
  */
 export const fetchLogChannel = async (guild, type = null) => {
   const currentServer = COMMONS.fetchFromGuildId(guild.id); //get server local data
