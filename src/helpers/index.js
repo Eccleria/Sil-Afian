@@ -9,7 +9,13 @@ import {
 } from "./db/dbIgnore.js";
 
 import {
+  //api
   channelSend,
+  fetchChannel,
+  fetchGuild,
+  fetchThread,
+  messageReply,
+  //misc
   checkEmbedContent,
   dbReturnType,
   fetchLogChannel,
@@ -19,7 +25,6 @@ import {
   isAdmin,
   isReleasedCommand,
   isSentinelle,
-  messageReply,
   parseUnixTimestamp,
   removeEmote,
   setupEmbed,
@@ -28,7 +33,13 @@ import {
 
 export {
   // utils
+  //api
   channelSend,
+  fetchChannel,
+  fetchGuild,
+  fetchThread,
+  messageReply,
+  //misc
   checkEmbedContent,
   dbReturnType,
   fetchLogChannel,
@@ -38,7 +49,6 @@ export {
   isAdmin,
   isReleasedCommand,
   isSentinelle,
-  messageReply,
   parseUnixTimestamp,
   removeEmote,
   setupEmbed,

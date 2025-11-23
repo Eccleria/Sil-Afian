@@ -71,17 +71,6 @@ export const messageReply = async (message, payload) => {
 //#region Misc
 
 /**
- *
- * @param {Channel} channel Channel where to send the message.
- * @param {object} payload Payload of the message.
- * @returns {Message} Message sent on channel
- */
-export const channelSend = async (channel, payload) => {
-  const message = await channel.send(payload).catch((e) => console.error(e));
-  return message;
-};
-
-/**
  * Slice content if required then add it to the embed
  * @param {string} content Old Content from previous embed to slice
  * @param {object} embed New embed that will have sliced content
@@ -219,17 +208,6 @@ export const isReleasedCommand = (command) => {
 export const isSentinelle = (member, currentServer) => {
   const roles = member.roles.cache;
   return roles.has(currentServer.sentinelleRoleId);
-};
-
-/**
- *
- * @param {Message} message A Discord message object
- * @param {object} payload The content to reply with
- */
-export const messageReply = async (message, payload) => {
-  await message
-    .reply(payload)
-    .catch((err) => console.error("message reply error", err));
 };
 
 /**
