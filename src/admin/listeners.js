@@ -68,7 +68,7 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
 
   //basic operations
   if (process.env.DEBUG === "no" && isTestServer(newChannel)) return; //if in prod && modif in test server
-  const logChannel = await fetchLogChannel(newChannel); //get logChannelId
+  const logChannel = await fetchLogChannel(newChannel.guild); //get logChannelId
   if (process.env.DEBUG === "no" && isTestServer(logChannel)) return; //if in prod && modif in test server
 
   //get client
@@ -316,7 +316,7 @@ export const onThreadCreate = async (thread, newly) => {
     if (thread.joinable && !thread.joined) await thread.join(); //join thread created
     if (process.env.DEBUG === "no" && isTestServer(thread)) return; //if in prod && modif in test server
 
-    const logChannel = await fetchLogChannel(thread); //get logChannel
+    const logChannel = await fetchLogChannel(thread.guild); //get logChannel
     const perso = PERSONALITY.getAdmin().threadCreate;
     const log = await fetchAuditLog(
       thread.guild,
@@ -381,7 +381,7 @@ export const onRoleUpdate = async (oldRole, newRole) => {
   const auditLog = personality.auditLog;
 
   if (process.env.DEBUG === "no" && isTestServer(newRole)) return; //if in prod && modif in test server
-  const logChannel = await fetchLogChannel(newRole); //get logChannelId
+  const logChannel = await fetchLogChannel(newRole.guild); //get logChannelId
   if (process.env.DEBUG === "no" && isTestServer(logChannel)) return; //if in prod && modif in test server
 
   //get client
@@ -485,7 +485,7 @@ export const onMessageDelete = async (message) => {
   const auditLog = personality.auditLog;
 
   if (process.env.DEBUG === "no" && isTestServer(message)) return; //if in prod && modif in test server
-  const logChannel = await fetchLogChannel(message, "thread"); //get logChannel
+  const logChannel = await fetchLogChannel(message.guild, "thread"); //get logChannel
 
   const uDate = new Date(message.createdAt); //set date as Date object
   if (currentServer.name === "prod") uDate.setHours(uDate.getHours() + 1); //add 1h to date
@@ -671,7 +671,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   const auditLog = personality.auditLog;
 
   if (process.env.DEBUG === "no" && isTestServer(newMessage)) return; //if in prod && modif in test server
-  const logChannel = await fetchLogChannel(nMessage, "thread"); //get logChannel
+  const logChannel = await fetchLogChannel(nMessage.guild, "thread"); //get logChannel
 
   const color = Colors.DarkGreen;
   const embed = setupEmbed(color, messageU, nMessage.author, "tag"); //setup embed
@@ -830,7 +830,7 @@ export const onGuildBanAdd = async (userBan) => {
   if (process.env.DEBUG === "no" && isTestServer(userBan)) return; //if in prod && modif in test server
 
   const user = userBan.user;
-  const logChannel = await fetchLogChannel(userBan); //get logChannel
+  const logChannel = await fetchLogChannel(userBan.guild); //get logChannel
   const color = Colors.DarkNavy;
   const embed = setupEmbed(color, perso, user, "user"); //setup embed
   embed.addFields({ name: perso.id, value: user.id, inline: true });
@@ -867,7 +867,7 @@ export const onGuildMemberUpdate = async (_oldMember, newMember) => {
   const auditLog = personality.auditLog;
 
   if (process.env.DEBUG === "no" && isTestServer(newMember)) return; //if in prod && modif in test server
-  const logChannel = await fetchLogChannel(newMember); //get logChannel
+  const logChannel = await fetchLogChannel(newMember.guild); //get logChannel
   const color = Colors.Orange;
   const embed = setupEmbed(color, timeout, user, "tag"); //setup embed
   const timeoutLog = await fetchAuditLog(
@@ -957,7 +957,7 @@ export const onGuildMemberRemove = async (memberKick) => {
         value: textRoles,
         inline: true,
       }); //add user roles if any
-    const logChannel = await fetchLogChannel(memberKick, "inAndOut"); //get logChannel
+    const logChannel = await fetchLogChannel(memberKick.guild, "inAndOut"); //get logChannel
     const messageList = await endCasesEmbed(
       userKick,
       kickLog,
@@ -983,7 +983,7 @@ export const onGuildMemberRemove = async (memberKick) => {
   ); //add user id
   if (textRoles)
     embed.addFields({ name: guildKick.roles, value: textRoles, inline: true }); //add user roles if any
-  const logChannel = await fetchLogChannel(memberKick); //get logChannel
+  const logChannel = await fetchLogChannel(memberKick.guild); //get logChannel
 
   endCasesEmbed(
     userKick,
@@ -1055,7 +1055,7 @@ export const checkPinStatus = async (message) => {
       });
 
       //get logChannel
-      const logChannel = await fetchLogChannel(message, "thread");
+      const logChannel = await fetchLogChannel(message.guild, "thread");
       const logMessage = await channelSend(logChannel, { embeds: [embed] });
       addAdminLogs(message.client.db, logMessage.id, "frequent", 6);
     }
