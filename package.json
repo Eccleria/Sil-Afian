@@ -5,6 +5,7 @@
     "type": "module",
     "devDependencies": {
         "eslint": "^9.27.0",
+        "eslint-plugin-jsdoc": "^61.4.1",
         "prettier": "^3.5.3"
     },
     "dependencies": {
