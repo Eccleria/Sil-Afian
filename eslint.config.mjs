@@ -24,5 +24,10 @@ export default [...compat.extends("eslint:recommended"), {
         sourceType: "module",
     },
 
-    rules: {},
+    rules: {
+        "jsdoc/no-undefined-types": 1
+    },
+    "plugins": [
+    "jsdoc"
+    ]
 }];
