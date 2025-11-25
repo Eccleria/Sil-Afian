@@ -7,7 +7,13 @@ import "dayjs/locale/fr.js";
 dayjs.extend(RelativeTime);
 dayjs.locale("fr");
 
-import { Client, GatewayIntentBits, Partials } from "discord.js";
+import {
+  Client,
+  EmbedBuilder,
+  Events,
+  GatewayIntentBits,
+  Partials,
+} from "discord.js";
 import { Low } from "lowdb";
 import { JSONFile } from "lowdb/node";
 
@@ -45,12 +51,14 @@ import { initAdminLogClearing } from "./admin/utils.js";
 import { slashCommandsInit } from "./commands/slash.js";
 
 // helpers imports
+import { onShardError, onUncaughtException, onUnhandledRejection } from "./error.js";
 
 // jsons import
 import { COMMONS } from "./commons.js";
 
 // fun imports
 import { setActivity, updateActivity } from "./fun.js";
+import { channelSend, fetchGuild, fetchSpamThread, isProduction } from "./helpers/index.js";
 
 // DB
 const file = join("db", "db.json"); // Use JSON file for storage
@@ -69,7 +77,7 @@ setInterval(async () => {
 }, 10000);
 
 // Discord CLIENT
-const client = new Client({
+export const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
@@ -97,6 +105,17 @@ client.once("ready", async () => {
 
   // Bot init
   console.log("I am ready!");
+  const server =
+    isProduction ? COMMONS.getProd() : COMMONS.getTest();
+  const guildId = server.guildId;
+  const guild = await fetchGuild(client, guildId);
+  const spamThread = await fetchSpamThread(guild);
+  const embed = new EmbedBuilder()
+    .setColor(COMMONS.getOK())
+    .setDescription("I am ready 👋");
+  await channelSend(spamThread, { embeds: [embed] });
+
+  //Init alavirien loop check
   setupAlavirien(client, tomorrow, frequency);
 
   //Sil'Afian activity
@@ -104,10 +123,7 @@ client.once("ready", async () => {
   updateActivity(client);
 
   //slash commands
-  const server =
-    process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
-  const guildId = server.guildId;
-  slashCommandsInit(guildId, client); //commands submit to API
+  await slashCommandsInit(guildId, client); //commands submit to API
 
   //LOGS
   const tomorrow2Am = tomorrow.hour(2); //tomorrow @ 2am
@@ -115,34 +131,39 @@ client.once("ready", async () => {
   initAdminLogClearing(client, timeTo2Am); //adminLogs clearing init
 });
 
+// listeners for DEBUG
+process.on("unhandledRejection", onUnhandledRejection);
+process.on("uncaughtException", onUncaughtException);
+client.on(Events.ShardError, onShardError);
+
 // Create an event listener for messages
-client.on("messageCreate", onMessageCreate);
-client.on("messageReactionAdd", onReactionAdd);
+client.on(Events.MessageCreate, onMessageCreate);
+client.on(Events.MessageReactionAdd, onReactionAdd);
 
 // listener for buttons/modals
-client.on("interactionCreate", onInteractionCreate);
+client.on(Events.InteractionCreate, onInteractionCreate);
 
 // listeners for LOGS
-client.on("messageDelete", onMessageDelete);
-client.on("messageUpdate", onMessageUpdate);
+client.on(Events.MessageDelete, onMessageDelete);
+client.on(Events.MessageUpdate, onMessageUpdate);
 
-client.on("roleCreate", onRoleCreate);
-client.on("roleDelete", onRoleDelete);
-client.on("roleUpdate", onRoleUpdate);
+client.on(Events.RoleCreate, onRoleCreate);
+client.on(Events.RoleDelete, onRoleDelete);
+client.on(Events.RoleUpdate, onRoleUpdate);
 
-client.on("channelCreate", onChannelCreate);
-client.on("channelDelete", onChannelDelete);
-client.on("channelUpdate", onChannelUpdate);
+client.on(Events.ChannelCreate, onChannelCreate);
+client.on(Events.ChannelDelete, onChannelDelete);
+client.on(Events.ChannelUpdate, onChannelUpdate);
 
-client.on("threadCreate", onThreadCreate);
-client.on("threadDelete", onThreadDelete);
+client.on(Events.ThreadCreate, onThreadCreate);
+client.on(Events.ThreadDelete, onThreadDelete);
 
-client.on("guildBanAdd", onGuildBanAdd);
-client.on("guildBanRemove", onGuildBanRemove);
+client.on(Events.GuildBanAdd, onGuildBanAdd);
+client.on(Events.GuildBanRemove, onGuildBanRemove);
 
-client.on("guildMemberAdd", onGuildMemberAdd);
-client.on("guildMemberRemove", onGuildMemberRemove);
-client.on("guildMemberUpdate", onGuildMemberUpdate);
+client.on(Events.GuildMemberAdd, onGuildMemberAdd);
+client.on(Events.GuildMemberRemove, onGuildMemberRemove);
+client.on(Events.GuildMemberUpdate, onGuildMemberUpdate);
 
 // Log the bot in
 client.login(process.env.TOKEN);

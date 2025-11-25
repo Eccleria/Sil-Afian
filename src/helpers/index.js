@@ -9,23 +9,39 @@ import {
 } from "./db/dbIgnore.js";
 
 import {
+  //API
+  channelSend,
+  fetchChannel,
+  fetchGuild,
+  fetchLogChannel,
+  fetchThread,
+  //Misc
   checkEmbedContent,
   dbReturnType,
-  fetchLogChannel,
+  fetchSpamThread,
   gifParser,
   hasOctagonalSign,
   interactionReply,
   isAdmin,
   isReleasedCommand,
+  isProduction,
   isSentinelle,
   parseUnixTimestamp,
   removeEmote,
+  sendBotSpamEmbed,
   setupEmbed,
   sliceData,
 } from "./utils.js";
 
 export {
   // utils
+  //API
+  channelSend,
+  fetchChannel,
+  fetchGuild,
+  fetchSpamThread,
+  fetchThread,
+  //Misc
   checkEmbedContent,
   dbReturnType,
   fetchLogChannel,
@@ -34,9 +50,11 @@ export {
   interactionReply,
   isAdmin,
   isReleasedCommand,
+  isProduction,
   isSentinelle,
   parseUnixTimestamp,
   removeEmote,
+  sendBotSpamEmbed,
   setupEmbed,
   sliceData,
   // dbHelper

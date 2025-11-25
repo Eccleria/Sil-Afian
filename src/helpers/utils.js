@@ -1,23 +1,27 @@
 import dayjs from "dayjs";
-import {
-  Channel,
-  Client,
-  EmbedBuilder,
-  Guild,
-  Message,
-  MessageFlags,
-  MessagePayload,
-  TextChannel,
-  ThreadChannel,
-} from "discord.js";
+import { EmbedBuilder, MessageFlags } from "discord.js";
 import { COMMONS } from "../commons.js";
+
+/**
+ * @import { 
+ *   Channel,
+ *   ColorResolvable,
+ *   EmbedBuilder,
+ *   Guild,
+ *   Message,
+ *   MessageFlags,
+ *   MessagePayload,
+ *   TextChannel,
+ *   ThreadChannel
+ * } from "discord.js"
+ */
 
 //#region API wrappers
 /**
  * Send a message payload in a specific channel
  * @param {Channel} channel Channel where to send the message.
  * @param {MessagePayload} payload Payload of the message.
- * @returns {Message} Message sent on channel
+ * @returns {Promise<Message>} Message sent on channel
  */
 export const channelSend = async (channel, payload) => {
   const message = await channel.send(payload).catch(console.error);
@@ -28,7 +32,7 @@ export const channelSend = async (channel, payload) => {
  * Fetch a channel from its id using a guild
  * @param {Guild} guild
  * @param {string} channelId
- * @returns {Channel}
+ * @returns {Promise<Channel>}
  */
 export const fetchChannel = async (guild, channelId) => {
   return await guild.channels.fetch(channelId).catch(console.error);
@@ -36,9 +40,9 @@ export const fetchChannel = async (guild, channelId) => {
 
 /**
  * Fetch the guild from its id
- * @param {Client} client Bot client
+ * @param {object}} client Bot client
  * @param {string} guildId The id of the guild to fetch
- * @returns {Guild}
+ * @returns {Promise<Guild>}
  */
 export const fetchGuild = async (client, guildId) => {
   return await client.guilds.fetch(guildId).catch(console.error);
@@ -48,7 +52,7 @@ export const fetchGuild = async (client, guildId) => {
  * Fetch a thread using its id from its parent channel
  * @param {Channel} channel The channel to which the thread to fetch belongs to
  * @param {string} threadId The id of the thread to fetch
- * @returns {ThreadChannel}
+ * @returns {Promise<ThreadChannel>}
  */
 export const fetchThread = async (channel, threadId) => {
   return await channel.threads.fetch(threadId).catch(console.error);
@@ -58,7 +62,7 @@ export const fetchThread = async (channel, threadId) => {
  * Reply to a specific message using provided payload
  * @param {Message} message A Discord message object
  * @param {MessagePayload} payload The content to reply with
- * @returns {Message}
+ * @returns {Promise<Message>}
  */
 export const messageReply = async (message, payload) => {
   return await message
@@ -126,27 +130,34 @@ export const dbReturnType = Object.freeze({
 
 /**
  * Fetch Log Channel using commons value
- * @param {object} eventObject Object given by listener event.
- * @param {string} [type] String to ditinguish which channel/thread to return.
- *  Can be "thread" or "inAndOut" channel. Null is for log channel.
- * @returns {TextChannel}
+ * @param {string} guildId The guild id.
+ * @param {string} type String to ditinguish which channel/thread to return.
+ *  Can be "thread" or "inAndOut" channel. Empty argument is for log channel.
+ * @returns {Promise<TextChannel>}
  */
-export const fetchLogChannel = async (eventObject, type) => {
-  const currentServer = COMMONS.fetchFromGuildId(eventObject.guild.id); //get server local data
+export const fetchLogChannel = async (guild, type = null) => {
+  const currentServer = COMMONS.fetchFromGuildId(guild.id); //get server local data
 
   let id;
   switch (type) {
+    default:
+      id = currentServer.logChannelId;
+      break;
     case "thread":
       id = currentServer.logThreadId;
       break;
     case "inAndOut":
       id = currentServer.inAndOutLogChannelId;
       break;
-    default:
-      id = currentServer.logChannelId;
   }
 
-  return await eventObject.guild.channels.fetch(id); //return the log channel
+  return await guild.channels.fetch(id); //return the log channel
+};
+
+export const fetchSpamThread = async (guild) => {
+  const commons = COMMONS.fetchFromGuildId(guild.id);
+  const logChannel = await fetchLogChannel(guild);
+  return await fetchThread(logChannel, commons.spamThreadId);
 };
 
 /**
@@ -216,6 +227,8 @@ export const isReleasedCommand = (command) => {
   else return true;
 };
 
+export const isProduction = process.env.PROD === "yes" ? true : false;
+
 /**
  * Return if guildMember has Sentinelle role or not.
  * @param {any} member guildMember to verify role
@@ -238,6 +251,24 @@ export const removeEmote = (str) => {
   if (ascii > 255) return str.slice(str[0].length); //if not a standard char => emote
   return str;
 };
+
+/**
+ * 
+ * @param {Channel} channel 
+ * @param {string} msg 
+ * @param {ColorResolvable} colour 
+ */
+export const sendBotSpamEmbed = async (channel, msg, colour) => {
+  const embed = new EmbedBuilder()
+    .setColor(colour)
+    .setDescription(msg);
+
+  try {
+    await channelSend(channel, {embeds: [embed]});
+  } catch (e) {
+    console.error("Cannot send bot spam message", e);
+  }
+}
 
 /**
  * Create and setup a EmbedBuilder with common properties.
