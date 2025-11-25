@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { finishEmbed } from "./utils.js";
-import { isSentinelle, removeAlavirien, setupEmbed } from "../helpers/index.js";
+import { isProduction, isSentinelle, removeAlavirien, setupEmbed } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
 import { PERSONALITY } from "../personality.js";
 import { Colors } from "discord.js";
@@ -110,7 +110,7 @@ export const setupAlavirien = async (client, tomorrow, frequency) => {
     //timeout until tomorrow
 
     const server =
-      process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd(); //get server data
+      isProduction ? COMMONS.getProd() : COMMONS.getTest(); //get server data
     checkAlavirien(client, server); //check for alavirien role attribution
 
     setInterval(checkAlavirien, frequency, client, server);
