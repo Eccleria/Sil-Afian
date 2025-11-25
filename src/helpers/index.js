@@ -28,6 +28,7 @@ import {
   isSentinelle,
   parseUnixTimestamp,
   removeEmote,
+  sendBotSpamEmbed,
   setupEmbed,
   sliceData,
 } from "./utils.js";
@@ -53,6 +54,7 @@ export {
   isSentinelle,
   parseUnixTimestamp,
   removeEmote,
+  sendBotSpamEmbed,
   setupEmbed,
   sliceData,
   // dbHelper

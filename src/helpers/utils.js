@@ -3,7 +3,9 @@ import { EmbedBuilder, MessageFlags } from "discord.js";
 import { COMMONS } from "../commons.js";
 
 /**
- * @import { Channel,
+ * @import { 
+ *   Channel,
+ *   ColorResolvable,
  *   EmbedBuilder,
  *   Guild,
  *   Message,
@@ -249,6 +251,24 @@ export const removeEmote = (str) => {
   if (ascii > 255) return str.slice(str[0].length); //if not a standard char => emote
   return str;
 };
+
+/**
+ * 
+ * @param {Channel} channel 
+ * @param {string} msg 
+ * @param {ColorResolvable} colour 
+ */
+export const sendBotSpamEmbed = async (channel, msg, colour) => {
+  const embed = new EmbedBuilder()
+    .setColor(colour)
+    .setDescription(msg);
+
+  try {
+    await channelSend(channel, {embeds: [embed]});
+  } catch (e) {
+    console.error("Cannot send bot spam message", e);
+  }
+}
 
 /**
  * Create and setup a EmbedBuilder with common properties.
