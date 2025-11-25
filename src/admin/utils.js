@@ -20,6 +20,7 @@ import {
   checkEmbedContent,
   fetchLogChannel,
   getAdminLogs,
+  isProduction,
   parseUnixTimestamp,
   removeAdminLogs,
   removeEmote,
@@ -77,7 +78,7 @@ export const finishEmbed = async (
 ) => {
   const currentServer = COMMONS.getTest(); //get test data
   if (
-    process.env.DEBUG === "no" &&
+    isProduction &&
     logChannel.guildId === currentServer.guildId
   ) {
     //Sil'Afian detects test in test server => return
@@ -227,7 +228,7 @@ export const processGeneralEmbed = async (
   const perso = personality[persoType];
   const aLog = personality.auditLog;
 
-  if (process.env.DEBUG === "no" && isTestServer(obj)) return; //if in prod && modif in test server
+  if (isProduction && isTestServer(obj)) return; //if in prod && modif in test server
 
   const channel = await fetchLogChannel(obj.guild); //get logChannel
   const objToSend = objType === "user" ? obj.user : obj; //handle user objects case
@@ -599,7 +600,7 @@ const logsRemover = async (client) => {
   console.log("logsRemover");
   const db = client.db;
   const server =
-    process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
+    isProduction ? COMMONS.getProd() : COMMONS.getTest();
 
   // frequent logs remove
   let type = "frequent"; //differentiate process for "frequent" and "userAD" logs

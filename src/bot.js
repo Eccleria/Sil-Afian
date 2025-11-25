@@ -58,7 +58,7 @@ import { COMMONS } from "./classes/commons.js";
 
 // fun imports
 import { setActivity, updateActivity } from "./fun.js";
-import { channelSend, fetchGuild, fetchSpamThread } from "./helpers/index.js";
+import { channelSend, fetchGuild, fetchSpamThread, isProduction } from "./helpers/index.js";
 
 // DB
 const file = join("db", "db.json"); // Use JSON file for storage
@@ -106,7 +106,7 @@ client.once(Events.ClientReady, async () => {
   // Bot init
   console.log("I am ready!");
   const server =
-    process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
+    isProduction ? COMMONS.getProd() : COMMONS.getTest();
   const guildId = server.guildId;
   const guild = await fetchGuild(client, guildId);
   const spamThread = await fetchSpamThread(guild);
