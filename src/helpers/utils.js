@@ -145,6 +145,8 @@ export const isReleasedCommand = (command) => {
   else return true;
 };
 
+export const isProduction = process.env.PROD === "yes" ? true : false;
+
 /**
  * Return if guildMember has Sentinelle role or not.
  * @param {any} member guildMember to verify role
