@@ -51,7 +51,7 @@ import { initAdminLogClearing } from "./admin/utils.js";
 import { slashCommandsInit } from "./commands/slash.js";
 
 // helpers imports
-import { onShardError, onUnhandledRejection } from "./error.js";
+import { onShardError, onUncaughtException, onUnhandledRejection } from "./error.js";
 
 // jsons import
 import { COMMONS } from "./classes/commons.js";
@@ -77,7 +77,7 @@ setInterval(async () => {
 }, 10000);
 
 // Discord CLIENT
-const client = new Client({
+export const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
@@ -123,7 +123,7 @@ client.once(Events.ClientReady, async () => {
   updateActivity(client);
 
   //slash commands
-  slashCommandsInit(guildId, client); //commands submit to API
+  await slashCommandsInit(guildId, client); //commands submit to API
 
   //LOGS
   const tomorrow2Am = tomorrow.hour(2); //tomorrow @ 2am
@@ -133,6 +133,7 @@ client.once(Events.ClientReady, async () => {
 
 // listeners for DEBUG
 process.on("unhandledRejection", onUnhandledRejection);
+process.on("uncaughtException", onUncaughtException);
 client.on(Events.ShardError, onShardError);
 
 // Create an event listener for messages
