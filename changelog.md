@@ -1,5 +1,6 @@
 # 1.1.0
 - Feat: add multiple utils used as common API wrappers ([#42](https://github.com/Eccleria/Sil-Afian/pull/42)) ([#46](https://github.com/Eccleria/Sil-Afian/pull/46))
+- Fix: missing an `await` when fetching the post from gif logs ([#35](https://github.com/Eccleria/Sil-Afian/issues/35)) ([#37](https://github.com/Eccleria/Sil-Afian/pull/37))
 
 # 1.0.0
 - Core: copy all basics from ([Ewibot](https://github.com/Eccleria/ewibot)) project
