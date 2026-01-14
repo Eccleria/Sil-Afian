@@ -1,18 +1,25 @@
 import dayjs from "dayjs";
-import {
-  Channel,
-  Client,
-  EmbedBuilder,
-  Guild,
-  Message,
-  MessageFlags,
-  MessagePayload,
-  TextChannel,
-  ThreadChannel,
-} from "discord.js";
+import { EmbedBuilder, MessageFlags } from "discord.js";
+
 import { COMMONS } from "../commons.js";
 
 //#region API wrappers
+
+/**
+ * Types imports for docstrings
+ * @import {
+ *   Channel,
+ *   Client,
+ *   EmbedBuilder,
+ *   Guild,
+ *   Message,
+ *   MessageFlags,
+ *   MessagePayload,
+ *   TextChannel,
+ *   ThreadChannel,
+ * } from "discord.js";
+ */
+
 /**
  * Send a message payload in a specific channel
  * @param {Channel} channel Channel where to send the message.
