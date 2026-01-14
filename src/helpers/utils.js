@@ -1,4 +1,6 @@
 import dayjs from "dayjs";
+import { EmbedBuilder, MessageFlags } from "discord.js";
+
 import { COMMONS } from "../commons.js";
 
 //#region API wrappers
