@@ -9,11 +9,10 @@
         "prettier": "^3.5.3"
     },
     "dependencies": {
-        "canvas": "^3.1.0",
         "dayjs": "^1.11.13",
         "discord.js": "^14.19.3",
         "dotenv": "^16.5.0",
-        "gif-encoder-2": "^1.0.5",
+        "ewilib": "https://github.com/Eccleria/ewilib",
         "jest": "^29.7.0",
         "lowdb": "^7.0.1",
         "nodemon": "^3.1.10"
