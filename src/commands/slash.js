@@ -3,7 +3,7 @@ dotenv.config();
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { REST } from "@discordjs/rest";
 import { ChannelType, Routes } from "discord-api-types/v9";
-import {   interactionReply } from "ewilib";
+import { interactionReply } from "ewilib";
 
 import announce from "./announce.js";
 import botEmote from "./botEmote.js";

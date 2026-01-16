@@ -1,12 +1,13 @@
 import { ContextMenuCommandBuilder } from "@discordjs/builders";
 import { EmbedBuilder } from "discord.js";
-import { channelSend, fetchMessage, interactionReply, messageReply } from "ewilib";
-
 import {
-  fetchLogChannel,
-  getAdminLogs,
-  gifParser,
-} from "../helpers/index.js";
+  channelSend,
+  fetchMessage,
+  interactionReply,
+  messageReply,
+} from "ewilib";
+
+import { fetchLogChannel, getAdminLogs, gifParser } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
 import { PERSONALITY } from "../personality.js";
 
@@ -83,7 +84,10 @@ const action = async (interaction) => {
       //message log found, check if next one is attachment
       //load message
       const threadLogChannel = await fetchLogChannel(interaction, "thread"); //get threadChannel
-      const nextMsg = await fetchMessage(threadLogChannel.messages, logs[logIdx + 1]);
+      const nextMsg = await fetchMessage(
+        threadLogChannel.messages,
+        logs[logIdx + 1],
+      );
 
       if (
         !nextMsg.attachments.length &&
@@ -115,7 +119,8 @@ const action = async (interaction) => {
     }, []);
   }
 
-  if (gifs.length !== 0) gifs.forEach((gif) => messageReply(savedMessage, {content: gif})); //send found gifs
+  if (gifs.length !== 0)
+    gifs.forEach((gif) => messageReply(savedMessage, { content: gif })); //send found gifs
 };
 
 const saveLog = {

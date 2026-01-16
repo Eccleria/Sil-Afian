@@ -8,7 +8,13 @@ import {
   Message,
   TextChannel,
 } from "discord.js";
-import { channelSend, fetchChannel, fetchMember, fetchMessage, messageReply } from "ewilib";
+import {
+  channelSend,
+  fetchChannel,
+  fetchMember,
+  fetchMessage,
+  messageReply,
+} from "ewilib";
 
 import {
   checkEmbedContent,
@@ -23,7 +29,6 @@ import {
 } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
 import { PERSONALITY } from "../personality.js";
-
 
 /**
  * Fetch AuditLog from API.
@@ -103,7 +108,7 @@ export const finishEmbed = async (
     let result = [message];
     if (stickers && stickers.length !== 0) {
       const textUrl = stickers.reduce((acc, cur) => acc + "\n" + cur, "");
-      const stickerMessage = await messageReply(message, {content: textUrl});
+      const stickerMessage = await messageReply(message, { content: textUrl });
       result.push(stickerMessage);
     }
     if (attachments && attachments.length !== 0) {
@@ -624,7 +629,10 @@ const logsRemover = async (client) => {
   type = "userAD";
   data = dbData[type][0];
   if (data.length !== 0) {
-    const logChannel = await fetchChannel(client.channels, server.inAndOutLogChannelId);
+    const logChannel = await fetchChannel(
+      client.channels,
+      server.inAndOutLogChannelId,
+    );
     const result = await logChannel.bulkDelete(data);
 
     const diff = data.reduce((acc, cur) => {

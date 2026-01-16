@@ -2,10 +2,7 @@ import { Colors, SlashCommandBuilder } from "discord.js";
 import dayjs from "dayjs";
 import { channelSend, fetchMember, interactionReply } from "ewilib";
 
-import {
-  fetchLogChannel,
-  setupEmbed,
-} from "../helpers/index.js";
+import { fetchLogChannel, setupEmbed } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
 
 const command = new SlashCommandBuilder()

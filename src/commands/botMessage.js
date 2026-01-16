@@ -1,6 +1,12 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { AttachmentBuilder, ChannelType } from "discord.js";
-import { channelSend, fetchChannel, fetchMessage, interactionReply, messageReply } from "ewilib";
+import {
+  channelSend,
+  fetchChannel,
+  fetchMessage,
+  interactionReply,
+  messageReply,
+} from "ewilib";
 
 import { isAdmin } from "../helpers/index.js";
 import { PERSONALITY } from "../personality.js";
@@ -182,16 +188,21 @@ const action = async (interaction) => {
     const sliced = url.split("/");
     let message;
     try {
-      message = await fetchMessage(interaction.channel.messages,
+      message = await fetchMessage(
+        interaction.channel.messages,
         sliced[sliced.length - 1],
       );
     } catch (e) {
       console.log("botMessage message fetch error", e);
       try {
-        const channel = await fetchChannel(interaction.client.channels,
+        const channel = await fetchChannel(
+          interaction.client.channels,
           sliced[sliced.length - 2],
         );
-        message = await fetchMessage(channel.messages, sliced[sliced.length - 1]);
+        message = await fetchMessage(
+          channel.messages,
+          sliced[sliced.length - 1],
+        );
       } catch (e2) {
         console.log("botMessage channel/message fetch error", e2);
         interactionReply(interaction, personality.wrongUrl);
