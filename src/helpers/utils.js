@@ -1,81 +1,15 @@
 import dayjs from "dayjs";
-import { EmbedBuilder, MessageFlags } from "discord.js";
+import { EmbedBuilder } from "discord.js";
+import { fetchChannel } from "ewilib";
 
 import { COMMONS } from "../commons.js";
 
-//#region API wrappers
-
-/**
- * Types imports for docstrings
- * @import {
- *   Channel,
- *   Client,
- *   EmbedBuilder,
- *   Guild,
- *   Message,
- *   MessageFlags,
- *   MessagePayload,
- *   TextChannel,
- *   ThreadChannel,
- * } from "discord.js";
- */
-
-/**
- * Send a message payload in a specific channel
- * @param {Channel} channel Channel where to send the message.
- * @param {MessagePayload} payload Payload of the message.
- * @returns {Message} Message sent on channel
- */
-export const channelSend = async (channel, payload) => {
-  const message = await channel.send(payload).catch(console.error);
-  return message;
-};
-
-/**
- * Fetch a channel from its id using a guild
- * @param {Guild} guild
- * @param {string} channelId
- * @returns {Channel}
- */
-export const fetchChannel = async (guild, channelId) => {
-  return await guild.channels.fetch(channelId).catch(console.error);
-};
-
-/**
- * Fetch the guild from its id
- * @param {Client} client Bot client
- * @param {string} guildId The id of the guild to fetch
- * @returns {Guild}
- */
-export const fetchGuild = async (client, guildId) => {
-  return await client.guilds.fetch(guildId).catch(console.error);
-};
-
-/**
- * Fetch a thread using its id from its parent channel
- * @param {Channel} channel The channel to which the thread to fetch belongs to
- * @param {string} threadId The id of the thread to fetch
- * @returns {ThreadChannel}
- */
-export const fetchThread = async (channel, threadId) => {
-  return await channel.threads.fetch(threadId).catch(console.error);
-};
-
-/**
- * Reply to a specific message using provided payload
- * @param {Message} message A Discord message object
- * @param {MessagePayload} payload The content to reply with
- * @returns {Message}
- */
-export const messageReply = async (message, payload) => {
-  return await message
-    .reply(payload)
-    .catch((err) => console.error("message reply error", err));
-};
-
-//#endregion
-
 //#region Misc
+
+/**
+ * Import types exclusively for jsdocs
+ * @import { TextChannel } from "discord.js"
+ */
 
 /**
  * Slice a string or an Array len times and returns it as an array
@@ -153,7 +87,7 @@ export const fetchLogChannel = async (eventObject, type) => {
       id = currentServer.logChannelId;
   }
 
-  return await eventObject.guild.channels.fetch(id); //return the log channel
+  return await fetchChannel(eventObject.guild.channels, id); //return the log channel
 };
 
 /**
@@ -185,25 +119,6 @@ export const gifParser = (content) => {
 
 export const hasOctagonalSign = (content, cmnShared) => {
   return content.includes(cmnShared.octagonalSignEmoji);
-};
-
-/**
- * Wrapper to reply to an interaction
- * @param {any} interaction Interaction the function is replying to.
- * @param {string} content Content of the replying message.
- * @param {boolean} [isEphemeral] Send *ephemeral or not* message, true by default.
- */
-export const interactionReply = async (
-  interaction,
-  content,
-  isEphemeral = true,
-) => {
-  const payload = { content };
-  if (isEphemeral) payload.flags = MessageFlags.Ephemeral;
-
-  await interaction
-    .reply(payload)
-    .catch((err) => console.log("interactionReply error", err));
 };
 
 export const isAdmin = (authorId) => {

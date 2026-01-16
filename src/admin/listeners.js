@@ -8,12 +8,14 @@ import {
   MessageType,
   OverwriteType,
 } from "discord.js";
+import { channelSend, fetchMember, fetchRole } from "ewilib";
+
 import {
   isTestServer,
   bufferizeEventUpdate,
   endCasesEmbed,
   fetchAuditLog,
-  fetchMessage,
+  fetchMessageItself,
   finishEmbed,
   processGeneralEmbed,
   octagonalLog,
@@ -125,8 +127,8 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
       try {
         obj =
           oldDiff.type === OverwriteType.Member
-            ? await oldChannel.guild.members.fetch(id)
-            : await oldChannel.guild.roles.fetch(id);
+            ? await fetchMember(oldChannel.guild.members, id)
+            : await fetchRole(oldChannel.guild.roles, id);
       } catch (e) {
         console.log(e);
         obj = null;
@@ -145,8 +147,8 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
       const id = newDiff.id; //get PO target id
       const obj =
         newDiff.type === OverwriteType.Member
-          ? await newChannel.guild.members.fetch(id)
-          : await newChannel.guild.roles.fetch(id);
+          ? await fetchMember(newChannel.guild.members, id)
+          : await fetchRole(newChannel.guild.roles, id);
       const name =
         newDiff.type === OverwriteType.Member ? perm.userAdded : perm.roleAdded;
 
@@ -197,8 +199,8 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
       //get role or member having that PO
       const obj =
         cur[0].type === OverwriteType.Member
-          ? await newChannel.guild.members.fetch(cur[0].id)
-          : await newChannel.guild.roles.fetch(cur[0].id);
+          ? await fetchMember(newChannel.guild.members, cur[0].id)
+          : await fetchRole(newChannel.guild.roles, cur[0].id);
 
       //write text
       const textAdded =
@@ -321,7 +323,7 @@ export const onThreadCreate = async (thread, newly) => {
       AuditLogEvent.ThreadCreate,
       1,
     ); //get auditLog
-    const executor = await thread.guild.members.fetch(thread.ownerId);
+    const executor = await fetchMember(thread.guild.members, thread.ownerId);
     const color = Colors.DarkGrey;
     const embed = setupEmbed(color, perso, thread, "tag"); //setup embed
     console.log(
@@ -585,7 +587,8 @@ export const onMessageDelete = async (message) => {
     );
     if (gifs !== null)
       for (const gif of gifs) {
-        const msg = await logChannel.send(gif);
+        const payload = { content: gif };
+        const msg = await channelSend(logChannel, payload);
         messageList.push(msg);
       }
 
@@ -629,7 +632,8 @@ export const onMessageDelete = async (message) => {
   );
   if (gifs !== null) {
     const content = gifs.join("\n");
-    const msg = await logChannel.send(content);
+    const payload = { content };
+    const msg = await channelSend(logChannel, payload);
     messageList.push(msg);
   }
   messageList.forEach((msg) =>
@@ -647,11 +651,11 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   let oMessage = oldMessage;
   let nMessage = newMessage;
   if (oldMessage.partial) {
-    const message = await fetchMessage(oldMessage);
+    const message = await fetchMessageItself(oldMessage);
     oMessage = message === null ? oldMessage : message;
   }
   if (newMessage.partial) {
-    const message = await fetchMessage(newMessage);
+    const message = await fetchMessageItself(newMessage);
     nMessage = message === null ? newMessage : message;
   }
 
@@ -1052,7 +1056,7 @@ export const checkPinStatus = async (message) => {
 
       //get logChannel
       const logChannel = await fetchLogChannel(message, "thread");
-      const logMessage = await logChannel.send({ embeds: [embed] });
+      const logMessage = await channelSend(logChannel, { embeds: [embed] });
       addAdminLogs(message.client.db, logMessage.id, "frequent", 6);
     }
   }

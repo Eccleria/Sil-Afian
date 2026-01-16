@@ -1,11 +1,9 @@
 import { Colors, SlashCommandBuilder } from "discord.js";
-import { PERSONALITY } from "../personality.js";
-import {
-  fetchLogChannel,
-  interactionReply,
-  setupEmbed,
-} from "../helpers/index.js";
 import dayjs from "dayjs";
+import { channelSend, fetchMember, interactionReply } from "ewilib";
+
+import { fetchLogChannel, setupEmbed } from "../helpers/index.js";
+import { PERSONALITY } from "../personality.js";
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getPersonality().timeout.name)
@@ -102,7 +100,7 @@ const action = async (interaction) => {
 
   //get guildMember to timeout
   const user = options.getUser(perso.userOption.name);
-  const member = await interaction.guild.members.fetch(user.id);
+  const member = await fetchMember(interaction.guild.members, user.id);
 
   //compute timestamp for timeout
   const today = dayjs();
@@ -112,7 +110,7 @@ const action = async (interaction) => {
   const logChannel = await fetchLogChannel(interaction);
   const tPerso = PERSONALITY.getAdmin().timeout.command;
   const embed = setupEmbed(Colors.Orange, tPerso, interaction.user, "tag");
-  logChannel.send({ embeds: [embed] });
+  await channelSend(logChannel, { embeds: [embed] });
 
   //timeout guildMember
   try {
