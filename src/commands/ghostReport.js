@@ -181,7 +181,7 @@ const sendLogAndReply = async (interaction, perso, logPayload, interactionPayloa
 //#region Slash Command
 
 const command = new SlashCommandBuilder()
-  .setDefaultMemberPermissions(0)
+  //.setDefaultMemberPermissions(0)
   .setName(PERSONALITY.getPersonality().ghostReport.name)
   .setDescription(PERSONALITY.getPersonality().ghostReport.description)
 
