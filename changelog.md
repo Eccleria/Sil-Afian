@@ -2,6 +2,7 @@
 - Feat: add multiple utils used as common API wrappers ([#42](https://github.com/Eccleria/Sil-Afian/pull/42)) ([#46](https://github.com/Eccleria/Sil-Afian/pull/46))
 - Fix: missing an `await` when fetching the post from gif logs ([#35](https://github.com/Eccleria/Sil-Afian/issues/35)) ([#37](https://github.com/Eccleria/Sil-Afian/pull/37))
 - Remove: unused packages (canvas, gif-encoder-2) ([#48](https://github.com/Eccleria/Sil-Afian/pull/48))
+- Upgrade: use `ewilib` for djs wrappers ([#45](https://github.com/Eccleria/Sil-Afian/issues/45)) ([#47](https://github.com/Eccleria/Sil-Afian/pull/47))
 
 # 1.0.0
 - Core: copy all basics from ([Ewibot](https://github.com/Eccleria/ewibot)) project
