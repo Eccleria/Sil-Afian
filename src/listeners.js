@@ -1,8 +1,10 @@
 import { ChannelType } from "discord.js";
+import { interactionReply } from "ewilib";
+
 import { checkPinStatus } from "./admin/listeners.js";
 import { octagonalLog } from "./admin/utils.js";
 import { buttonHandler, selectMenuHandler } from "./commands/utils.js";
-import { interactionReply, isReleasedCommand } from "./helpers/index.js";
+import { isReleasedCommand } from "./helpers/index.js";
 import { COMMONS } from "./commons.js";
 import { readContentAndReact } from "./fun.js";
 import { PERSONALITY } from "./personality.js";

@@ -4,10 +4,15 @@ import {
   //  EmbedBuilder,
   ButtonStyle,
   //  Colors,
-  MessageFlags,
 } from "discord.js";
+import { 
+  //channelSend, 
+  //fetchChannel,
+  interactionReply
+} from "ewilib";
+
 import { createButton } from "./utils.js";
-import { interactionReply, isAdmin } from "../helpers/index.js";
+import { isAdmin } from "../helpers/index.js";
 //import { COMMONS } from "../commons.js";
 import { PERSONALITY } from "../personality.js";
 /*
@@ -37,10 +42,10 @@ const giftAction = async (interaction) => {
   //get channel
   const server = COMMONS.fetchFromGuildId(interaction.guildId);
   const channelId = server.announce.giftChannelId;
-  const channel = await interaction.client.channels.fetch(channelId);
+  const channel = await fetchChannel(interaction.client.channels, channelId);
 
   //send gift announce
-  channel.send({ embeds: [embed] });
+  channelSend(channel, { embeds: [embed] });
 };
 
 const giftAnnounce = {
@@ -75,10 +80,9 @@ const action = (interaction) => {
     createButton(whichAnnounceP.id, announceP.buttonLabel, ButtonStyle.Danger),
   );
 
-  interaction.reply({
+  interactionReply(interaction, {
     content: whichAnnounceP.confirm,
     components: [actionRow],
-    flags: MessageFlags.Ephemeral,
   });
 };
 

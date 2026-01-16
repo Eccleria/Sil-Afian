@@ -3,6 +3,7 @@ dotenv.config();
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { REST } from "@discordjs/rest";
 import { ChannelType, Routes } from "discord-api-types/v9";
+import {   interactionReply } from "ewilib";
 
 import announce from "./announce.js";
 import botEmote from "./botEmote.js";
@@ -15,7 +16,6 @@ import {
   isIgnoredChannel,
   removeIgnoredChannel,
   //utils
-  interactionReply,
   isAdmin,
   isReleasedCommand,
   isSentinelle,
@@ -32,7 +32,7 @@ const ping = {
     .setDefaultMemberPermissions(0x0000010000000000), //set default permission to 0x0000010000000000 (manage messages)
   action: (interaction) => {
     const personality = PERSONALITY.getPersonality();
-    interaction.reply(personality.helloWorld.pong);
+    interactionReply(interaction, personality.helloWorld.pong);
   },
   help: (interaction) => {
     const personality = PERSONALITY.getPersonality();

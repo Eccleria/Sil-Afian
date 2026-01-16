@@ -1,9 +1,11 @@
 import dayjs from "dayjs";
-import { finishEmbed } from "./utils.js";
+import { Colors } from "discord.js";
+import { fetchChannel, fetchGuild, fetchMember } from "ewilib";
+
+import { fetchMessageItself, finishEmbed } from "./utils.js";
 import { isSentinelle, removeAlavirien, setupEmbed } from "../helpers/index.js";
 import { COMMONS } from "../commons.js";
 import { PERSONALITY } from "../personality.js";
-import { Colors } from "discord.js";
 
 export const presentationHandler = async (
   server,
@@ -15,11 +17,11 @@ export const presentationHandler = async (
 
   //fetch message if too old to be cached
   const { message } = messageReaction;
-  const fetchedMessage = await message.fetch();
+  const fetchedMessage = await fetchMessageItself(message);
 
   //fetch reactingMember for role check
-  const guild = await client.guilds.fetch(fetchedMessage.guildId);
-  const reactingMember = await guild.members.fetch(reactingUser.id);
+  const guild = await fetchGuild(client, fetchedMessage.guildId);
+  const reactingMember = await fetchMember(guild.members, reactingUser.id);
 
   if (isSentinelle(reactingMember, server)) {
     console.log("isSentinelle reaction");
@@ -29,18 +31,18 @@ export const presentationHandler = async (
 
 const giveAlavirien = async (client, server, personality, userId) => {
   //fetch data
-  const guild = await client.guilds.fetch(server.guildId);
+  const guild = await fetchGuild(client, server.guildId);
 
   let guildMember;
   try {
-    guildMember = await guild.members.fetch(userId);
+    guildMember = await fetchMember(guild.members, userId);
   } catch (e) {
     console.log("Alavirien - unknown guildMember ", userId, e);
     removeAlavirien(client.db, userId); //remove from db
     return;
   }
 
-  const logChannel = await client.channels.fetch(server.logChannelId); //get logChannel
+  const logChannel = await fetchChannel(client.channels, server.logChannelId); //get logChannel
 
   if (!guildMember.roles.cache.has(server.alavirienRoleId)) {
     //if doesn't have the role

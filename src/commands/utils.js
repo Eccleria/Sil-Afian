@@ -1,6 +1,7 @@
 import { ButtonBuilder } from "discord.js";
+import { interactionReply } from "ewilib";
+
 import { announceButtonHandler } from "./announce.js";
-import { interactionReply } from "../helpers/index.js";
 
 /**
  * Create a button from ButtonBuilder

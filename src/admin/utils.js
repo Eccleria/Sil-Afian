@@ -8,6 +8,8 @@ import {
   Message,
   TextChannel,
 } from "discord.js";
+import { channelSend, fetchChannel, fetchMember, fetchMessage, messageReply } from "ewilib";
+
 import {
   checkEmbedContent,
   fetchLogChannel,
@@ -22,13 +24,14 @@ import {
 import { COMMONS } from "../commons.js";
 import { PERSONALITY } from "../personality.js";
 
+
 /**
  * Fetch AuditLog from API.
  * @param {Guild} guild Guild.
  * @param {AuditLogEvent} auditType AuditLogEvent for audit type request.
  * @param {number} limit Number of auditLogs fetched.
  * @param {string} [type] String for audit type request.
- * @returns {?GuildAuditLogsEntry} Returns first auditLog entry or null if error.
+ * @returns {Promise<?GuildAuditLogsEntry>} Returns first auditLog entry or null if error.
  */
 export const fetchAuditLog = async (guild, auditType, limit, type) => {
   try {
@@ -93,14 +96,14 @@ export const finishEmbed = async (
 
   try {
     const newEmbeds = isEmbedList ? [embed, ...logEmbed.slice(1)] : [embed];
-    const message = await logChannel.send({
+    const message = await channelSend(logChannel, {
       embeds: newEmbeds,
       allowed_mentions: { parse: [] },
     }); //send
     let result = [message];
     if (stickers && stickers.length !== 0) {
       const textUrl = stickers.reduce((acc, cur) => acc + "\n" + cur, "");
-      const stickerMessage = await message.reply(textUrl);
+      const stickerMessage = await messageReply(message, {content: textUrl});
       result.push(stickerMessage);
     }
     if (attachments && attachments.length !== 0) {
@@ -108,7 +111,7 @@ export const finishEmbed = async (
         content: eventPerso.attachment,
         files: attachments,
       };
-      const gifMessage = await message.reply(attachmentPayload); //if attachments, send new message
+      const gifMessage = await messageReply(message, attachmentPayload); //if attachments, send new message
       result.push(gifMessage);
     }
     return result;
@@ -578,7 +581,7 @@ const regroup = (element, type) => {
   ); //{list: [[{id, name, parentId, oldPos, newPos}, ...],], lastParentId
 };
 
-export const fetchMessage = async (message) => {
+export const fetchMessageItself = async (message) => {
   try {
     return await message.fetch();
   } catch (e) {
@@ -621,7 +624,7 @@ const logsRemover = async (client) => {
   type = "userAD";
   data = dbData[type][0];
   if (data.length !== 0) {
-    const logChannel = await client.channels.fetch(server.inAndOutLogChannelId);
+    const logChannel = await fetchChannel(client.channels, server.inAndOutLogChannelId);
     const result = await logChannel.bulkDelete(data);
 
     const diff = data.reduce((acc, cur) => {
@@ -658,7 +661,7 @@ export const octagonalLog = async (object, user) => {
   const octaPerso = personality.octagonalSign;
 
   let message = user ? object.message : object;
-  if (message.partial) await message.fetch();
+  if (message.partial) await fetchMessageItself(message);
 
   //basic operations
   const logChannel = await fetchLogChannel(message); //get logChannelId
@@ -671,7 +674,7 @@ export const octagonalLog = async (object, user) => {
 
   //add more info to embed
   const executor = user
-    ? await message.guild.members.fetch(user.id)
+    ? await fetchMember(message.guild.members, user.id)
     : object.author; //get executor
   const date = Math.floor(message.createdTimestamp / 1000);
   const unixTimestamp = parseUnixTimestamp(date, "F");
@@ -732,7 +735,7 @@ export const createMessageReferenceEmbed = async (client, reference, color) => {
 
   let channel = null;
   if (reference.channelId && reference.messageId)
-    channel = await client.channels.fetch(reference.channelId);
+    channel = await fetchChannel(client.channels, reference.channelId);
 
   let embed;
   if (!channel) {
@@ -745,7 +748,7 @@ export const createMessageReferenceEmbed = async (client, reference, color) => {
     return embed;
   }
 
-  const message = await channel.messages.fetch(reference.messageId);
+  const message = await fetchMessage(channel.messages, reference.messageId);
   embed = setupEmbed(color, perso, message.author, "tag");
 
   const currentServer = COMMONS.fetchFromGuildId(reference.guildId);
