@@ -1,6 +1,8 @@
 import { SlashCommandBuilder, ContainerBuilder, Colors, SectionBuilder, ButtonStyle, ButtonBuilder, TextDisplayBuilder, MessageFlags, ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, ContextMenuCommandBuilder, EmbedBuilder } from "discord.js";
+import { interactionReply } from "ewilib";
+
 import { PERSONALITY } from "../personality.js";
-import { checkEmbedContent, fetchLogChannel, interactionReply, parseUnixTimestamp, setupEmbed } from "../helpers/index.js";
+import { checkEmbedContent, fetchLogChannel, parseUnixTimestamp, setupEmbed } from "../helpers/index.js";
 import { createButton } from "./utils.js";
 import { GHOSTREPORT, ghostReportObject } from "../classes/ghostReport.js";
 import { COMMONS } from "../commons.js";
