@@ -1,7 +1,8 @@
 import { SlashCommandBuilder } from "discord.js";
+import { interactionReply } from "ewilib";
+
 import { PERSONALITY } from "../personality.js";
-import { dbReturnType, interactionReply } from "../helpers/index.js";
-import { addTicketBannedUser } from "../helpers/index.js";
+import { addTicketBannedUser, dbReturnType } from "../helpers/index.js";
 import { removeTicketBannedUser } from "../helpers/db/dbTicket.js";
 
 const command = new SlashCommandBuilder()
