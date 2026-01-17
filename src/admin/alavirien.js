@@ -4,7 +4,7 @@ import { fetchChannel, fetchGuild, fetchMember } from "ewilib";
 
 import { fetchMessageItself, finishEmbed } from "./utils.js";
 import { isSentinelle, removeAlavirien, setupEmbed } from "../helpers/index.js";
-import { COMMONS } from "../commons.js";
+import { COMMONS } from "../classes/commons.js";
 import { PERSONALITY } from "../personality.js";
 
 export const presentationHandler = async (
