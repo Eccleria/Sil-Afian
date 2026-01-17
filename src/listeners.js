@@ -7,7 +7,7 @@ import { buttonHandler, selectMenuHandler } from "./commands/utils.js";
 import { isReleasedCommand } from "./helpers/index.js";
 import { COMMONS } from "./classes/commons.js";
 import { readContentAndReact } from "./fun.js";
-import { PERSONALITY } from "./personality.js";
+import { PERSONALITY } from "./classes/personality.js";
 import { presentationHandler } from "./admin/alavirien.js";
 
 //#region Listeners
