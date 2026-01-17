@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import { channelSend, fetchMember, interactionReply } from "ewilib";
 
 import { fetchLogChannel, setupEmbed } from "../helpers/index.js";
-import { PERSONALITY } from "../personality.js";
+import { PERSONALITY } from "../classes/personality.js";
 
 const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getPersonality().timeout.name)

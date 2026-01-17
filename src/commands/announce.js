@@ -13,7 +13,7 @@ import {
 
 import { createButton } from "./utils.js";
 import { isAdmin } from "../helpers/index.js";
-//import { COMMONS } from "../commons.js";
+//import { COMMONS } from "../classes/commons.js";
 import { PERSONALITY } from "../classes/personality.js";
 /*
 // GIFT Announce

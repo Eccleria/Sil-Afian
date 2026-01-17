@@ -8,8 +8,8 @@ import {
 } from "ewilib";
 
 import { fetchLogChannel, getAdminLogs, gifParser } from "../helpers/index.js";
-import { COMMONS } from "../commons.js";
-import { PERSONALITY } from "../personality.js";
+import { COMMONS } from "../classes/commons.js";
+import { PERSONALITY } from "../classes/personality.js";
 
 const command = new ContextMenuCommandBuilder()
   .setName("save-log")
