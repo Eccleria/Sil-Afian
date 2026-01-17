@@ -2,7 +2,7 @@ import { SlashCommandBuilder, ContainerBuilder, Colors, SectionBuilder, ButtonSt
 import { interactionReply } from "ewilib";
 
 import { PERSONALITY } from "../personality.js";
-import { checkEmbedContent, fetchLogChannel, parseUnixTimestamp, setupEmbed } from "../helpers/index.js";
+import { checkEmbedContent, fetchLogChannel, gifParser, parseUnixTimestamp, setupEmbed } from "../helpers/index.js";
 import { createButton } from "./utils.js";
 import { GHOSTREPORT, ghostReportObject } from "../classes/ghostReport.js";
 import { COMMONS } from "../commons.js";
@@ -261,6 +261,7 @@ const contextAction = async (interaction) => {
   //handle content
   let content = sMessage.content ? sMessage.content : mPerso.note;
   checkEmbedContent(content, messageEmbed, mPerso.content);
+  const gifs = gifParser(content); //handle gifs
   
   //build the interaction reply
   const interactionPayload = createInteractionPayload(perso);
@@ -278,6 +279,11 @@ const contextAction = async (interaction) => {
   }
   if (attachments && attachments.length !== 0) {
     await log.reply({ files: attachments }); //if attachments, send new message
+  }
+  if (gifs !== null) {
+    for (const gif of gifs) {
+      await log.reply({ content: gif });
+    }
   }
 };
 
