@@ -1,6 +1,7 @@
 # 1.2.0
 - CI: bump `node` requirement to 20.19.0 ([#54](https://github.com/Eccleria/Sil-Afian/pull/54))
 - Package: Bump to latest, fixing some dependancies warnings (jest) ([#53](https://github.com/Eccleria/Sil-Afian/pull/53))
+- Refacto: move `classes` files into separate folder ([#50](https://github.com/Eccleria/Sil-Afian/pull/50)) ([#51](https://github.com/Eccleria/Sil-Afian/pull/51))
 - Update: listeners now use djs `Events` enum ([#49](https://github.com/Eccleria/Sil-Afian/pull/49)) ([#52](https://github.com/Eccleria/Sil-Afian/pull/52))
 
 # 1.1.0
