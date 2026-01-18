@@ -19,6 +19,8 @@ import { JSONFile } from "lowdb/node";
 
 import { join } from "path";
 
+import { channelSend, fetchGuild } from "ewilib";
+
 // listeners imports
 import {
   onChannelCreate,
@@ -58,7 +60,7 @@ import { COMMONS } from "./classes/commons.js";
 
 // fun imports
 import { setActivity, updateActivity } from "./fun.js";
-import { channelSend, fetchGuild, fetchSpamThread, isProduction } from "./helpers/index.js";
+import { fetchSpamThread, isProduction } from "./helpers/index.js";
 
 // DB
 const file = join("db", "db.json"); // Use JSON file for storage
