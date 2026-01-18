@@ -1,4 +1,5 @@
 # 1.2.0
+- CI: bump `node` requirement to 20.19.0 ([#54](https://github.com/Eccleria/Sil-Afian/pull/54))
 - Package: Bump to latest, fixing some dependancies warnings (jest) ([#53](https://github.com/Eccleria/Sil-Afian/pull/53))
 
 # 1.1.0
