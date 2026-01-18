@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 import { EmbedBuilder } from "discord.js";
 import { fetchChannel } from "ewilib";
 
-import { COMMONS } from "../commons.js";
+import { COMMONS } from "../classes/commons.js";
 
 //#region Misc
 
