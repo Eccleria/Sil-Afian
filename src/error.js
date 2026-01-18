@@ -1,7 +1,9 @@
 import { EmbedBuilder } from "discord.js";
+import { channelSend, fetchGuild } from "ewilib";
+
 import { client } from "./bot.js";
 import { COMMONS } from "./commons.js";
-import { channelSend, fetchGuild, fetchSpamThread, sendBotSpamEmbed } from "./helpers/index.js";
+import { fetchSpamThread, sendBotSpamEmbed } from "./helpers/index.js";
 
 export const onShardError = (error) => {
   console.error("A websocket connection encountered an error:", error);

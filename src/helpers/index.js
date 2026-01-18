@@ -10,11 +10,7 @@ import {
 
 import {
   //API
-  channelSend,
-  fetchChannel,
-  fetchGuild,
   fetchLogChannel,
-  fetchThread,
   //Misc
   checkEmbedContent,
   dbReturnType,
@@ -35,11 +31,7 @@ import {
 export {
   // utils
   //API
-  channelSend,
-  fetchChannel,
-  fetchGuild,
   fetchSpamThread,
-  fetchThread,
   //Misc
   checkEmbedContent,
   dbReturnType,

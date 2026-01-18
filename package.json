@@ -5,8 +5,8 @@
     "type": "module",
     "devDependencies": {
         "eslint": "^9.39.2",
-        "eslint-plugin-jsdoc": "^62.1.0",
-        "prettier": "^3.8.0"
+        "eslint-plugin-jsdoc": "^62.4.0",
+        "prettier": "^3.8.1"
     },
     "dependencies": {
         "dayjs": "^1.11.19",

@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
 import { EmbedBuilder } from "discord.js";
-import { fetchChannel } from "ewilib";
+import { channelSend, fetchChannel, fetchThread } from "ewilib";
 
 import { COMMONS } from "../classes/commons.js";
 
@@ -8,7 +8,7 @@ import { COMMONS } from "../classes/commons.js";
 
 /**
  * Import types exclusively for jsdocs
- * @import { TextChannel } from "discord.js"
+ * @import { Channel, ColorResolvable, TextChannel } from "discord.js"
  */
 
 /**
