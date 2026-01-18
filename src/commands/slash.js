@@ -22,6 +22,7 @@ import {
 } from "../helpers/index.js";
 import { COMMONS } from "../classes/commons.js";
 import { PERSONALITY } from "../classes/personality.js";
+import { ghostReport, ghostMessageReport } from "./ghostReport.js";
 
 const rest = new REST({ version: "9" }).setToken(process.env.TOKEN);
 
@@ -87,11 +88,12 @@ const ignoreChannel = {
 };
 
 //regroup all commands
-const contextCommands = [saveLog]; //context commands (message, channel, user)
+const contextCommands = [ghostMessageReport, saveLog]; //context commands (message, channel, user)
 const slashCommands = [
   announce,
   botEmote,
   botMessage,
+  ghostReport,
   ignoreChannel,
   ping,
   timeout,
