@@ -90,7 +90,7 @@ const client = new Client({
 client.db = db; // db cache
 
 // Create bot startup
-client.once("ready", async () => {
+client.once(Events.ClientReady, async () => {
   // Time variables
   const tomorrow = dayjs().add(1, "day").hour(8).minute(0).second(0);
   const frequency = 24 * 60 * 60 * 1000; // 24 hours in ms
