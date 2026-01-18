@@ -126,9 +126,9 @@ client.on(Events.InteractionCreate, onInteractionCreate);
 client.on(Events.MessageDelete, onMessageDelete);
 client.on(Events.MessageUpdate, onMessageUpdate);
 
-client.on(Events.RoleCreate, onRoleCreate);
-client.on(Events.RoleDelete, onRoleDelete);
-client.on(Events.RoleUpdate, onRoleUpdate);
+client.on(Events.GuildRoleCreate, onRoleCreate);
+client.on(Events.GuildRoleDelete, onRoleDelete);
+client.on(Events.GuildRoleUpdate, onRoleUpdate);
 
 client.on(Events.ChannelCreate, onChannelCreate);
 client.on(Events.ChannelDelete, onChannelDelete);
