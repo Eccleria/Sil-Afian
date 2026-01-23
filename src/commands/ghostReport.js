@@ -29,6 +29,7 @@ const ghostReportConfirmContextButton = (interaction) => {
 
   const label = new LabelBuilder()
     .setLabel(perso.textInput.label)
+    .setDescription(perso.textInput.description)
     .setTextInputComponent(textInput);
 
   const modal = new ModalBuilder()

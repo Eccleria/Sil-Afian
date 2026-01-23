@@ -163,6 +163,7 @@
       "help": "La commande mentionne discrètement aux Modérateurices d'intervenir dans le salon dans lequel la commande est exécutée.",
       "modal": {
         "customId": "ghostReport_modal_giveContext",
+        "description": "Vous pouvez ajouter ici tout le contexte que vous jugez nécessaire afin de préciser votre signalement aux modos.",
         "textInput": {
           "customId": "ghostReport_modal_giveContext_textInput",
           "label": "Le contexte du signalement",
