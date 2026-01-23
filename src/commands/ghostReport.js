@@ -1,11 +1,11 @@
-import { SlashCommandBuilder, ContainerBuilder, Colors, SectionBuilder, ButtonStyle, ButtonBuilder, TextDisplayBuilder, MessageFlags, ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, ContextMenuCommandBuilder, EmbedBuilder } from "discord.js";
+import { SlashCommandBuilder, ContainerBuilder, Colors, SectionBuilder, ButtonStyle, ButtonBuilder, TextDisplayBuilder, MessageFlags, ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, ContextMenuCommandBuilder, EmbedBuilder, LabelBuilder } from "discord.js";
 import { interactionReply } from "ewilib";
 
-import { PERSONALITY } from "../personality.js";
+import { PERSONALITY } from "../classes/personality.js";
 import { checkEmbedContent, fetchLogChannel, gifParser, parseUnixTimestamp, setupEmbed } from "../helpers/index.js";
 import { createButton } from "./utils.js";
 import { GHOSTREPORT, ghostReportObject } from "../classes/ghostReport.js";
-import { COMMONS } from "../commons.js";
+import { COMMONS } from "../classes/commons.js";
 
 //#region ButtonHandlers
 
@@ -22,19 +22,19 @@ const ghostReportConfirmContextButton = (interaction) => {
 
   const textInput = new TextInputBuilder()
     .setCustomId(perso.textInput.customId)
-    .setLabel(perso.textInput.label)
     .setPlaceholder(perso.textInput.placeholder)
     .setStyle(TextInputStyle.Paragraph)
     .setMinLength(1)
     .setRequired(true);
 
-  const actionRow = new ActionRowBuilder()
-    .addComponents(textInput);
+  const label = new LabelBuilder()
+    .setLabel(perso.textInput.label)
+    .setTextInputComponent(textInput);
 
   const modal = new ModalBuilder()
     .setTitle(perso.title)
     .setCustomId(perso.customId)
-    .addComponents(actionRow);
+    .addLabelComponents(label);
 
   interaction.showModal(modal);
 };
