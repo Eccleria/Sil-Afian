@@ -1,8 +1,30 @@
-import { SlashCommandBuilder, ContainerBuilder, Colors, SectionBuilder, ButtonStyle, ButtonBuilder, TextDisplayBuilder, MessageFlags, ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, ContextMenuCommandBuilder, EmbedBuilder, LabelBuilder } from "discord.js";
+import {
+  SlashCommandBuilder,
+  ContainerBuilder,
+  Colors,
+  SectionBuilder,
+  ButtonStyle,
+  ButtonBuilder,
+  TextDisplayBuilder,
+  MessageFlags,
+  ActionRowBuilder,
+  ModalBuilder,
+  TextInputBuilder,
+  TextInputStyle,
+  ContextMenuCommandBuilder,
+  EmbedBuilder,
+  LabelBuilder,
+} from "discord.js";
 import { interactionReply } from "ewilib";
 
 import { PERSONALITY } from "../classes/personality.js";
-import { checkEmbedContent, fetchLogChannel, gifParser, parseUnixTimestamp, setupEmbed } from "../helpers/index.js";
+import {
+  checkEmbedContent,
+  fetchLogChannel,
+  gifParser,
+  parseUnixTimestamp,
+  setupEmbed,
+} from "../helpers/index.js";
 import { createButton } from "./utils.js";
 import { GHOSTREPORT, ghostReportObject } from "../classes/ghostReport.js";
 import { COMMONS } from "../classes/commons.js";
@@ -11,11 +33,11 @@ import { COMMONS } from "../classes/commons.js";
 
 export const ghostReportButtonHandler = (interaction) => {
   const { customId } = interaction;
-  if (customId.includes("_confirmButton")) 
+  if (customId.includes("_confirmButton"))
     ghostReportConfirmContextButton(interaction);
   else if (customId.includes("_cancelButton"))
     ghostReportCancelContextButton(interaction);
-}
+};
 
 const ghostReportConfirmContextButton = (interaction) => {
   const perso = PERSONALITY.getPersonality().ghostReport.modal;
@@ -32,8 +54,7 @@ const ghostReportConfirmContextButton = (interaction) => {
     .setLabel(perso.label)
     .setTextInputComponent(textInput);
 
-  const textDisplay = new TextDisplayBuilder()
-    .setContent(perso.description);
+  const textDisplay = new TextDisplayBuilder().setContent(perso.description);
 
   const modal = new ModalBuilder()
     .setTitle(perso.title)
@@ -46,7 +67,7 @@ const ghostReportConfirmContextButton = (interaction) => {
 
 const ghostReportCancelContextButton = (interaction) => {
   const perso = PERSONALITY.getPersonality().ghostReport.cancelButton;
-  interaction.update({content: perso, components: []}); //reply and remove buttons
+  interaction.update({ content: perso, components: [] }); //reply and remove buttons
 };
 
 //#endregion
@@ -58,34 +79,39 @@ export const ghostReportModalHandler = async (interaction) => {
 
   //fetch the log to which user add context
   const logChannel = await fetchLogChannel(interaction);
-  const report = GHOSTREPORT.getReportFromConfirmMessage(interaction.message.id);
-  const content = interaction.fields.getTextInputValue(perso.modal.textInput.customId);
+  const report = GHOSTREPORT.getReportFromConfirmMessage(
+    interaction.message.id,
+  );
+  const content = interaction.fields.getTextInputValue(
+    perso.modal.textInput.customId,
+  );
   if (!report) {
     console.warn("ghostReport - report not found", interaction);
     const text = perso.errorReportNotFound + content;
-    interaction.update({content: text, components: []}); //remove the ghostReport interaction reply
+    interaction.update({ content: text, components: [] }); //remove the ghostReport interaction reply
     return;
   }
   const logMessage = await logChannel.messages.fetch(report.reportId);
 
   //create the context payload
 
-  const textDisplay = new TextDisplayBuilder()
-    .setContent(perso.userContext + content);
+  const textDisplay = new TextDisplayBuilder().setContent(
+    perso.userContext + content,
+  );
   const container = new ContainerBuilder()
     .addTextDisplayComponents(textDisplay)
     .setAccentColor(Colors.DarkRed);
 
   const oldContainer = new ContainerBuilder(logMessage.components[0].toJSON());
-  
+
   try {
     logMessage.edit({
-      allowedMentions: { parse: [] }, 
+      allowedMentions: { parse: [] },
       components: [oldContainer, container],
-    })
+    });
 
-    interaction.update({content: perso.sentContext, components: []});
-  } catch(e) {
+    interaction.update({ content: perso.sentContext, components: [] });
+  } catch (e) {
     console.error("ghostReport - fail to edit log with context", e);
     console.log("ghostReport context: ", content);
   }
@@ -98,23 +124,25 @@ export const ghostReportModalHandler = async (interaction) => {
 const createInteractionPayload = (perso) => {
   const cPerso = perso.confirmButton;
   const confirmButton = createButton(
-    cPerso.confirmButton.customId, 
-    cPerso.confirmButton.label, 
-    ButtonStyle.Success
+    cPerso.confirmButton.customId,
+    cPerso.confirmButton.label,
+    ButtonStyle.Success,
   );
   const cancelButton = createButton(
-    cPerso.cancelButton.customId, 
-    cPerso.cancelButton.label, 
-    ButtonStyle.Secondary
+    cPerso.cancelButton.customId,
+    cPerso.cancelButton.label,
+    ButtonStyle.Secondary,
   );
-  const confirmActionRow = new ActionRowBuilder()
-    .addComponents(confirmButton, cancelButton);
+  const confirmActionRow = new ActionRowBuilder().addComponents(
+    confirmButton,
+    cancelButton,
+  );
 
   const interactionPayload = {
-    content: perso.sent, 
-    components: [confirmActionRow], 
-    flags: MessageFlags.Ephemeral, 
-    withResponse: true
+    content: perso.sent,
+    components: [confirmActionRow],
+    flags: MessageFlags.Ephemeral,
+    withResponse: true,
   };
   return interactionPayload;
 };
@@ -122,7 +150,9 @@ const createInteractionPayload = (perso) => {
 const createLogMainPayload = (interaction, perso, isChannel) => {
   //button
   const bPerso = perso.button;
-  const link = isChannel ? interaction.channel.url : interaction.targetMessage.url;
+  const link = isChannel
+    ? interaction.channel.url
+    : interaction.targetMessage.url;
   const button = new ButtonBuilder()
     .setLabel(bPerso.label)
     .setStyle(ButtonStyle.Link)
@@ -134,11 +164,16 @@ const createLogMainPayload = (interaction, perso, isChannel) => {
   const timestamp = Math.floor(interaction.createdTimestamp / 1000);
   const tTimestamp = parseUnixTimestamp(timestamp, "F");
   const tExecutor = tPerso.executor + interaction.user.toString();
-  const text = [tChannel, tExecutor, tTimestamp].reduce((acc, cur) => acc + cur + '\n\n', "");
+  const text = [tChannel, tExecutor, tTimestamp].reduce(
+    (acc, cur) => acc + cur + "\n\n",
+    "",
+  );
   const textComponent = new TextDisplayBuilder().setContent(text);
 
   //components
-  const titleComponent = new TextDisplayBuilder().setContent(perso.components.title);
+  const titleComponent = new TextDisplayBuilder().setContent(
+    perso.components.title,
+  );
   const section = new SectionBuilder()
     .addTextDisplayComponents(textComponent)
     .setButtonAccessory(button);
@@ -148,32 +183,45 @@ const createLogMainPayload = (interaction, perso, isChannel) => {
     .addSectionComponents(section);
 
   const payload = {
-    allowedMentions: { parse: [] }, 
-    components: [container], 
-    flags: MessageFlags.IsComponentsV2 
+    allowedMentions: { parse: [] },
+    components: [container],
+    flags: MessageFlags.IsComponentsV2,
   };
   return payload;
-}
+};
 
-const sendLogAndReply = async (interaction, perso, logPayload, interactionPayload) => {
+const sendLogAndReply = async (
+  interaction,
+  perso,
+  logPayload,
+  interactionPayload,
+) => {
   //get log channel
   const logChannel = await fetchLogChannel(interaction);
 
   try {
     const msg = await logChannel.send(logPayload);
-    if (msg)  {
+    if (msg) {
       //send confirmation
-      const reply = await interaction.reply(interactionPayload); 
+      const reply = await interaction.reply(interactionPayload);
 
       //store the report in GHOSTREPORT
-      const timeout = setTimeout(() => {
-        console.log("ghostReport - delete report ", msg.id);
-        GHOSTREPORT.removeReport(msg.id);
-      }, 2 * 60 * 60 * 1000); //2h timeout
-      const report = new ghostReportObject(msg.id, interaction.user.id, timeout, interaction.channelId, reply.resource.message.id);
+      const timeout = setTimeout(
+        () => {
+          console.log("ghostReport - delete report ", msg.id);
+          GHOSTREPORT.removeReport(msg.id);
+        },
+        2 * 60 * 60 * 1000,
+      ); //2h timeout
+      const report = new ghostReportObject(
+        msg.id,
+        interaction.user.id,
+        timeout,
+        interaction.channelId,
+        reply.resource.message.id,
+      );
       GHOSTREPORT.addReport(report);
-    }
-    else interactionReply(interaction, perso.errorNotSent);
+    } else interactionReply(interaction, perso.errorNotSent);
     return msg;
   } catch (err) {
     console.error("ghostReport ERROR ", err);
@@ -181,7 +229,7 @@ const sendLogAndReply = async (interaction, perso, logPayload, interactionPayloa
     interactionReply(interaction, perso.errorNotSent);
     return null;
   }
-}
+};
 
 //#endregion
 
@@ -190,19 +238,19 @@ const sendLogAndReply = async (interaction, perso, logPayload, interactionPayloa
 const command = new SlashCommandBuilder()
   //.setDefaultMemberPermissions(0)
   .setName(PERSONALITY.getPersonality().ghostReport.name)
-  .setDescription(PERSONALITY.getPersonality().ghostReport.description)
+  .setDescription(PERSONALITY.getPersonality().ghostReport.description);
 
 const action = async (interaction) => {
   const perso = PERSONALITY.getPersonality().ghostReport;
- 
+
   //build the interaction reply
   const interactionPayload = createInteractionPayload(perso);
-  
+
   //build the log (NOTE: Components V2)
   const payload = createLogMainPayload(interaction, perso, true);
-  
+
   sendLogAndReply(interaction, perso, payload, interactionPayload);
-}
+};
 
 const ghostReport = {
   command,
@@ -229,7 +277,12 @@ const contextAction = async (interaction) => {
   const mPerso = perso.messageEmbed;
 
   //build the message log payload
-  const messageEmbed = setupEmbed(Colors.DarkVividPink, mPerso, message.author, "tag")
+  const messageEmbed = setupEmbed(
+    Colors.DarkVividPink,
+    mPerso,
+    message.author,
+    "tag",
+  );
 
   //add creation date + channel
   const uDate = new Date(message.createdAt); //set date as Date object
@@ -249,7 +302,7 @@ const contextAction = async (interaction) => {
   const sEmbed = new EmbedBuilder()
     .setTitle(mPerso.snapshot)
     .setColor(Colors.LuminousVividPink);
-    
+
   //get message data
   const attachments = sMessage.attachments.reduce((acc, cur) => {
     return [...acc, cur.attachment];
@@ -269,16 +322,21 @@ const contextAction = async (interaction) => {
   let content = sMessage.content ? sMessage.content : mPerso.note;
   checkEmbedContent(content, messageEmbed, mPerso.content);
   const gifs = gifParser(content); //handle gifs
-  
+
   //build the interaction reply
   const interactionPayload = createInteractionPayload(perso);
 
   //build the log main container and send the log first part
   const payload = createLogMainPayload(interaction, perso, false);
-  const log = await sendLogAndReply(interaction, perso, payload, interactionPayload);
+  const log = await sendLogAndReply(
+    interaction,
+    perso,
+    payload,
+    interactionPayload,
+  );
 
   //Add the message data to the log
-  const messagePayload = {embeds};
+  const messagePayload = { embeds };
   await log.reply(messagePayload);
   if (stickersUrl && stickersUrl.length !== 0) {
     const textUrl = stickersUrl.reduce((acc, cur) => acc + "\n" + cur, "");
@@ -297,13 +355,13 @@ const contextAction = async (interaction) => {
 const ghostMessageReport = {
   command: contextCommand,
   action: contextAction,
-    help: (interaction) => {
+  help: (interaction) => {
     const perso = PERSONALITY.getPersonality().ghostMessageReport;
     interactionReply(interaction, perso.help);
   },
   admin: false,
   sentinelle: false,
-}
+};
 
 //#endregion
 
