@@ -30,6 +30,7 @@ import {
   onGuildMemberAdd,
   onGuildMemberRemove,
   onGuildMemberUpdate,
+  onInviteCreate,
 } from "./admin/listeners.js";
 import {
   onInteractionCreate,
@@ -143,6 +144,8 @@ client.on(Events.GuildBanRemove, onGuildBanRemove);
 client.on(Events.GuildMemberAdd, onGuildMemberAdd);
 client.on(Events.GuildMemberRemove, onGuildMemberRemove);
 client.on(Events.GuildMemberUpdate, onGuildMemberUpdate);
+
+client.on(Events.InviteCreate, onInviteCreate);
 
 // Log the bot in
 client.login(process.env.TOKEN);
