@@ -86,6 +86,96 @@
       "wrongUrl": "Le lien du message auquel répondre n'est pas accessible.",
       "wrongUser": "Vous n'avez pas accès à cette commande."
     },
+    "ghostMessageReport": {
+      "button": {
+        "id": "ghostReport_goTo",
+        "label": "Aller au message",
+        "link": "https://discord.com/channels/"
+      },
+      "components": {
+        "text": {
+          "channel": "**Salon : **",
+          "executor": "**Signalé par : **"
+        },
+        "title": "## Signalement de Message"
+      },
+      "confirmButton": {
+        "cancelButton": {
+          "customId": "ghostMessageReport_cancelButton",
+          "label": "Ne pas ajouter du contexte"
+        },
+        "confirmButton": {
+          "customId": "ghostMessageReport_confirmButton",
+          "label": "Ajouter du contexte"
+        }
+      },
+      "help": "Cette commande contextuelle permet de signaler discrètement un message spécifique aux modos. Vous pourrez également ajouter du contexte à votre signalement, si vous le jugez nécessaire.\n\nCette commande s'utilise comme ceci : `Clique droit sur un message > Applications > signaler aux modos`.",
+      "messageEmbed": {
+        "author": "Membre :",
+        "channel": "Salon :",
+        "content": {
+          "text": "Contenu",
+          "textAgain": "Contenu - suite"
+        },
+        "date": "Envoyé le :",
+        "note": "```Note: voir le prochain message pour le contenu. Si rien ne suit, alors le message était vide.```",
+        "snapshot": "Contenu provenant d'un message transféré.",
+        "text": "Contenu du message :",
+        "title": "Message signalé"
+      },
+      "name": "signaler ce message",
+      "sent": "Le signalement silencieux a bien été envoyé."
+    },
+    "ghostReport": {
+      "button": {
+        "id": "ghostReport_goTo",
+        "label": "Aller au salon",
+        "link": "https://discord.com/channels/"
+      },
+      "cancelButton": "Vous avez refusé d'envoyer du contexte à votre signalement.",
+      "components": {
+        "text": {
+          "channel": "**Salon : **",
+          "executor": "**Signalé par : **"
+        },
+        "title": "## Signalement de Salon"
+      },
+      "confirmButton": {
+        "cancelButton": {
+          "customId": "ghostReport_cancelButton",
+          "label": "Ne pas ajouter du contexte"
+        },
+        "confirmButton": {
+          "customId": "ghostReport_confirmButton",
+          "label": "Ajouter du contexte"
+        }
+      },
+      "context": {
+        "text": {
+          "channel": "**Salon : **",
+          "context": "**Signalé par : **"
+        },
+        "title": "### Contexte du signalement"
+      },
+      "description": "Signaler discrètement un salon à la modération",
+      "errorNotSent": "Le signalement n'a pas pu être envoyé. Veuillez contacter un.e modo en MP",
+      "errorReportNotFound": "Désolé, le signalement n'a pas pu être retrouvé. N'hésitez pas à mentionner cette erreur à un.e modérateurice en MP.\n\nPour rappel, voici ce que vous aviez écrit :\n",
+      "help": "La commande mentionne discrètement aux Modérateurices d'intervenir dans le salon dans lequel la commande est exécutée.",
+      "modal": {
+        "customId": "ghostReport_modal_giveContext",
+        "description": "Vous pouvez ajouter ici tout le contexte que vous jugez nécessaire afin de préciser votre signalement aux modos.\n*Attention, ne dépassez pas 1800 caractères.*",
+        "label": "Le contexte du signalement",
+        "textInput": {
+          "customId": "ghostReport_modal_giveContext_textInput",
+          "placeholder": "Ecrivez ici votre contexte"
+        },
+        "title": "Ajout de contexte pour les modos"
+      },
+      "name": "signalement_silencieux",
+      "sent": "Le signalement silencieux a bien été envoyé.",
+      "sentContext": "Le contexte a bien été envoyé.",
+      "userContext": "`L'utilisateurice a ajouté le contexte suivant :`\n"
+    },
     "helloWorld": {
       "description": "Ping !",
       "help": "Cette commande n'a pas besoin de description.",

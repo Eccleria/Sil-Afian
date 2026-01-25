@@ -3,7 +3,11 @@ import { interactionReply } from "ewilib";
 
 import { checkPinStatus } from "./admin/listeners.js";
 import { octagonalLog } from "./admin/utils.js";
-import { buttonHandler, selectMenuHandler } from "./commands/utils.js";
+import {
+  buttonHandler,
+  modalHandler,
+  selectMenuHandler,
+} from "./commands/utils.js";
 import { isReleasedCommand } from "./helpers/index.js";
 import { COMMONS } from "./classes/commons.js";
 import { readContentAndReact } from "./fun.js";
@@ -21,6 +25,11 @@ export const onInteractionCreate = (interaction) => {
     console.log("selectMenu interaction detected");
     selectMenuHandler(interaction);
     return;
+  }
+
+  if (interaction.isModalSubmit()) {
+    console.log("modal detected");
+    modalHandler(interaction);
   }
 
   const client = interaction.client; //get client
