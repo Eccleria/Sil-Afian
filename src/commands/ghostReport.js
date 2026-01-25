@@ -28,13 +28,16 @@ const ghostReportConfirmContextButton = (interaction) => {
     .setRequired(true);
 
   const label = new LabelBuilder()
-    .setLabel(perso.textInput.label)
-    .setDescription(perso.textInput.description)
+    .setLabel(perso.label)
     .setTextInputComponent(textInput);
+
+  const textDisplay = new TextDisplayBuilder()
+    .setContent(perso.description);
 
   const modal = new ModalBuilder()
     .setTitle(perso.title)
     .setCustomId(perso.customId)
+    .addTextDisplayComponents(textDisplay)
     .addLabelComponents(label);
 
   interaction.showModal(modal);
@@ -55,15 +58,17 @@ export const ghostReportModalHandler = async (interaction) => {
   //fetch the log to which user add context
   const logChannel = await fetchLogChannel(interaction);
   const report = GHOSTREPORT.getReportFromConfirmMessage(interaction.message.id);
+  const content = interaction.fields.getTextInputValue(perso.modal.textInput.customId);
   if (!report) {
     console.warn("ghostReport - report not found", interaction);
-    interaction.update({content: perso.errorReportNotFound, components: []}); //remove the ghostReport interaction reply
+    const text = perso.errorReportNotFound + content;
+    interaction.update({content: text, components: []}); //remove the ghostReport interaction reply
     return;
   }
   const logMessage = await logChannel.messages.fetch(report.reportId);
 
   //create the context payload
-  const content = interaction.fields.getTextInputValue(perso.modal.textInput.customId);
+
   const textDisplay = new TextDisplayBuilder()
     .setContent(perso.userContext + content);
   const container = new ContainerBuilder()

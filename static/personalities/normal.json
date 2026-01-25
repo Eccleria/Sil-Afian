@@ -159,14 +159,14 @@
       },
       "description": "Signaler discrètement un salon à la modération",
       "errorNotSent": "Le signalement n'a pas pu être envoyé. Veuillez contacter un.e modo en MP",
-      "errorReportNotFound": "Désolé, le signalement n'a pas pu être retrouvé. Veuillez réessayer. Si ce n'est pas la première fois, mentionner un.e modérateurice en MP.",
+      "errorReportNotFound": "Désolé, le signalement n'a pas pu être retrouvé. N'hésitez pas à mentionner cette erreur à un.e modérateurice en MP.\n\nPour rappel, voici ce que vous aviez écrit :\n",
       "help": "La commande mentionne discrètement aux Modérateurices d'intervenir dans le salon dans lequel la commande est exécutée.",
       "modal": {
         "customId": "ghostReport_modal_giveContext",
         "description": "Vous pouvez ajouter ici tout le contexte que vous jugez nécessaire afin de préciser votre signalement aux modos.",
+        "label": "Le contexte du signalement",
         "textInput": {
           "customId": "ghostReport_modal_giveContext_textInput",
-          "label": "Le contexte du signalement",
           "placeholder": "Ecrivez ici votre contexte"
         },
         "title": "Ajout de contexte pour les modos"
