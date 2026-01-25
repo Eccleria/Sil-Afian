@@ -25,6 +25,7 @@ const ghostReportConfirmContextButton = (interaction) => {
     .setPlaceholder(perso.textInput.placeholder)
     .setStyle(TextInputStyle.Paragraph)
     .setMinLength(1)
+    .setMaxLength(1800)
     .setRequired(true);
 
   const label = new LabelBuilder()
