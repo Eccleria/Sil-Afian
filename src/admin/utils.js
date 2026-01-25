@@ -20,6 +20,7 @@ import {
   checkEmbedContent,
   fetchLogChannel,
   getAdminLogs,
+  isProduction,
   parseUnixTimestamp,
   removeAdminLogs,
   removeEmote,
@@ -77,7 +78,7 @@ export const finishEmbed = async (
 ) => {
   const currentServer = COMMONS.getTest(); //get test data
   if (
-    process.env.DEBUG === "no" &&
+    isProduction &&
     logChannel.guildId === currentServer.guildId
   ) {
     //Sil'Afian detects test in test server => return
@@ -227,9 +228,9 @@ export const processGeneralEmbed = async (
   const perso = personality[persoType];
   const aLog = personality.auditLog;
 
-  if (process.env.DEBUG === "no" && isTestServer(obj)) return; //if in prod && modif in test server
+  if (isProduction && isTestServer(obj)) return; //if in prod && modif in test server
 
-  const channel = await fetchLogChannel(obj); //get logChannel
+  const channel = await fetchLogChannel(obj.guild); //get logChannel
   const objToSend = objType === "user" ? obj.user : obj; //handle user objects case
   const embed = setupEmbed(color, perso, objToSend, embedType); //setup embed
   embed.addFields({ name: perso.id, value: objToSend.id, inline: true });
@@ -599,7 +600,7 @@ const logsRemover = async (client) => {
   console.log("logsRemover");
   const db = client.db;
   const server =
-    process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
+    isProduction ? COMMONS.getProd() : COMMONS.getTest();
 
   // frequent logs remove
   let type = "frequent"; //differentiate process for "frequent" and "userAD" logs
@@ -672,7 +673,7 @@ export const octagonalLog = async (object, user) => {
   if (message.partial) await fetchMessageItself(message);
 
   //basic operations
-  const logChannel = await fetchLogChannel(message); //get logChannelId
+  const logChannel = await fetchLogChannel(message.guild); //get logChannelId
   const embed = setupEmbed(
     Colors.LuminousVividPink,
     octaPerso,
