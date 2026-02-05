@@ -1,3 +1,6 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import dayjs from "dayjs";
 import { EmbedBuilder } from "discord.js";
 import { channelSend, fetchChannel, fetchThread } from "ewilib";
