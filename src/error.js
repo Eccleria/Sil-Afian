@@ -2,7 +2,7 @@ import { EmbedBuilder } from "discord.js";
 import { channelSend, fetchGuild } from "ewilib";
 
 import { client } from "./bot.js";
-import { COMMONS } from "./commons.js";
+import { COMMONS } from "./classes/commons.js";
 import { fetchSpamThread, sendBotSpamEmbed } from "./helpers/index.js";
 
 export const onShardError = (error) => {
