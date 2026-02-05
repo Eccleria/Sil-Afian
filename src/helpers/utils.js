@@ -97,7 +97,7 @@ export const fetchLogChannel = async (guild, type = null) => {
 export const fetchSpamThread = async (guild) => {
   const commons = COMMONS.fetchFromGuildId(guild.id);
   const logChannel = await fetchLogChannel(guild);
-  return await fetchThread(logChannel, commons.spamThreadId);
+  return await fetchThread(logChannel.threads, commons.spamThreadId);
 };
 
 /**
