@@ -1,8 +1,9 @@
-import { ContainerBuilder, SlashCommandBuilder, TextDisplayBuilder } from "@discordjs/builders";
 import {
-  channelSend,
-  interactionReply,
-} from "ewilib";
+  ContainerBuilder,
+  SlashCommandBuilder,
+  TextDisplayBuilder,
+} from "@discordjs/builders";
+import { channelSend, interactionReply } from "ewilib";
 
 import { PERSONALITY } from "../classes/personality.js";
 import { Colors, MessageFlags } from "discord.js";
@@ -12,20 +13,27 @@ const command = new SlashCommandBuilder()
   .setName(PERSONALITY.getPersonality().copypasta.name)
   .setDescription(PERSONALITY.getPersonality().copypasta.description)
   .setDefaultMemberPermissions(0x0000010000000000)
-  .addSubcommandGroup((group) => 
+  .addSubcommandGroup((group) =>
     group
       .setName(PERSONALITY.getPersonality().copypasta.spoilers.name)
-      .setDescription(PERSONALITY.getPersonality().copypasta.spoilers.description)
-      .addSubcommand((subcommand) => 
-        subcommand 
-          .setName(PERSONALITY.getPersonality().copypasta.spoilers.seeThread.name)
-          .setDescription(PERSONALITY.getPersonality().copypasta.spoilers.seeThread.description)
+      .setDescription(
+        PERSONALITY.getPersonality().copypasta.spoilers.description,
       )
+      .addSubcommand((subcommand) =>
+        subcommand
+          .setName(
+            PERSONALITY.getPersonality().copypasta.spoilers.seeThread.name,
+          )
+          .setDescription(
+            PERSONALITY.getPersonality().copypasta.spoilers.seeThread
+              .description,
+          ),
+      ),
   );
 
 const action = async (interaction) => {
   const options = interaction.options;
-  const personnality = PERSONALITY.getPersonality().copypasta; 
+  const personnality = PERSONALITY.getPersonality().copypasta;
 
   const group = options.getSubcommandGroup();
 
@@ -39,8 +47,7 @@ const action = async (interaction) => {
       const perso = gPerso.seeThread;
 
       //create the content to send
-      const textDisplay = new TextDisplayBuilder()
-        .setContent(perso.text);
+      const textDisplay = new TextDisplayBuilder().setContent(perso.text);
 
       const container = new ContainerBuilder()
         .setAccentColor(Colors.Yellow)
@@ -49,7 +56,7 @@ const action = async (interaction) => {
       const components = [container];
 
       //send the container
-      const payload = {flags: MessageFlags.IsComponentsV2, components};
+      const payload = { flags: MessageFlags.IsComponentsV2, components };
       const message = await channelSend(interaction.channel, payload);
       if (message) interactionReply(interaction, personnality.sent);
       else interactionReply(interaction, personnality.errorNotSent);
