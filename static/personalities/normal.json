@@ -223,6 +223,35 @@
       "wrongChannel": "A n'utiliser que sur les logs fréquents.",
       "wrongMessage": "Mauvais message : ce n'est pas un log de message modifié ou supprimé."
     },
+    "ticket": {
+      "ban": {
+        "add": {
+          "banAdded": "L'utilisateurice a bien vu son accès aux tickets retirés.",
+          "banAlreadyAdded": "L'utilisateurice était déjà dans la liste des personnes bannies des tickets.",
+          "description": "Cette commande permet de ban l'accès d'un.e membre aux tickets.",
+          "name": "ajouter",
+          "userOption": {
+            "description": "L'utilisateurice à ban l'accès aux tickets",
+            "name": "utilisateurice"
+          }
+        },
+        "description": "Groupe de commande des bans",
+        "name": "ban",
+        "remove": {
+          "banRemoved": "L'utilisateurice a bien vu son accès aux tickets restaurés.",
+          "banAlreadyRemoved": "L'utilisateurice était déjà retirée de la liste des personnes bannies des tickets.",
+          "description": "Cette commande permet de restaurer l'accès d'un.e membre aux tickets.",
+          "name": "restaurer",
+          "userOption": {
+            "description": "L'utilisateurice auquel restaurer l'accès aux tickets",
+            "name": "utilisateurice"
+          }
+        }
+      },
+      "description": "Série de commandes associées aux tickets.",
+      "help": "placeholder help",
+      "name": "ticket"
+    },
     "timeout": {
       "description": "Pour exclure une personne du serveur.",
       "daysOption": {
