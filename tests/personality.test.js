@@ -1,6 +1,6 @@
 import { describe, expect, test } from "@jest/globals";
 
-import { Personality, PERSONALITY } from "../src/personality.js";
+import { Personality, PERSONALITY } from "../src/classes/personality.js";
 
 describe("Personality", () => {
   test("Singleton exists", () => {
