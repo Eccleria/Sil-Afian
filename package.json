@@ -4,6 +4,7 @@
     "author": "Eccleria",
     "type": "module",
     "devDependencies": {
+        "@babel/preset-env": "^7.29.0",
         "eslint": "^9.39.2",
         "eslint-plugin-jsdoc": "^62.4.0",
         "prettier": "^3.8.1"
@@ -22,6 +23,6 @@
         "dev": "nodemon --ignore ./db/ --exec node --experimental-json-modules src/bot.js",
         "lint": "eslint src tests",
         "prettier": "prettier --write src",
-        "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage --detectOpenHandles"
+        "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage --detectOpenHandles --debug"
     }
 }

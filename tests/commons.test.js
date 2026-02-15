@@ -1,6 +1,17 @@
-import { describe, test, expect } from "@jest/globals";
+import { describe, jest, expect, test } from "@jest/globals";
 
-import { Commons, COMMONS } from "../src/commons.js";
+import { Commons, COMMONS } from "../src/classes/commons.js";
+
+//mock the isProduction const
+const mockIsProductionGetter = jest.fn();
+mockIsProductionGetter.mockReturnValue(true).mockReturnValue(false);
+
+jest.mock("../src/utils.js", () => ({
+  get isProduction() {
+    return mockIsProductionGetter();
+  },
+}))
+
 
 describe("Commons", () => {
   test("Singleton exists", () => {
@@ -14,9 +25,9 @@ describe("Commons", () => {
   const c = new Commons(testC, prodC, sharedC);
 
   test("Correct init", () => {
-    expect(c.test).toStrictEqual(testC);
-    expect(c.prod).toStrictEqual(prodC);
-    expect(c.shared).toStrictEqual(sharedC);
+    expect(c._test).toStrictEqual(testC);
+    expect(c._prod).toStrictEqual(prodC);
+    expect(c._shared).toStrictEqual(sharedC);
   });
 
   test("getTest", () => {

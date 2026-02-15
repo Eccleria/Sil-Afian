@@ -12,5 +12,8 @@ export default {
         "^discord.js$": "<rootDir>/__mocks__/discord.js.js",  // Utilisation d'un mock personnalisé pour discord.js
     },
     testEnvironment: 'jest-environment-node',
-    transform: {},
+    transform: {
+      "^.+\\.js$": "babel-jest",
+    },
+    transformIgnorePatterns: ['/node_modules/(?!discord-api-types)', '/node_modules/(?!ewilib)'],
 }
