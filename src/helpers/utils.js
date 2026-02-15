@@ -1,6 +1,9 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import dayjs from "dayjs";
 import { EmbedBuilder } from "discord.js";
-import { fetchChannel } from "ewilib";
+import { channelSend, fetchChannel, fetchThread } from "ewilib";
 
 import { COMMONS } from "../classes/commons.js";
 
@@ -8,7 +11,7 @@ import { COMMONS } from "../classes/commons.js";
 
 /**
  * Import types exclusively for jsdocs
- * @import { TextChannel } from "discord.js"
+ * @import { Channel, ColorResolvable, TextChannel } from "discord.js"
  */
 
 /**
@@ -67,27 +70,34 @@ export const dbReturnType = Object.freeze({
 
 /**
  * Fetch Log Channel using commons value
- * @param {object} eventObject Object given by listener event.
- * @param {string} [type] String to ditinguish which channel/thread to return.
- *  Can be "thread" or "inAndOut" channel. Null is for log channel.
- * @returns {TextChannel}
+ * @param {string} guildId The guild id.
+ * @param {string} type String to ditinguish which channel/thread to return.
+ *  Can be "thread" or "inAndOut" channel. Empty argument is for log channel.
+ * @returns {Promise<TextChannel>}
  */
-export const fetchLogChannel = async (eventObject, type) => {
-  const currentServer = COMMONS.fetchFromGuildId(eventObject.guild.id); //get server local data
+export const fetchLogChannel = async (guild, type = null) => {
+  const currentServer = COMMONS.fetchFromGuildId(guild.id); //get server local data
 
   let id;
   switch (type) {
+    default:
+      id = currentServer.logChannelId;
+      break;
     case "thread":
       id = currentServer.logThreadId;
       break;
     case "inAndOut":
       id = currentServer.inAndOutLogChannelId;
       break;
-    default:
-      id = currentServer.logChannelId;
   }
 
-  return await fetchChannel(eventObject.guild.channels, id); //return the log channel
+  return await fetchChannel(guild.channels, id); //return the log channel
+};
+
+export const fetchSpamThread = async (guild) => {
+  const commons = COMMONS.fetchFromGuildId(guild.id);
+  const logChannel = await fetchLogChannel(guild);
+  return await fetchThread(logChannel.threads, commons.spamThreadId);
 };
 
 /**
@@ -138,6 +148,8 @@ export const isReleasedCommand = (command) => {
   else return true;
 };
 
+export const isProduction = process.env.PROD === "yes" ? true : false;
+
 /**
  * Return if guildMember has Sentinelle role or not.
  * @param {any} member guildMember to verify role
@@ -159,6 +171,22 @@ export const removeEmote = (str) => {
   const ascii = str[0].charCodeAt(0);
   if (ascii > 255) return str.slice(str[0].length); //if not a standard char => emote
   return str;
+};
+
+/**
+ *
+ * @param {Channel} channel
+ * @param {string} msg
+ * @param {ColorResolvable} colour
+ */
+export const sendBotSpamEmbed = async (channel, msg, colour) => {
+  const embed = new EmbedBuilder().setColor(colour).setDescription(msg);
+
+  try {
+    await channelSend(channel, { embeds: [embed] });
+  } catch (e) {
+    console.error("Cannot send bot spam message", e);
+  }
 };
 
 /**

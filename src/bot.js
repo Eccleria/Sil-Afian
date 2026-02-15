@@ -7,11 +7,19 @@ import "dayjs/locale/fr.js";
 dayjs.extend(RelativeTime);
 dayjs.locale("fr");
 
-import { Client, Events, GatewayIntentBits, Partials } from "discord.js";
+import {
+  Client,
+  EmbedBuilder,
+  Events,
+  GatewayIntentBits,
+  Partials,
+} from "discord.js";
 import { Low } from "lowdb";
 import { JSONFile } from "lowdb/node";
 
 import { join } from "path";
+
+import { channelSend, fetchGuild } from "ewilib";
 
 // listeners imports
 import {
@@ -45,12 +53,18 @@ import { initAdminLogClearing } from "./admin/utils.js";
 import { slashCommandsInit } from "./commands/slash.js";
 
 // helpers imports
+import {
+  onShardError,
+  onUncaughtException,
+  onUnhandledRejection,
+} from "./error.js";
 
 // jsons import
 import { COMMONS } from "./classes/commons.js";
 
 // fun imports
 import { setActivity, updateActivity } from "./fun.js";
+import { fetchSpamThread, isProduction } from "./helpers/index.js";
 
 // DB
 const file = join("db", "db.json"); // Use JSON file for storage
@@ -69,7 +83,7 @@ setInterval(async () => {
 }, 10000);
 
 // Discord CLIENT
-const client = new Client({
+export const client = new Client({
   intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
@@ -97,6 +111,16 @@ client.once(Events.ClientReady, async () => {
 
   // Bot init
   console.log("I am ready!");
+  const server = isProduction ? COMMONS.getProd() : COMMONS.getTest();
+  const guildId = server.guildId;
+  const guild = await fetchGuild(client, guildId);
+  const spamThread = await fetchSpamThread(guild);
+  const embed = new EmbedBuilder()
+    .setColor(COMMONS.getOK())
+    .setDescription("I am ready 👋");
+  await channelSend(spamThread, { embeds: [embed] });
+
+  //Init alavirien loop check
   setupAlavirien(client, tomorrow, frequency);
 
   //Sil'Afian activity
@@ -104,16 +128,18 @@ client.once(Events.ClientReady, async () => {
   updateActivity(client);
 
   //slash commands
-  const server =
-    process.env.DEBUG === "yes" ? COMMONS.getTest() : COMMONS.getProd();
-  const guildId = server.guildId;
-  slashCommandsInit(guildId, client); //commands submit to API
+  await slashCommandsInit(guildId, client); //commands submit to API
 
   //LOGS
   const tomorrow2Am = tomorrow.hour(2); //tomorrow @ 2am
   const timeTo2Am = tomorrow2Am.diff(dayjs()); //10000; //waiting time in ms
   initAdminLogClearing(client, timeTo2Am); //adminLogs clearing init
 });
+
+// listeners for DEBUG
+process.on("unhandledRejection", onUnhandledRejection);
+process.on("uncaughtException", onUncaughtException);
+client.on(Events.ShardError, onShardError);
 
 // Create an event listener for messages
 client.on(Events.MessageCreate, onMessageCreate);

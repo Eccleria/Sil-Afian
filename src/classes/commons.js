@@ -1,5 +1,7 @@
 // jsons import
+import { Colors } from "discord.js";
 import { readFileSync } from "fs";
+import { isProduction } from "../helpers/index.js";
 const commons = JSON.parse(readFileSync("static/commons.json"));
 
 /**
@@ -7,9 +9,11 @@ const commons = JSON.parse(readFileSync("static/commons.json"));
  */
 export class Commons {
   constructor(test, prod, shared) {
-    this.test = test;
-    this.prod = prod;
-    this.shared = shared;
+    this._test = test;
+    this._prod = prod;
+    this._shared = shared;
+    this._OK = Colors.DarkGreen;
+    this._KO = Colors.Red;
   }
 
   /**
@@ -17,7 +21,7 @@ export class Commons {
    * @returns {object} specific values for test server
    */
   getTest() {
-    return this.test;
+    return this._test;
   }
 
   /**
@@ -25,7 +29,7 @@ export class Commons {
    * @returns {object} specific values for prod server
    */
   getProd() {
-    return this.prod;
+    return this._prod;
   }
 
   /**
@@ -33,7 +37,19 @@ export class Commons {
    * @returns {object} values shared for both servers
    */
   getShared() {
-    return this.shared;
+    return this._shared;
+  }
+
+  getOK() {
+    return this._OK;
+  }
+
+  getKO() {
+    return this._KO;
+  }
+
+  fetchFromEnv() {
+    return isProduction ? this._prod : this._test;
   }
 
   /**
@@ -44,12 +60,13 @@ export class Commons {
   fetchFromGuildId(guildId) {
     return this.getList().find((obj) => guildId === obj.guildId);
   }
+
   /**
    * get both test & prod values in a list
    * @returns {object} Both test, prod object in a list
    */
   getList() {
-    return [this.test, this.prod];
+    return [this._test, this._prod];
   }
 }
 

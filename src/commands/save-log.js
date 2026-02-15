@@ -34,7 +34,7 @@ const action = async (interaction) => {
   }
   //check if is only attachment message
   if (message.attachments.size !== 0) {
-    const logChannel = await fetchLogChannel(interaction); //get logChannel
+    const logChannel = await fetchLogChannel(interaction.guild); //get logChannel
     const attachments = message.attachments.reduce(
       (acc, cur) => [...acc, cur],
       [],
@@ -59,7 +59,7 @@ const action = async (interaction) => {
     return;
   }
 
-  const logChannel = await fetchLogChannel(interaction); //get logChannel
+  const logChannel = await fetchLogChannel(interaction.guild); //get logChannel
 
   //add executor of saveLog
   const member = interaction.member;
@@ -83,7 +83,10 @@ const action = async (interaction) => {
     if (logIdx !== -1 && logIdx !== logs.length - 1) {
       //message log found, check if next one is attachment
       //load message
-      const threadLogChannel = await fetchLogChannel(interaction, "thread"); //get threadChannel
+      const threadLogChannel = await fetchLogChannel(
+        interaction.guild,
+        "thread",
+      ); //get threadChannel
       const nextMsg = await fetchMessage(
         threadLogChannel.messages,
         logs[logIdx + 1],
