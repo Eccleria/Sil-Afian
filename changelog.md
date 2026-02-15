@@ -1,5 +1,6 @@
 # 1.3.0
-- Feat: add a new `spam` channel where to report bot status (online and process errors) ([#41](https://github.com/Eccleria/Sil-Afian/pull/41)) 
+- Feat: add a new `spam` channel where to report bot status (online and process errors) ([#41](https://github.com/Eccleria/Sil-Afian/pull/41))
+- Feat: add a `copypasta` mod command to send pre written messages ([#59](https://github.com/Eccleria/Sil-Afian/issues/59)) ([#61](https://github.com/Eccleria/Sil-Afian/pull/61))
 
 # 1.2.0
 - CI: bump `node` requirement to 20.19.0 ([#54](https://github.com/Eccleria/Sil-Afian/pull/54))

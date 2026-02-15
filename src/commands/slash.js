@@ -8,6 +8,7 @@ import { interactionReply } from "ewilib";
 import announce from "./announce.js";
 import botEmote from "./botEmote.js";
 import botMessage from "./botMessage.js";
+import copypasta from "./copypasta.js";
 import saveLog from "./save-log.js";
 import timeout from "./timeout.js";
 import {
@@ -93,6 +94,7 @@ const slashCommands = [
   announce,
   botEmote,
   botMessage,
+  copypasta,
   ghostReport,
   ignoreChannel,
   ping,

@@ -86,6 +86,22 @@
       "wrongUrl": "Le lien du message auquel répondre n'est pas accessible.",
       "wrongUser": "Vous n'avez pas accès à cette commande."
     },
+    "copypasta": {
+      "description": "Envoyer un copypasta",
+      "errorNotSent": "Le copypasta n'a pas pu être envoyé. Contactez un dev.",      
+      "help": "La commande permet d'envoyer des messages prérédigés dans le salon dans lequel la commande est exécutée.",
+      "name": "copypasta",
+      "sent": "Le copypasta est envoyé.",
+      "spoilers": {
+        "description": "Les copypasta liés aux spoilers sur la série",
+        "name": "spoilers",
+        "seeThread": {
+          "description": "Un message pour rediriger vers le thread spoilers",
+          "name": "voir-thread",
+          "text": "Coucou !\nVotre enthousiasme sur la série fait chaud au coeur, mais veuillez s'il vous plait en parler dans le fil https://discord.com/channels/816961245743808582/1471823715795996712\nMerci."
+        }
+      }
+    },
     "ghostMessageReport": {
       "button": {
         "id": "ghostReport_goTo",
