@@ -83,7 +83,10 @@ const action = async (interaction) => {
     if (logIdx !== -1 && logIdx !== logs.length - 1) {
       //message log found, check if next one is attachment
       //load message
-      const threadLogChannel = await fetchLogChannel(interaction.guild, "thread"); //get threadChannel
+      const threadLogChannel = await fetchLogChannel(
+        interaction.guild,
+        "thread",
+      ); //get threadChannel
       const nextMsg = await fetchMessage(
         threadLogChannel.messages,
         logs[logIdx + 1],

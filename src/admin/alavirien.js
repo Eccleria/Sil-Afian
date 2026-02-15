@@ -3,7 +3,12 @@ import { Colors } from "discord.js";
 import { fetchChannel, fetchGuild, fetchMember } from "ewilib";
 
 import { fetchMessageItself, finishEmbed } from "./utils.js";
-import { isProduction, isSentinelle, removeAlavirien, setupEmbed } from "../helpers/index.js";
+import {
+  isProduction,
+  isSentinelle,
+  removeAlavirien,
+  setupEmbed,
+} from "../helpers/index.js";
 import { COMMONS } from "../classes/commons.js";
 import { PERSONALITY } from "../classes/personality.js";
 
@@ -111,8 +116,7 @@ export const setupAlavirien = async (client, tomorrow, frequency) => {
   setTimeout(async () => {
     //timeout until tomorrow
 
-    const server =
-      isProduction ? COMMONS.getProd() : COMMONS.getTest(); //get server data
+    const server = isProduction ? COMMONS.getProd() : COMMONS.getTest(); //get server data
     checkAlavirien(client, server); //check for alavirien role attribution
 
     setInterval(checkAlavirien, frequency, client, server);

@@ -30,12 +30,15 @@ export const onUncaughtException = async (error) => {
   const server = COMMONS.fetchFromEnv();
   const guild = await fetchGuild(client, server.guildId);
   const spamChannel = await fetchSpamThread(guild);
-  const msg = "❌ Uncaught Exception: " + error + "\n**Shutting down**"
+  const msg = "❌ Uncaught Exception: " + error + "\n**Shutting down**";
   const embed = new EmbedBuilder()
     .setColor(COMMONS.getKO())
     .setDescription(msg);
 
   //send a spam status and exit
-  await channelSend(spamChannel, {content: "<@290505766631112714>", embeds: [embed]});
+  await channelSend(spamChannel, {
+    content: "<@290505766631112714>",
+    embeds: [embed],
+  });
   process.exit();
 };

@@ -174,22 +174,20 @@ export const removeEmote = (str) => {
 };
 
 /**
- * 
- * @param {Channel} channel 
- * @param {string} msg 
- * @param {ColorResolvable} colour 
+ *
+ * @param {Channel} channel
+ * @param {string} msg
+ * @param {ColorResolvable} colour
  */
 export const sendBotSpamEmbed = async (channel, msg, colour) => {
-  const embed = new EmbedBuilder()
-    .setColor(colour)
-    .setDescription(msg);
+  const embed = new EmbedBuilder().setColor(colour).setDescription(msg);
 
   try {
-    await channelSend(channel, {embeds: [embed]});
+    await channelSend(channel, { embeds: [embed] });
   } catch (e) {
     console.error("Cannot send bot spam message", e);
   }
-}
+};
 
 /**
  * Create and setup a EmbedBuilder with common properties.

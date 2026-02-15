@@ -53,7 +53,11 @@ import { initAdminLogClearing } from "./admin/utils.js";
 import { slashCommandsInit } from "./commands/slash.js";
 
 // helpers imports
-import { onShardError, onUncaughtException, onUnhandledRejection } from "./error.js";
+import {
+  onShardError,
+  onUncaughtException,
+  onUnhandledRejection,
+} from "./error.js";
 
 // jsons import
 import { COMMONS } from "./classes/commons.js";
@@ -107,8 +111,7 @@ client.once(Events.ClientReady, async () => {
 
   // Bot init
   console.log("I am ready!");
-  const server =
-    isProduction ? COMMONS.getProd() : COMMONS.getTest();
+  const server = isProduction ? COMMONS.getProd() : COMMONS.getTest();
   const guildId = server.guildId;
   const guild = await fetchGuild(client, guildId);
   const spamThread = await fetchSpamThread(guild);

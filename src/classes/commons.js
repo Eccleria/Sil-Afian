@@ -60,7 +60,7 @@ export class Commons {
   fetchFromGuildId(guildId) {
     return this.getList().find((obj) => guildId === obj.guildId);
   }
-  
+
   /**
    * get both test & prod values in a list
    * @returns {object} Both test, prod object in a list

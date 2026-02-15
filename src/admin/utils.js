@@ -77,10 +77,7 @@ export const finishEmbed = async (
   stickers,
 ) => {
   const currentServer = COMMONS.getTest(); //get test data
-  if (
-    isProduction &&
-    logChannel.guildId === currentServer.guildId
-  ) {
+  if (isProduction && logChannel.guildId === currentServer.guildId) {
     //Sil'Afian detects test in test server => return
     console.log("Sil'Afian log in Test server", eventPerso.title);
     return null;
@@ -599,8 +596,7 @@ export const fetchMessageItself = async (message) => {
 const logsRemover = async (client) => {
   console.log("logsRemover");
   const db = client.db;
-  const server =
-    isProduction ? COMMONS.getProd() : COMMONS.getTest();
+  const server = isProduction ? COMMONS.getProd() : COMMONS.getTest();
 
   // frequent logs remove
   let type = "frequent"; //differentiate process for "frequent" and "userAD" logs
