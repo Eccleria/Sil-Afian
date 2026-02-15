@@ -145,6 +145,7 @@
     "linkMessage": "Lien du message.",
     "linkName": "Lien",
     "selectMenu": {
+      "customId": "octagonal_selectMenu_rateLimit",
       "options": [
         {"label": "10 secondes", "value": "10"},
         {"label": "30 secondes", "value": "30"},

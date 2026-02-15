@@ -106,6 +106,7 @@ export const finishEmbed = async (
     const message = await channelSend(logChannel, payload); //send
     let result = [message];
     if (stickers && stickers.length !== 0) {
+      console.log("stickers", stickers);
       const textUrl = stickers.reduce((acc, cur) => acc + "\n" + cur, "");
       const stickerMessage = await messageReply(message, { content: textUrl });
       result.push(stickerMessage);

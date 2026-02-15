@@ -3,16 +3,16 @@ import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Colors, StringSelectMenuB
 import { finishEmbed } from "./utils.js";
 import { createButton } from "../commands/utils.js";
 import { checkEmbedContent, fetchLogChannel, parseUnixTimestamp, setupEmbed } from "../helpers/index.js";
-import { COMMONS } from "../commons.js";
-import { PERSONALITY } from "../personality.js";
+import { COMMONS } from "../classes/commons.js";
+import { PERSONALITY } from "../classes/personality.js";
 
 export const octagonalSelectMenu = (interaction) => {
 
 }
 
-export const octagonalButtonHandler = (interaction) => {
+export const octagonalButtonHandler = async (interaction) => {
+  await interaction.deferUpdate();
   const perso = PERSONALITY.getAdmin().octagonalSign.selectMenu;
-  console.log("interaction", interaction);
 
   //disable the button
   const button = ButtonBuilder.from(interaction.component);
@@ -21,18 +21,21 @@ export const octagonalButtonHandler = (interaction) => {
   //console.log(message.embeds);
   //const embeds = [EmbedBuilder.from(message.embeds[0])];
   const disabledPayload = {components: [dActionRow]};
-  interaction.update(disabledPayload);
+  await interaction.editReply(disabledPayload);
 
   //build the rateLimit select menu
   const options = perso.options;
   const selectMenu = new StringSelectMenuBuilder()
+    .setCustomId(perso.customId)
     .setMaxValues(1)
     .setPlaceholder(perso.placeholder)
     .addOptions(...options);
 
-  const smActionRow = new ActionRowBuilder().addComponents(selectMenu);
+  const smActionRow = new ActionRowBuilder()
+    .addComponents(selectMenu);
 
-  
+  const payload = {components: [smActionRow]};
+  interaction.editReply(payload);
 }
 
 const octagonalRatelimitButton = (interaction) => {
@@ -53,7 +56,7 @@ export const octagonalLog = async (object, user) => {
   if (message.partial) await message.fetch();
 
   //basic operations
-  const logChannel = await fetchLogChannel(message); //get logChannelId
+  const logChannel = await fetchLogChannel(message.guild); //get logChannelId
   const embed = setupEmbed(
     Colors.LuminousVividPink,
     octaPerso,
@@ -88,7 +91,7 @@ export const octagonalLog = async (object, user) => {
   
   //create cancel button
   const bCPerso = octaPerso.buttonCancel;
-  const cancelButton = createButton(customId, bCPerso.label, ButtonStyle.Primary, cmnShared.cancelButton);
+  const cancelButton = createButton(bCPerso.customId, bCPerso.label, ButtonStyle.Primary, cmnShared.cancelButton);
 
   //assemble buttons in the ActionRow
   const actionRow = new ActionRowBuilder().addComponents(ratelimitButton, cancelButton);
@@ -96,5 +99,5 @@ export const octagonalLog = async (object, user) => {
   console.log("payload", payload);
 
   //send message
-  finishEmbed(octaPerso, null, embed, false, logChannel, null, null, payload);
+  finishEmbed(octaPerso, null, embed, false, logChannel, null, null, null, payload);
 };
