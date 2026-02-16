@@ -1,8 +1,19 @@
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Colors, StringSelectMenuBuilder } from "discord.js";
+import {
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
+  Colors,
+  StringSelectMenuBuilder,
+} from "discord.js";
 
 import { finishEmbed } from "./utils.js";
 import { createButton } from "../commands/utils.js";
-import { checkEmbedContent, fetchLogChannel, parseUnixTimestamp, setupEmbed } from "../helpers/index.js";
+import {
+  checkEmbedContent,
+  fetchLogChannel,
+  parseUnixTimestamp,
+  setupEmbed,
+} from "../helpers/index.js";
 import { COMMONS } from "../classes/commons.js";
 import { PERSONALITY } from "../classes/personality.js";
 import { fetchChannel, fetchGuild, interactionReply } from "ewilib";
@@ -11,7 +22,7 @@ export const octagonalSelectMenu = async (interaction) => {
   //handle the result selected in the selectMenu
   console.log("octagonalSelectMenu");
   const perso = PERSONALITY.getAdmin().octagonalSign;
-  
+
   //get channel to rate limit
   const embed = interaction.message.embeds[0];
   const channelField = embed.fields.find((fld) => fld.name === perso.channel);
@@ -31,30 +42,30 @@ export const octagonalSelectMenu = async (interaction) => {
     console.error("octagonal ratelimit", e);
     interactionReply(interaction, perso.errorRejection);
   }
-}
+};
 
 export const octagonalButtonHandler = async (interaction) => {
   //dispatch the interaction to proper handler
   const { customId } = interaction;
   const perso = PERSONALITY.getAdmin().octagonalSign;
-  if (customId === perso.buttonRateLimit.customId) 
+  if (customId === perso.buttonRateLimit.customId)
     octagonalRatelimitButton(interaction);
   else if (customId === perso.buttonCancel.customId)
     octagonalCancelButton(interaction);
   else interactionReply(interaction, "ERROR 404");
-}
+};
 
 const octagonalRatelimitButton = async (interaction) => {
   //reply to the rate limit button
   await interaction.deferUpdate();
-  const perso = PERSONALITY.getAdmin().octagonalSign
+  const perso = PERSONALITY.getAdmin().octagonalSign;
   const sPerso = perso.selectMenu;
 
   //disable the button
   const button = ButtonBuilder.from(interaction.component);
   const disabledComponents = button.setDisabled(true);
   const dActionRow = new ActionRowBuilder().addComponents(disabledComponents);
-  const disabledPayload = {components: [dActionRow]};
+  const disabledPayload = { components: [dActionRow] };
   await interaction.editReply(disabledPayload);
 
   //build the rateLimit select menu
@@ -65,20 +76,23 @@ const octagonalRatelimitButton = async (interaction) => {
     .setPlaceholder(sPerso.placeholder)
     .addOptions(...options);
 
-  const smActionRow = new ActionRowBuilder()
-    .addComponents(selectMenu);
+  const smActionRow = new ActionRowBuilder().addComponents(selectMenu);
 
   //build the cancel button
   const bCPerso = perso.buttonCancel;
   const cmnShared = COMMONS.getShared();
-  const cancelButton = createButton(bCPerso.customId, bCPerso.label, ButtonStyle.Primary, cmnShared.cancelButton);
-  const bActionRow = new ActionRowBuilder()
-    .addComponents(cancelButton);
+  const cancelButton = createButton(
+    bCPerso.customId,
+    bCPerso.label,
+    ButtonStyle.Primary,
+    cmnShared.cancelButton,
+  );
+  const bActionRow = new ActionRowBuilder().addComponents(cancelButton);
 
   //send payload
-  const payload = {components: [smActionRow, bActionRow]};
+  const payload = { components: [smActionRow, bActionRow] };
   interaction.editReply(payload);
-}
+};
 
 const octagonalCancelButton = async (interaction) => {
   //reply to the cancel button
@@ -105,13 +119,18 @@ const octagonalCancelButton = async (interaction) => {
   //add the rateLimit button
   const bRlPerso = perso.buttonRateLimit;
   const cmnShared = COMMONS.getShared();
-  const ratelimitButton = createButton(bRlPerso.customId, bRlPerso.label, ButtonStyle.Danger, cmnShared.octagonalSignEmoji);
+  const ratelimitButton = createButton(
+    bRlPerso.customId,
+    bRlPerso.label,
+    ButtonStyle.Danger,
+    cmnShared.octagonalSignEmoji,
+  );
 
   //assemble buttons in the ActionRow
   const actionRow = new ActionRowBuilder().addComponents(ratelimitButton);
-  const payload = {components: [actionRow]};
+  const payload = { components: [actionRow] };
   interaction.editReply(payload);
-}
+};
 
 export const octagonalLog = async (object, user) => {
   //get personality
@@ -154,13 +173,28 @@ export const octagonalLog = async (object, user) => {
 
   //create rateLimit button
   const bRlPerso = octaPerso.buttonRateLimit;
-  const ratelimitButton = createButton(bRlPerso.customId, bRlPerso.label, ButtonStyle.Danger, cmnShared.octagonalSignEmoji);
+  const ratelimitButton = createButton(
+    bRlPerso.customId,
+    bRlPerso.label,
+    ButtonStyle.Danger,
+    cmnShared.octagonalSignEmoji,
+  );
 
   //assemble buttons in the ActionRow
   const actionRow = new ActionRowBuilder().addComponents(ratelimitButton);
-  const payload = {components: [actionRow]};
+  const payload = { components: [actionRow] };
   console.log("payload", payload);
 
   //send message
-  finishEmbed(octaPerso, null, embed, false, logChannel, null, null, null, payload);
+  finishEmbed(
+    octaPerso,
+    null,
+    embed,
+    false,
+    logChannel,
+    null,
+    null,
+    null,
+    payload,
+  );
 };

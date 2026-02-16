@@ -7,12 +7,7 @@ import {
   Message,
   TextChannel,
 } from "discord.js";
-import {
-  channelSend,
-  fetchChannel,
-  fetchMessage,
-  messageReply,
-} from "ewilib";
+import { channelSend, fetchChannel, fetchMessage, messageReply } from "ewilib";
 
 import {
   checkEmbedContent,
@@ -96,7 +91,7 @@ export const finishEmbed = async (
       name: eventPerso.text,
       value: text,
     }); //if any text (reason or content), add it
-  
+
   //build embed message payload
   const payload = iPayload ? iPayload : {};
   payload.allowed_mentions = { parse: [] };
