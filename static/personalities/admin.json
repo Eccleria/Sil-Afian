@@ -131,11 +131,36 @@
   },
   "octagonalSign": {
     "author": "Message de :",
+    "buttonCancel": {
+      "customId": "octagonal_cancel",
+      "label": "Annuler"
+    },
+    "buttonRateLimit": {
+      "customId": "octagonal_rateLimit",
+      "label": "Mode Ralenti"
+    },
     "channel": "Salon :",
     "date": "Envoyé le :",
+    "errorRejection": "Je n'ai pas pu modifier le salon.",
     "executor": "Emote envoyée par :",
     "linkMessage": "Lien du message.",
     "linkName": "Lien",
+    "rateLimitApplied": "Le rate limit a bien été appliqué.",
+    "reason": "Rate Limit manuel issu d'un octagonal log",
+    "selectMenu": {
+      "customId": "octagonal_selectMenu_rateLimit",
+      "options": [
+        {"label": "10 secondes", "value": "10"},
+        {"label": "30 secondes", "value": "30"},
+        {"label": "1 minute", "value": "60"},
+        {"label": "2 minutes", "value": "120"},
+        {"label": "5 minutes", "value": "300"},
+        {"label": "10 minutes", "value": "600"},
+        {"label": "30 minutes", "value": "1800"},
+        {"label": "1 heure", "value": "3600"}
+      ],
+      "placeholder": "Choisissez la durée du mode ralenti"
+    },
     "text": "Contenu du message :",
     "textAgain": "Contenu du message - suite :",
     "title": "Utilisation de 🛑"

@@ -2,7 +2,7 @@ import { ChannelType } from "discord.js";
 import { interactionReply } from "ewilib";
 
 import { checkPinStatus } from "./admin/listeners.js";
-import { octagonalLog } from "./admin/utils.js";
+import { octagonalLog } from "./admin/octagonal.js";
 import {
   buttonHandler,
   modalHandler,

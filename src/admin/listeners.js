@@ -10,6 +10,7 @@ import {
 } from "discord.js";
 import { channelSend, fetchMember, fetchRole } from "ewilib";
 
+import { octagonalLog } from "./octagonal.js";
 import {
   isTestServer,
   bufferizeEventUpdate,
@@ -18,7 +19,6 @@ import {
   fetchMessageItself,
   finishEmbed,
   processGeneralEmbed,
-  octagonalLog,
   removeUserFromDB,
   onlyInLeft,
   isSameEmojiInGuildUpdate,
