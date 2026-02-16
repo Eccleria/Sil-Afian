@@ -5,19 +5,41 @@ import { createButton } from "../commands/utils.js";
 import { checkEmbedContent, fetchLogChannel, parseUnixTimestamp, setupEmbed } from "../helpers/index.js";
 import { COMMONS } from "../classes/commons.js";
 import { PERSONALITY } from "../classes/personality.js";
-import { interactionReply } from "ewilib";
+import { fetchChannel, fetchGuild, interactionReply } from "ewilib";
 
-export const octagonalSelectMenu = (interaction) => {
+export const octagonalSelectMenu = async (interaction) => {
   //handle the result selected in the selectMenu
+  console.log("octagonalSelectMenu");
+  const perso = PERSONALITY.getAdmin().octagonalSign;
+  
+  //get channel to rate limit
+  const embed = interaction.message.embeds[0];
+  const channelField = embed.fields.find((fld) => fld.name === perso.channel);
+  const channelId = channelField.value.slice(2, channelField.value.length - 1);
+  const guild = await fetchGuild(interaction.client, interaction.guildId);
+  const channel = await fetchChannel(guild.channels, channelId);
+  console.log(channel.id);
+  //get the new rate limit value
+  const selected = interaction.values;
+  const rateLimit = Number(selected[0]);
+  console.log("ratelimit", rateLimit);
+  //apply the rate limit
+  try {
+    await channel.setRateLimitPerUser(rateLimit, perso.reason);
+    interactionReply(interaction, perso.rateLimitApplied);
+  } catch (e) {
+    console.error("octagonal ratelimit", e);
+    interactionReply(interaction, perso.errorRejection);
+  }
 }
 
 export const octagonalButtonHandler = async (interaction) => {
   //dispatch the interaction to proper handler
   const { customId } = interaction;
-  const perso = PERSONALITY.getAdmin().octagonalLog;
-  if (customId === perso.ratelimitButton.customId) 
-    octagonalRatelimitButton(interaction)
-  else if (customId === perso.cancelButton.customId)
+  const perso = PERSONALITY.getAdmin().octagonalSign;
+  if (customId === perso.buttonRateLimit.customId) 
+    octagonalRatelimitButton(interaction);
+  else if (customId === perso.buttonCancel.customId)
     octagonalCancelButton(interaction);
   else interactionReply(interaction, "ERROR 404");
 }
@@ -58,8 +80,37 @@ const octagonalRatelimitButton = async (interaction) => {
   interaction.editReply(payload);
 }
 
-const octagonalCancelButton = (interaction) => {
+const octagonalCancelButton = async (interaction) => {
   //reply to the cancel button
+  const perso = PERSONALITY.getAdmin().octagonalSign;
+
+  //remove the button and the selectMenu, get back to "rateLimit" button
+  await interaction.deferUpdate();
+
+  //get channel to rate limit
+  const embed = interaction.message.embeds[0];
+  const channelField = embed.fields.find((fld) => fld.name === perso.channel);
+  const channelId = channelField.value.slice(2, channelField.value.length - 1);
+  const guild = await fetchGuild(interaction.client, interaction.guildId);
+  const channel = await fetchChannel(guild.channels, channelId);
+
+  //remove the rate limit
+  try {
+    channel.setRateLimitPerUser(0, perso.reason);
+  } catch (e) {
+    console.error("octagonal ratelimit", e);
+    interactionReply(interaction, perso.errorRejection);
+  }
+
+  //add the rateLimit button
+  const bRlPerso = perso.buttonRateLimit;
+  const cmnShared = COMMONS.getShared();
+  const ratelimitButton = createButton(bRlPerso.customId, bRlPerso.label, ButtonStyle.Danger, cmnShared.octagonalSignEmoji);
+
+  //assemble buttons in the ActionRow
+  const actionRow = new ActionRowBuilder().addComponents(ratelimitButton);
+  const payload = {components: [actionRow]};
+  interaction.editReply(payload);
 }
 
 export const octagonalLog = async (object, user) => {

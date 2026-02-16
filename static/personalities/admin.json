@@ -141,9 +141,12 @@
     },
     "channel": "Salon :",
     "date": "Envoyé le :",
+    "errorRejection": "Je n'ai pas pu modifier le salon.",
     "executor": "Emote envoyée par :",
     "linkMessage": "Lien du message.",
     "linkName": "Lien",
+    "rateLimitApplied": "Le rate limit a bien été appliqué.",
+    "reason": "Rate Limit manuel issu d'un octagonal log",
     "selectMenu": {
       "customId": "octagonal_selectMenu_rateLimit",
       "options": [
