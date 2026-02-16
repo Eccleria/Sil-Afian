@@ -5,12 +5,25 @@ import { createButton } from "../commands/utils.js";
 import { checkEmbedContent, fetchLogChannel, parseUnixTimestamp, setupEmbed } from "../helpers/index.js";
 import { COMMONS } from "../classes/commons.js";
 import { PERSONALITY } from "../classes/personality.js";
+import { interactionReply } from "ewilib";
 
 export const octagonalSelectMenu = (interaction) => {
   //handle the result selected in the selectMenu
 }
 
 export const octagonalButtonHandler = async (interaction) => {
+  //dispatch the interaction to proper handler
+  const { customId } = interaction;
+  const perso = PERSONALITY.getAdmin().octagonalLog;
+  if (customId === perso.ratelimitButton.customId) 
+    octagonalRatelimitButton(interaction)
+  else if (customId === perso.cancelButton.customId)
+    octagonalCancelButton(interaction);
+  else interactionReply(interaction, "ERROR 404");
+}
+
+const octagonalRatelimitButton = async (interaction) => {
+  //reply to the rate limit button
   await interaction.deferUpdate();
   const perso = PERSONALITY.getAdmin().octagonalSign
   const sPerso = perso.selectMenu;
@@ -19,8 +32,6 @@ export const octagonalButtonHandler = async (interaction) => {
   const button = ButtonBuilder.from(interaction.component);
   const disabledComponents = button.setDisabled(true);
   const dActionRow = new ActionRowBuilder().addComponents(disabledComponents);
-  //console.log(message.embeds);
-  //const embeds = [EmbedBuilder.from(message.embeds[0])];
   const disabledPayload = {components: [dActionRow]};
   await interaction.editReply(disabledPayload);
 
@@ -42,12 +53,9 @@ export const octagonalButtonHandler = async (interaction) => {
   const bActionRow = new ActionRowBuilder()
     .addComponents(cancelButton);
 
+  //send payload
   const payload = {components: [smActionRow, bActionRow]};
   interaction.editReply(payload);
-}
-
-const octagonalRatelimitButton = (interaction) => {
-  //reply to the rate limit button
 }
 
 const octagonalCancelButton = (interaction) => {
