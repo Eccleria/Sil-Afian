@@ -7,12 +7,13 @@ import { COMMONS } from "../classes/commons.js";
 import { PERSONALITY } from "../classes/personality.js";
 
 export const octagonalSelectMenu = (interaction) => {
-
+  //handle the result selected in the selectMenu
 }
 
 export const octagonalButtonHandler = async (interaction) => {
   await interaction.deferUpdate();
-  const perso = PERSONALITY.getAdmin().octagonalSign.selectMenu;
+  const perso = PERSONALITY.getAdmin().octagonalSign
+  const sPerso = perso.selectMenu;
 
   //disable the button
   const button = ButtonBuilder.from(interaction.component);
@@ -24,26 +25,33 @@ export const octagonalButtonHandler = async (interaction) => {
   await interaction.editReply(disabledPayload);
 
   //build the rateLimit select menu
-  const options = perso.options;
+  const options = sPerso.options;
   const selectMenu = new StringSelectMenuBuilder()
-    .setCustomId(perso.customId)
+    .setCustomId(sPerso.customId)
     .setMaxValues(1)
-    .setPlaceholder(perso.placeholder)
+    .setPlaceholder(sPerso.placeholder)
     .addOptions(...options);
 
   const smActionRow = new ActionRowBuilder()
     .addComponents(selectMenu);
 
-  const payload = {components: [smActionRow]};
+  //build the cancel button
+  const bCPerso = perso.buttonCancel;
+  const cmnShared = COMMONS.getShared();
+  const cancelButton = createButton(bCPerso.customId, bCPerso.label, ButtonStyle.Primary, cmnShared.cancelButton);
+  const bActionRow = new ActionRowBuilder()
+    .addComponents(cancelButton);
+
+  const payload = {components: [smActionRow, bActionRow]};
   interaction.editReply(payload);
 }
 
 const octagonalRatelimitButton = (interaction) => {
-  
+  //reply to the rate limit button
 }
 
 const octagonalCancelButton = (interaction) => {
-
+  //reply to the cancel button
 }
 
 export const octagonalLog = async (object, user) => {
@@ -88,13 +96,9 @@ export const octagonalLog = async (object, user) => {
   //create rateLimit button
   const bRlPerso = octaPerso.buttonRateLimit;
   const ratelimitButton = createButton(bRlPerso.customId, bRlPerso.label, ButtonStyle.Danger, cmnShared.octagonalSignEmoji);
-  
-  //create cancel button
-  const bCPerso = octaPerso.buttonCancel;
-  const cancelButton = createButton(bCPerso.customId, bCPerso.label, ButtonStyle.Primary, cmnShared.cancelButton);
 
   //assemble buttons in the ActionRow
-  const actionRow = new ActionRowBuilder().addComponents(ratelimitButton, cancelButton);
+  const actionRow = new ActionRowBuilder().addComponents(ratelimitButton);
   const payload = {components: [actionRow]};
   console.log("payload", payload);
 
