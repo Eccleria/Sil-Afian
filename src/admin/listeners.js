@@ -248,7 +248,8 @@ export const onChannelUpdate = async (oldChannel, newChannel) => {
         const toReduce = cur1Entries
           ? { obj: cur1Entries, who: "cur1" }
           : { obj: cur2Entries, who: "cur2" };
-
+        console.log("toReduce", toReduce);
+        
         //determine update status to add more context on log
         let status;
         if (cur1Entries && cur2Entries) status = " modified";
