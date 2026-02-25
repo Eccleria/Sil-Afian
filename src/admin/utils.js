@@ -609,12 +609,13 @@ const logsRemover = async (client) => {
     const sliced = sliceData(slice, data, size);
 
     sliced.forEach(async (elements) => {
-      const result = await threadChannel.bulkDelete(elements); //bulkDelete and get ids where it was okay
+      const mapped = elements.map((data) => data.messageId);
+      const result = await threadChannel.bulkDelete(mapped); //bulkDelete and get ids where it was okay
 
-      const diff = elements.reduce((acc, cur) => {
+      const diff = mapped.reduce((acc, cur, idx) => {
         if (result.has(cur))
           return acc; //if no diff
-        else return [...acc, cur];
+        else return [...acc, elements[idx]];
       }, []); //find diff for error check
 
       console.log("frequent diff", diff); //log for debug
@@ -630,7 +631,8 @@ const logsRemover = async (client) => {
       client.channels,
       server.inAndOutLogChannelId,
     );
-    const result = await logChannel.bulkDelete(data);
+    const mapped = data.map((obj) => obj.messageId);
+    const result = await logChannel.bulkDelete(mapped);
 
     const diff = data.reduce((acc, cur) => {
       if (result.has(cur))
@@ -654,7 +656,8 @@ export const initAdminLogClearing = (client, waitingTime) => {
         client,
       );
     },
-    waitingTime,
+    10000,
+    //waitingTime,
     client,
   );
 };

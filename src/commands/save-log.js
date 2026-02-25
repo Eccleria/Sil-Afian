@@ -79,7 +79,7 @@ const action = async (interaction) => {
   //handle attachments
   const adminLogs = getAdminLogs(interaction.client.db);
   for (const logs of adminLogs.frequent) {
-    const logIdx = logs.findIndex((id) => id === message.id);
+    const logIdx = logs.findIndex((obj) => obj.messageId === message.id);
     if (logIdx !== -1 && logIdx !== logs.length - 1) {
       //message log found, check if next one is attachment
       //load message
@@ -89,7 +89,7 @@ const action = async (interaction) => {
       ); //get threadChannel
       const nextMsg = await fetchMessage(
         threadLogChannel.messages,
-        logs[logIdx + 1],
+        logs[logIdx + 1].messageId,
       );
 
       if (

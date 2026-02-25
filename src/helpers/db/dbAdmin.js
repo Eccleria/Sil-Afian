@@ -1,9 +1,11 @@
-const addAdminLogs = (db, messageId, type, index) => {
+const addAdminLogs = (db, messageId, targetId, type, index) => {
   const adminLogs = db.data.adminLogs;
   //{frequent: [[]...], userAD: [[]...]}
+  //data: {messageId, targetId}
+  const toAdd = {messageId, targetId};
   const data = adminLogs[type]; // [[]...]
 
-  data[index].push(messageId);
+  data[index].push(toAdd);
   db.wasUpdated = true;
 };
 

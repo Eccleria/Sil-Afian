@@ -527,7 +527,7 @@ export const onMessageDelete = async (message) => {
       logChannel,
       messageDel.pinned,
     );
-    addAdminLogs(msg[0].client.db, msg[0].id, "frequent", 6);
+    addAdminLogs(msg[0].client.db, msg[0].id, message.id, "frequent", 6);
     return;
   }
 
@@ -594,7 +594,7 @@ export const onMessageDelete = async (message) => {
       }
 
     messageList.forEach((msg) =>
-      addAdminLogs(msg.client.db, msg.id, "frequent", 6),
+      addAdminLogs(msg.client.db, msg.id, message.id, "frequent", 6),
     );
     return;
   }
@@ -638,7 +638,7 @@ export const onMessageDelete = async (message) => {
     messageList.push(msg);
   }
   messageList.forEach((msg) =>
-    addAdminLogs(msg.client.db, msg.id, "frequent", 6),
+    addAdminLogs(msg.client.db, msg.id, message.id, "frequent", 6),
   );
 };
 
@@ -716,7 +716,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
       logChannel,
     );
     messageList.forEach((msg) =>
-      addAdminLogs(msg.client.db, msg.id, "frequent", 6),
+      addAdminLogs(msg.client.db, msg.id, newMessage.id, "frequent", 6),
     );
     return;
   }
@@ -814,7 +814,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     attachments,
   );
   messageList.forEach((msg) =>
-    addAdminLogs(msg.client.db, msg.id, "frequent", 6),
+    addAdminLogs(msg.client.db, msg.id, newMessage.id, "frequent", 6),
   );
 };
 
@@ -970,7 +970,7 @@ export const onGuildMemberRemove = async (memberKick) => {
     );
 
     messageList.forEach((msg) =>
-      addAdminLogs(msg.client.db, msg.id, "userAD", 1),
+      addAdminLogs(msg.client.db, msg.id, userId, "userAD", 1),
     );
     return;
   }
@@ -1058,7 +1058,7 @@ export const checkPinStatus = async (message) => {
       //get logChannel
       const logChannel = await fetchLogChannel(message.guild, "thread");
       const logMessage = await channelSend(logChannel, { embeds: [embed] });
-      addAdminLogs(message.client.db, logMessage.id, "frequent", 6);
+      addAdminLogs(message.client.db, logMessage.id, message.id, "frequent", 6);
     }
   }
 };
