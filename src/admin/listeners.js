@@ -715,10 +715,9 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
       false,
       logChannel,
     );
-    const db = nMessage.client.db;
-    messageList.forEach((msg) =>
-      addAdminLogs(db, msg.id, "frequent", 6),
-    );
+    messageList.forEach((msg) => {
+      if (msg) addAdminLogs(msg.client.db, msg.id, "frequent", 6)
+    });
     return;
   }
   if (!oMessage.pinned && nMessage.pinned) {
@@ -794,10 +793,10 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   embed.addFields({ name: messageU.linkName, value: link });
 
   //check for reference
-  const { reference, client } = nMessage;
+  const { reference } = nMessage;
   if (reference && reference.type === MessageReferenceType.Default) {
     const referenceEmbed = await createMessageReferenceEmbed(
-      client,
+      nMessage.client,
       reference,
       Colors.Green,
     );
@@ -814,9 +813,9 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     null,
     attachments,
   );
-  messageList.forEach((msg) =>
-    addAdminLogs(client.db, msg.id, "frequent", 6),
-  );
+  messageList.forEach((msg) => {
+    if (msg) addAdminLogs(msg.client.db, msg.id, "frequent", 6);
+  });
 };
 
 //#endregion
