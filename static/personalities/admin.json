@@ -94,7 +94,8 @@
     "date":"Envoyé le :",
     "linkMessage": "Clique pour aller au message.",
     "linkName": "Lien",
-    "placeholder": "Le message référé n'existe pas.",
+    "noChannelPlaceholder": "Le salon du message référé n'existe pas.",
+    "noMessagePlaceholder": "Le message référé n'existe pas.",
     "text": "Contenu",
     "textAgain": "Contenu - suite",
     "title": "Message référé"
