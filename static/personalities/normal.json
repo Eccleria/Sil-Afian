@@ -220,17 +220,6 @@
       "notIgnored": "Je n'ignorerai plus les messages de ",
       "help": "Sil'Afian ignore ou non le channel. Utilisation :\n- `/ignoreChannel #channel` dans n'importe quel channel.\n- `/ignoreChannel` dans le channel concerné."
     },
-    "ignoreUser": {
-      "description": "Permet de choisir si je réagirai à vos messages ou non.",
-      "help": "Cette commande m'empêche ou non de réagir à vos messages.",
-      "name": "ignore_user",
-      "ignored": "Dorénavant j'ignorerai ",
-      "notIgnored": "Dorénavant je n'ignore plus ",
-      "userOption": {
-        "description": "Utilisateurice à ignorer",
-        "name": "utilisateurice"
-      }
-    },
     "saveLog": {
       "author": "Logué par :",
       "help": "Cette commande permet de sauvegarder un log du thread dans le salon des logs. Procédure : `Clique droit sur le log, Applications, save-log`.",
