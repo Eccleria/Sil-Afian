@@ -132,7 +132,7 @@ export const finishEmbed = async (
  * @param {TextChannel} logChannel Log channel where to send embed.s.
  * @param {string} [text] Text to add when finishing the embed.
  * @param {number} [diff] Timing difference between log and listener fire. If diff >= 5 log too old.
- * @returns {?[Message]}
+ * @returns {?Promise<[Message]>}
  */
 export const endCasesEmbed = async (
   object,
