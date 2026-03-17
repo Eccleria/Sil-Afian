@@ -1,6 +1,10 @@
 import { ButtonBuilder } from "discord.js";
 import { interactionReply } from "ewilib";
 
+import {
+  octagonalButtonHandler,
+  octagonalSelectMenu,
+} from "../admin/octagonal.js";
 import { announceButtonHandler } from "./announce.js";
 import {
   ghostReportButtonHandler,
@@ -34,6 +38,8 @@ export const buttonHandler = (interaction) => {
     customId.startsWith("ghostMessageReport")
   )
     ghostReportButtonHandler(interaction);
+  else if (customId.startsWith("octagonal"))
+    octagonalButtonHandler(interaction);
   else interactionReply(interaction, "ERROR 404");
 };
 
@@ -44,6 +50,8 @@ export const buttonHandler = (interaction) => {
 export const selectMenuHandler = (interaction) => {
   const { customId } = interaction;
   console.log("menuHandler", customId);
+  if (customId.startsWith("octagonal")) octagonalSelectMenu(interaction);
+  else interactionReply(interaction, "ERROR 404");
 };
 
 export const modalHandler = (interaction) => {
