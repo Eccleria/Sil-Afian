@@ -748,12 +748,21 @@ export const createMessageReferenceEmbed = async (client, reference, color) => {
     embed = new EmbedBuilder().setTitle(perso.title).setColor(color);
     embed.addFields({
       name: perso.title,
-      value: perso.placeholder,
+      value: perso.noChannelPlaceholder,
     });
     return embed;
   }
 
   const message = await fetchMessage(channel.messages, reference.messageId);
+  if (!message) {
+    //no message -> reference deleted => send placeholder embed
+    embed = new EmbedBuilder().setTitle(perso.title).setColor(color);
+    embed.addFields({
+      name: perso.title,
+      value: perso.noMessagePlaceholder,
+    });
+    return embed;
+  } 
   embed = setupEmbed(color, perso, message.author, "tag");
 
   const currentServer = COMMONS.fetchFromGuildId(reference.guildId);
