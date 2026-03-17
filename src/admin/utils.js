@@ -762,7 +762,7 @@ export const createMessageReferenceEmbed = async (client, reference, color) => {
       value: perso.noMessagePlaceholder,
     });
     return embed;
-  } 
+  }
   embed = setupEmbed(color, perso, message.author, "tag");
 
   const currentServer = COMMONS.fetchFromGuildId(reference.guildId);
