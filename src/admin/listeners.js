@@ -716,7 +716,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
       logChannel,
     );
     messageList.forEach((msg) => {
-      if (msg) addAdminLogs(msg.client.db, msg.id, "frequent", 6)
+      if (msg) addAdminLogs(msg.client.db, msg.id, "frequent", 6);
     });
     return;
   }
