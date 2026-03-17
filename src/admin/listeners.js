@@ -715,8 +715,9 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
       false,
       logChannel,
     );
+    const db = nMessage.client.db;
     messageList.forEach((msg) =>
-      addAdminLogs(msg.client.db, msg.id, "frequent", 6),
+      addAdminLogs(db, msg.id, "frequent", 6),
     );
     return;
   }
@@ -793,10 +794,10 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
   embed.addFields({ name: messageU.linkName, value: link });
 
   //check for reference
-  const reference = nMessage.reference;
+  const { reference, client } = nMessage;
   if (reference && reference.type === MessageReferenceType.Default) {
     const referenceEmbed = await createMessageReferenceEmbed(
-      nMessage.client,
+      client,
       reference,
       Colors.Green,
     );
@@ -814,7 +815,7 @@ export const onMessageUpdate = async (oldMessage, newMessage) => {
     attachments,
   );
   messageList.forEach((msg) =>
-    addAdminLogs(msg.client.db, msg.id, "frequent", 6),
+    addAdminLogs(client.db, msg.id, "frequent", 6),
   );
 };
 
