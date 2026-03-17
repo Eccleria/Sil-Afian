@@ -1,5 +1,4 @@
 import {
-  Attachment,
   AuditLogEvent,
   Colors,
   EmbedBuilder,
@@ -8,13 +7,7 @@ import {
   Message,
   TextChannel,
 } from "discord.js";
-import {
-  channelSend,
-  fetchChannel,
-  fetchMember,
-  fetchMessage,
-  messageReply,
-} from "ewilib";
+import { channelSend, fetchChannel, fetchMessage, messageReply } from "ewilib";
 
 import {
   checkEmbedContent,
@@ -62,8 +55,9 @@ export const fetchAuditLog = async (guild, auditType, limit, type) => {
  * @param {boolean} isEmbedList Defines if the embed is an EmbedBuilder or an EmbedBuilder[]
  * @param {TextChannel} logChannel Log channel where to send embed.s.
  * @param {?string} text Additional text to add.
- * @param {?Attachment[]} attachments Message attachments.
+ * @param {?object} attachments Message attachments.
  * @param {?string[]} stickers Url of stickers.
+ * @param {?object} iPayload Message payload.
  * @returns {Promise<?[Message]>} The log message.s sent
  */
 export const finishEmbed = async (
@@ -75,6 +69,7 @@ export const finishEmbed = async (
   text,
   attachments,
   stickers,
+  iPayload,
 ) => {
   const currentServer = COMMONS.getTest(); //get test data
   if (isProduction && logChannel.guildId === currentServer.guildId) {
@@ -97,14 +92,16 @@ export const finishEmbed = async (
       value: text,
     }); //if any text (reason or content), add it
 
+  //build embed message payload
+  const payload = iPayload ? iPayload : {};
+  payload.allowed_mentions = { parse: [] };
+
   try {
-    const newEmbeds = isEmbedList ? [embed, ...logEmbed.slice(1)] : [embed];
-    const message = await channelSend(logChannel, {
-      embeds: newEmbeds,
-      allowed_mentions: { parse: [] },
-    }); //send
+    payload.embeds = isEmbedList ? [embed, ...logEmbed.slice(1)] : [embed];
+    const message = await channelSend(logChannel, payload); //send
     let result = [message];
     if (stickers && stickers.length !== 0) {
+      console.log("stickers", stickers);
       const textUrl = stickers.reduce((acc, cur) => acc + "\n" + cur, "");
       const stickerMessage = await messageReply(message, { content: textUrl });
       result.push(stickerMessage);
@@ -657,48 +654,6 @@ export const initAdminLogClearing = (client, waitingTime) => {
     waitingTime,
     client,
   );
-};
-
-export const octagonalLog = async (object, user) => {
-  console.log("octagonalLog !!!");
-  //get personality
-  const personality = PERSONALITY.getAdmin();
-  const octaPerso = personality.octagonalSign;
-
-  let message = user ? object.message : object;
-  if (message.partial) await fetchMessageItself(message);
-
-  //basic operations
-  const logChannel = await fetchLogChannel(message.guild); //get logChannelId
-  const embed = setupEmbed(
-    Colors.LuminousVividPink,
-    octaPerso,
-    message.author,
-    "tag",
-  ); //setup embed
-
-  //add more info to embed
-  const executor = user
-    ? await fetchMember(message.guild.members, user.id)
-    : object.author; //get executor
-  const date = Math.floor(message.createdTimestamp / 1000);
-  const unixTimestamp = parseUnixTimestamp(date, "F");
-
-  embed.addFields(
-    { name: octaPerso.date, value: unixTimestamp, inline: true }, //date of message creation
-    { name: octaPerso.channel, value: `<#${message.channelId}>`, inline: true }, //message channel
-  );
-  checkEmbedContent(message.content, embed, octaPerso); //slice content if required and add it to embed
-  embed.addFields(
-    { name: octaPerso.executor, value: executor.toString(), inline: true }, //emote sent by
-    {
-      name: octaPerso.linkName,
-      value: `[${octaPerso.linkMessage}](${message.url})`,
-      inline: true,
-    }, //get message link
-  );
-
-  finishEmbed(octaPerso, null, embed, false, logChannel);
 };
 
 /**
