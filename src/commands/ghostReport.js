@@ -159,15 +159,14 @@ const createLogMainPayload = (interaction, perso, isChannel) => {
     .setURL(link);
 
   //text
+  const commons = COMMONS.fetchFromGuildId(interaction.guild.id);
   const tPerso = perso.components.text;
   const tChannel = tPerso.channel + interaction.channel.toString();
   const timestamp = Math.floor(interaction.createdTimestamp / 1000);
   const tTimestamp = parseUnixTimestamp(timestamp, "F");
   const tExecutor = tPerso.executor + interaction.user.toString();
-  const text = [tChannel, tExecutor, tTimestamp].reduce(
-    (acc, cur) => acc + cur + "\n\n",
-    "",
-  );
+  const text = `${tChannel}\n\n${tExecutor}\n\n${tTimestamp}\n` 
+    + `-# <@&${commons.framboiseRoleId}>\n`;
   const textComponent = new TextDisplayBuilder().setContent(text);
 
   //components
@@ -181,9 +180,9 @@ const createLogMainPayload = (interaction, perso, isChannel) => {
     .setAccentColor(Colors.DarkVividPink)
     .addTextDisplayComponents(titleComponent)
     .addSectionComponents(section);
-
+  //const allowedMentions = new AllowedMentionsBuilder()
   const payload = {
-    allowedMentions: { parse: [] },
+    allowedMentions: { roles: [commons.framboiseRoleId] },
     components: [container],
     flags: MessageFlags.IsComponentsV2,
   };
