@@ -1,3 +1,6 @@
+# 1.3.1
+- Fix: fix an issue with `guildId` param missing when calling `fetchLogChannel` ([#77](https://github.com/Eccleria/Sil-Afian/pull/77))
+
 # 1.3.0
 - Feat: add a new `spam` channel where to report bot status (online and process errors) ([#41](https://github.com/Eccleria/Sil-Afian/pull/41))
 - Feat: add a `copypasta` mod command to send pre written messages ([#59](https://github.com/Eccleria/Sil-Afian/issues/59)) ([#61](https://github.com/Eccleria/Sil-Afian/pull/61))
