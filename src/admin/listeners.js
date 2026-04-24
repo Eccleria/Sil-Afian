@@ -1014,6 +1014,14 @@ export const onGuildMemberAdd = async (guildMember) => {
 
 //#endregion
 
+//#region Invite
+
+export const onInviteCreate = async (interaction, guildInvite) => {
+  
+}
+
+//#endregion
+
 //#region HELPERS
 
 export const checkPinStatus = async (message) => {
