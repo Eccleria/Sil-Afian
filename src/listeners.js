@@ -84,7 +84,7 @@ export const onInteractionCreate = (interaction) => {
 export const onMessageCreate = async (message) => {
   // Function triggered for each message sent
   const { channel } = message;
-
+console.log(message.content);
   if (channel.type === ChannelType.DM) return;
   else {
     const currentServer = COMMONS.fetchFromGuildId(channel.guildId);
