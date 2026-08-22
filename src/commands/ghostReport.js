@@ -78,7 +78,7 @@ export const ghostReportModalHandler = async (interaction) => {
   const perso = PERSONALITY.getPersonality().ghostReport;
 
   //fetch the log to which user add context
-  const logChannel = await fetchLogChannel(interaction);
+  const logChannel = await fetchLogChannel(interaction.guild);
   const report = GHOSTREPORT.getReportFromConfirmMessage(
     interaction.message.id,
   );
