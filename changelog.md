@@ -1,3 +1,6 @@
+# 1.3.2
+- Fix: 
+
 # 1.3.1
 - Fix: fix an issue with `guildId` param missing when calling `fetchLogChannel` ([#77](https://github.com/Eccleria/Sil-Afian/pull/77))
 

@@ -197,7 +197,7 @@ const sendLogAndReply = async (
   interactionPayload,
 ) => {
   //get log channel
-  const logChannel = await fetchLogChannel(interaction);
+  const logChannel = await fetchLogChannel(interaction.guild);
 
   try {
     const msg = await logChannel.send(logPayload);
