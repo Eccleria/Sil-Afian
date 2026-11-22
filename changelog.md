@@ -1,3 +1,7 @@
+# 1.3.2
+- Fix: error when tryingg to fetch log channel when using ghost reports ([#82](https://github.com/Eccleria/Sil-Afian/pull/82))
+- Update: add kilpy as a gif provider ([#80](https://github.com/Eccleria/Sil-Afian/issues/80)) ([#81](https://github.com/Eccleria/Sil-Afian/pull/81))
+
 # 1.3.1
 - Fix: fix an issue with `guildId` param missing when calling `fetchLogChannel` ([#77](https://github.com/Eccleria/Sil-Afian/pull/77))
 
