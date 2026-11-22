@@ -107,14 +107,19 @@ export const fetchSpamThread = async (guild) => {
  */
 export const gifParser = (content) => {
   const tenor = "tenor.com/";
+  const klipy = "klipy.com/";
   const end = ".gif";
 
-  if (content.includes(tenor) || content.includes(end)) {
+  if (
+    content.includes(tenor) ||
+    content.includes(klipy) ||
+    content.includes(end)
+  ) {
     //if any gif inside content
     const words = content.split(" "); //split content into words
     const results = words.reduce((acc, cur) => {
       //look for gif position in content
-      if (cur.includes(tenor) || cur.endsWith(end)) {
+      if (cur.includes(tenor) || cur.includes(klipy) || cur.endsWith(end)) {
         //if has link
         const start = cur.indexOf("https://"); //look for link position
         const sliced = start !== -1 ? cur.slice(start) : cur; //slice start of link
